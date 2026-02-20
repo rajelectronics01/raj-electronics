@@ -116,22 +116,86 @@
 
 /* Hover underline animation mechanism (Optional alternative to bg change) */
 /*
-.navLink::after {
-    content: '';
-    position: absolute;
-    bottom: 4px;
-    left: 16px;
-    width: 0;
-    height: 2px;
-    background: linear-gradient(90deg, #3b82f6, #1d4ed8);
-    transition: width 0.3s ease;
-    border-radius: 2px;
+...
+*/
+
+/* Mega Menu Styles */
+.navItemWithDropdown {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    height: 80px;
+    /* Match header height to allow seamless hover off the text and onto the menu */
 }
 
-.navLink:hover::after {
-    width: calc(100% - 32px);
+.scrolled .navItemWithDropdown {
+    height: 70px;
 }
-*/
+
+.megaMenu {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    width: 800px;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.05);
+    padding: 30px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+    z-index: 1000;
+}
+
+.navItemWithDropdown:hover .megaMenu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+    pointer-events: auto;
+}
+
+.megaMenuGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+}
+
+.megaMenuColumn {
+    display: flex;
+    flex-direction: column;
+}
+
+.megaMenuTitle {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #1e40af;
+    /* Deep blue accent */
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid #eff6ff;
+    padding-bottom: 8px;
+}
+
+.megaMenuList {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.megaMenuLink {
+    font-size: 0.95rem;
+    color: #475569;
+    text-decoration: none;
+    transition: color 0.2s;
+    font-weight: 500;
+}
+
+.megaMenuLink:hover {
+    color: #2563eb;
+}
 
 /* Right Section - CTA */
 .ctaBtn {
