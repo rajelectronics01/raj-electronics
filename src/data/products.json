@@ -1,0 +1,309 @@
+[
+  {
+    "id": "1",
+    "name": "Daikin 1.5 Ton 5 Star Inverter Split AC",
+    "slug": "daikin-1.5-ton-5-star-inverter-split-ac",
+    "brand": "Daikin",
+    "category": "Air Conditioners",
+    "price": 34990,
+    "originalPrice": 58900,
+    "images": [
+      "https://m.media-amazon.com/images/I/51gXp8pAt9L._AC_UY327_FMwebp_QL65_.jpg"
+    ],
+    "features": [
+      "Power Chill Operation",
+      "Coanda Airflow",
+      "Econo Mode"
+    ],
+    "isFeatured": false
+  },
+  {
+    "id": "2",
+    "name": "Samsung 55-inch Crystal 4K UHD Smart TV",
+    "slug": "samsung-55-inch-crystal-4k-uhd-smart-tv",
+    "brand": "Samsung",
+    "category": "Televisions",
+    "price": 35989,
+    "originalPrice": 69900,
+    "images": [
+      "https://m.media-amazon.com/images/I/81z9MIj7zHL._AC_UY327_FMwebp_QL65_.jpg"
+    ],
+    "features": [
+      "Crystal Processor 4K",
+      "HDR 10+",
+      "Q-Symphony"
+    ],
+    "isFeatured": false
+  },
+  {
+    "id": "3",
+    "name": "LG 260L 3 Star Smart Inverter Frost-Free Double Door Refrigerator",
+    "slug": "lg-260l-3-star-smart-inverter-double-door-refrigerator",
+    "brand": "LG",
+    "category": "Refrigerators",
+    "price": 26490,
+    "originalPrice": 33990,
+    "images": [
+      "https://m.media-amazon.com/images/I/71PxkYFHoRL._AC_UY327_FMwebp_QL65_.jpg"
+    ],
+    "features": [
+      "Smart Inverter Compressor",
+      "Multi Air Flow",
+      "Moist 'N' Fresh"
+    ],
+    "isFeatured": false
+  },
+  {
+    "id": "4",
+    "name": "Whirlpool 7.5 Kg 5 Star Royal Plus Fully-Automatic Top Loading Washing Machine",
+    "slug": "whirlpool-7.5-kg-5-star-royal-plus-washing-machine",
+    "brand": "Daikin",
+    "category": "Air Conditioners",
+    "price": 13490,
+    "originalPrice": 21350,
+    "images": [
+      "https://m.media-amazon.com/images/I/61c03bBJjNL._AC_UY327_FMwebp_QL65_.jpg"
+    ],
+    "features": [
+      "Hard Water Wash",
+      "Spiro Wash",
+      "12 Wash Programs"
+    ],
+    "isFeatured": true
+  },
+  {
+    "id": "5",
+    "name": "Voltas Maha Adjustable 1.5 Ton 5 Star Inverter Split AC",
+    "slug": "voltas-maha-adjustable-1.5-ton-5-star-split-ac",
+    "brand": "Voltas",
+    "category": "Air Conditioners",
+    "price": 37990,
+    "originalPrice": 68990,
+    "images": [
+      "https://m.media-amazon.com/images/I/61ImzSFmInL._AC_UY327_FMwebp_QL65_.jpg"
+    ],
+    "features": [
+      "Adjustable Mode",
+      "High Ambient Cooling",
+      "Superdry Mode"
+    ],
+    "isFeatured": false
+  },
+  {
+    "id": "6",
+    "name": "Symphony Diet 12T Personal Tower Air Cooler",
+    "slug": "symphony-diet-12t-air-cooler",
+    "brand": "Other",
+    "category": "Air Coolers",
+    "price": 5999,
+    "originalPrice": 7999,
+    "images": [
+      "https://m.media-amazon.com/images/I/51c+0SONouL._AC_UY327_FMwebp_QL65_.jpg"
+    ],
+    "features": [
+      "honeycomb pad",
+      "i-Pure technology",
+      "Low power consumption"
+    ],
+    "isFeatured": false
+  },
+  {
+    "name": "TG SMART 70L AIR COOLER ",
+    "brand": "Daikin",
+    "category": "Air Conditioners",
+    "price": 7490,
+    "originalPrice": 13490,
+    "images": [
+      "https://m.media-amazon.com/images/I/41Dk7RUbVBL._AC_UF1000",
+      "1000_QL80_.jpg"
+    ],
+    "features": [
+      "SLEEK DESIGN"
+    ],
+    "isFeatured": false,
+    "id": "1771331939265",
+    "slug": "tg-smart-70l-air-cooler"
+  },
+  {
+    "name": "Lloyd 1.5 Ton 3 Star Inverter Split AC",
+    "brand": "Lloyd",
+    "category": "Air Conditioners",
+    "price": 29990,
+    "originalPrice": 53990,
+    "images": [
+      "https://i.ibb.co/ksQ6wtMm/1-5ton.jpg"
+    ],
+    "features": [
+      "Inverter Technology | 10 Years On Compressor"
+    ],
+    "isFeatured": true,
+    "id": "1771333169906",
+    "slug": "lloyd-1-5-ton-3-star-inverter-split-ac"
+  },
+  {
+    "name": "TG SMART 7.5KG Semi Utomatic Washing Machine",
+    "brand": "TG SMART",
+    "category": "Washing Machines",
+    "price": 8490,
+    "originalPrice": 13490,
+    "images": [
+      "https://i.ibb.co/GvjJQsQL/7-5.jpg"
+    ],
+    "features": [
+      "High Quality",
+      "12 Months Warranty"
+    ],
+    "isFeatured": true,
+    "id": "1771348763851",
+    "slug": "tg-smart-7-5kg-semi-utomatic-washing-machine"
+  },
+  {
+    "name": "Crompton Ozone 75 Litres Desert Air Cooler for home | Large & Easy Clean Ice Chamber | 4-Way Air Deflection | High Density Honeycomb Pads | Everlast Pump | Auto Fill",
+    "brand": "Crompton",
+    "category": "Air Coolers",
+    "price": 10490,
+    "originalPrice": 17200,
+    "images": [
+      "https://m.media-amazon.com/images/I/71ddRfhOCIL._AC_UY327_FMwebp_QL65_.jpg"
+    ],
+    "features": [
+      "Honeycomb Pads | Everlast Pump | Auto Fill"
+    ],
+    "isFeatured": true,
+    "id": "1771349900981",
+    "slug": "crompton-ozone-75-litres-desert-air-cooler-for-home-large-easy-clean-ice-chamber-4-way-air-deflection-high-density-honeycomb-pads-everlast-pump-auto-fill"
+  },
+  {
+    "name": "Orient Electric Tornado 52L Desert Air Cooler",
+    "brand": "Orient",
+    "category": "Air Coolers",
+    "price": 8990,
+    "originalPrice": 14900,
+    "images": [
+      "https://m.media-amazon.com/images/I/61J3cfuf6IL._AC_UY327_FMwebp_QL65_.jpg",
+      "https://m.media-amazon.com/images/I/81T-hlD1xSL._SX679_.jpg",
+      "https://m.media-amazon.com/images/I/81WaTrvDBAL._SL1500_.jpg"
+    ],
+    "features": [
+      "Densenest Honeycomb Pads",
+      "3650 mch high air delivery"
+    ],
+    "isFeatured": true,
+    "id": "1771440863295",
+    "slug": "orient-electric-tornado-52l-desert-air-cooler"
+  },
+  {
+    "name": "Vguard Voltage Stabilizer for LED TV",
+    "brand": "Other",
+    "category": "Air Conditioners",
+    "price": 2900,
+    "originalPrice": 4900,
+    "images": [
+      "https://m.media-amazon.com/images/I/71P-xOC0OmL._AC_UL480_FMwebp_QL65_.jpg"
+    ],
+    "features": [
+      "Smart TV's up to 140cm(55)+",
+      "Set Top Box",
+      "Home Theatre/Gaming Console"
+    ],
+    "isFeatured": true,
+    "id": "1771443060406",
+    "slug": "vguard-voltage-stabilizer-for-led-tv"
+  },
+  {
+    "name": "Bluestar Water Dispenser ",
+    "brand": "Bluestar",
+    "category": "Home Appliances",
+    "price": 9099,
+    "originalPrice": 18900,
+    "images": [
+      "https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcQ3ZdM0j2P5QYSthCuWvjmDAAl4BvB6K8oLoCmH8PI3b5iL-Lg_4RfV_y3-NF_8GKPiUAi9cngaTMqD-Nuz8KtpgHkQlLR8_QbFrGhcFrkXEPbsogLRtm4yd7OeBRTYAaFiDfbUbSs&usqp=CAc",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8TM-C9JnkPKznKi3yAZcNiBMqlja2BZzw8w&s"
+    ],
+    "features": [
+      "Hot Cold &Normal Water Dispenser With Refrigerator"
+    ],
+    "isFeatured": true,
+    "id": "1771443338357",
+    "slug": "bluestar-water-dispenser"
+  },
+  {
+    "name": "Crompton Optimus 100 Litres Desert Air Cooler for home | Large & Easy Clean Ice Chamber | High Density Honeycomb Pads | Auto-Fill & Drain | Everlast Pump | Humidity Control",
+    "brand": "Crompton",
+    "category": "Air Coolers",
+    "price": 14600,
+    "originalPrice": 21500,
+    "images": [
+      "https://m.media-amazon.com/images/I/31CNaTIV+iL._SY300_SX300_QL70_FMwebp_.jpg"
+    ],
+    "features": [
+      "Product Details: Crompton's high performance portable Desert air cooler with high density honey comb cooling pads and 3-way speed settings for air speed control",
+      "Technical Specifications: Capacity 100 L; Air delivery 5500 CMH; Power 200 W; Operating voltage 230 V; Suitable for upto 650 sq. ft.Empty Tank Alarm : No; with double ball bearing",
+      "High Tank Capacity: The air cooler comes with 100L tank capacity which allows you to experience cool air for a long time while the auto fill allows continuous water supply.",
+      "4-way Power Air Delivery: With a powerful air delivery of 5500 m3/hr",
+      "Optimus 100 air cooler is suitable for up to 650 Sq. Ft. room size. which helps to keep the room cool & refreshing for a long time.",
+      "Inverter Compatible: Operating at 200-Watt",
+      "Optimus 100 comes with inverter compatibility for uninterrupted cooling allowing you to experience cool air even during power cut. Also",
+      "being Energy Efficient"
+    ],
+    "isFeatured": true,
+    "id": "1771517008401",
+    "slug": "crompton-optimus-100-litres-desert-air-cooler-for-home-large-easy-clean-ice-chamber-high-density-honeycomb-pads-auto-fill-drain-everlast-pump-humidity-control"
+  },
+  {
+    "name": "Crompton Ozone Royale Desert Air Cooler- 88L; with humidity control, Auto drain, Everlast Pump, Auto Fill, 4-Way Air Deflection and High Density Honeycomb pads.",
+    "brand": "Crompton",
+    "category": "Air Coolers",
+    "price": 10398,
+    "originalPrice": 20990,
+    "images": [
+      "https://m.media-amazon.com/images/I/31dEpC8Kp6L._SY300_SX300_QL70_FMwebp_.jpg"
+    ],
+    "features": [
+      "Product Details: Crompton's high performance portable desert air cooler with high density honey comb cooling pads and 3-way speed settings for air speed control",
+      "Technical Specifications: Capacity 88 L; Air delivery 4200 CMH; Power 190 W; Operating voltage 230 V; Suitable for upto 490 sq. ft.Empty Tank Alarm : No. with double ball bearing",
+      "Auto Fill & High Tank Capacity: The air cooler comes with 88L tank capacity which allows you to experience cool air for a long time while the auto fill allows continuous water supply.",
+      "4-way Power Air Delivery: With a powerful air delivery of 4200 m3/hr",
+      "Ozone Royale 88 air cooler is suitable for up to 490 Sq. Ft. room size. which helps to keep the room cool & refreshing for a long time.",
+      "Inverter Compatible: Operating at 190-Watt",
+      "Ozone Royale 88 comes with inverter compatibility for uninterrupted cooling allowing you to experience cool air even during power cut. Also",
+      "being Energy Efficient"
+    ],
+    "isFeatured": true,
+    "id": "1771517094149",
+    "slug": "crompton-ozone-royale-desert-air-cooler-88l-with-humidity-control-auto-drain-everlast-pump-auto-fill-4-way-air-deflection-and-high-density-honeycomb-pads"
+  },
+  {
+    "name": "Plastic Body Air Cooler 40L – Powerful & Energy-Efficient Air Cooling Solution, Large Water Tank, Honeycomb Cooling Pads, Low Noise Operation & High Air Delivery for Home & Office | Dark Grey",
+    "brand": "TG SMART",
+    "category": "Air Coolers",
+    "price": 6888,
+    "originalPrice": 12000,
+    "images": [
+      "https://m.media-amazon.com/images/I/41xWuceg01L._SY300_SX300_QL70_FMwebp_.jpg"
+    ],
+    "features": [
+      "Powerful Cooling with Large 40L Tank: Designed for effective cooling",
+      "the TG SMART Air Cooler features a spacious 40L water tank",
+      "ensuring long hours of uninterrupted cooling without frequent refills.",
+      "Honeycomb Cooling Pads for Enhanced Performance: Equipped with high-quality honeycomb cooling pads",
+      "this air cooler efficiently absorbs heat and cools the air quickly",
+      "providing fresh and breezy airflow in any room.",
+      "Adjustable 3-Speed Control & High Air Delivery: The cooler offers three fan speed settings—low",
+      "medium",
+      "and high—allowing you to customize airflow",
+      "while the powerful motor ensures high air delivery for wide coverage.",
+      "Energy-Efficient & Low Noise Operation: Designed to be cost-effective",
+      "it consumes less power compared to traditional air conditioners",
+      "making it an energy-saving option with silent operation for undisturbed sleep.",
+      "Portable & Easy to Use: Featuring a lightweight design with smooth-rolling caster wheels",
+      "the TG SMART Air Cooler is easy to move between rooms",
+      "making it ideal for homes",
+      "offices",
+      "and outdoor spaces."
+    ],
+    "isFeatured": true,
+    "id": "1771565967524",
+    "slug": "plastic-body-air-cooler-40l-powerful-energy-efficient-air-cooling-solution-large-water-tank-honeycomb-cooling-pads-low-noise-operation-high-air-delivery-for-home-office-dark-grey"
+  }
+]

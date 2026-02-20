@@ -1,0 +1,87 @@
+.title {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.googleBadge {
+    text-align: center;
+    color: var(--text-light);
+    margin-bottom: 40px;
+    font-weight: 500;
+}
+
+.gScale {
+    color: var(--text-dark);
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+}
+
+.card {
+    background: white;
+    border: 1px solid var(--border);
+    padding: 20px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+}
+
+.header {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    background-color: var(--primary);
+    /* Or random colors */
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+.name {
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.meta {
+    font-size: 0.8rem;
+    color: var(--text-light);
+}
+
+.stars {
+    color: #fbbf24;
+    margin-right: 8px;
+    letter-spacing: 1px;
+}
+
+.text {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: var(--text-medium);
+}
+
+.link {
+    color: var(--primary);
+    text-decoration: underline;
+    font-weight: 600;
+}
+
+@media (max-width: 768px) {
+    .grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+}

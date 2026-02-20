@@ -1,0 +1,38 @@
+.heading {
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.layout {
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+}
+
+.formSection {
+    flex: 1;
+    position: sticky;
+    top: 100px;
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
+}
+
+.listSection {
+    flex: 2;
+}
+
+@media (max-width: 1024px) {
+    .layout {
+        flex-direction: column;
+    }
+
+    .formSection {
+        position: static;
+        max-height: none;
+        width: 100%;
+    }
+
+    .listSection {
+        width: 100%;
+    }
+}

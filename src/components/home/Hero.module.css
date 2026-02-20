@@ -1,0 +1,426 @@
+/* Modern Premium Hero Styles */
+
+.hero {
+    background: radial-gradient(circle at 10% 20%, #1e1b4b 0%, #0f172a 40%, #020617 100%);
+    padding: 100px 0;
+    color: white;
+    position: relative;
+    overflow: hidden;
+    min-height: 800px;
+    display: flex;
+    align-items: center;
+}
+
+/* Background Effects */
+.hero::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -20%;
+    width: 80%;
+    height: 150%;
+    background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
+    transform: rotate(30deg);
+    z-index: 0;
+    pointer-events: none;
+}
+
+.hero::after {
+    content: '';
+    position: absolute;
+    bottom: -20%;
+    right: -10%;
+    width: 60%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, transparent 60%);
+    z-index: 0;
+    pointer-events: none;
+}
+
+.wave {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+    z-index: 10;
+    color: #f8fafc;
+    /* Matches section background below */
+}
+
+.container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 60px;
+    position: relative;
+    z-index: 1;
+    width: 100%;
+}
+
+/* Left Content */
+.content {
+    flex: 1;
+    max-width: 650px;
+}
+
+.trustBadge {
+    display: inline-flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(12px);
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    margin-bottom: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    color: #e2e8f0;
+}
+
+.separator {
+    margin: 0 12px;
+    opacity: 0.4;
+    height: 14px;
+    width: 1px;
+    background: white;
+}
+
+.title {
+    font-size: 4.5rem;
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 24px;
+    letter-spacing: -1.5px;
+    color: #ffffff;
+}
+
+.highlight {
+    background: linear-gradient(to right, #60a5fa, #c084fc);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.subtitle {
+    font-size: 1.25rem;
+    color: #cbd5e1;
+    margin-bottom: 40px;
+    line-height: 1.6;
+    max-width: 90%;
+}
+
+.actions {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+}
+
+/* Buttons */
+.primaryBtn {
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    color: white;
+    font-weight: 600;
+    padding: 14px 28px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.3), 0 0 15px rgba(59, 130, 246, 0.5);
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.primaryBtn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.4), 0 0 25px rgba(59, 130, 246, 0.6);
+}
+
+.secondaryBtn {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(8px);
+    color: white;
+    font-weight: 500;
+    padding: 14px 24px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.secondaryBtn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.benefits {
+    display: flex;
+    gap: 20px;
+    font-size: 0.9rem;
+    color: #94a3b8;
+    flex-wrap: wrap;
+}
+
+.benefitItem {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.checkIcon {
+    color: #4ade80;
+    width: 16px;
+    height: 16px;
+}
+
+/* Right Content - Product Showcase */
+.showcase {
+    flex: 1;
+    position: relative;
+    height: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Background Grid Pattern */
+.gridPattern {
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: 40px 40px;
+    mask-image: radial-gradient(circle at center, black 40%, transparent 80%);
+    z-index: -1;
+}
+
+.productCard {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 20px;
+    width: 260px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    transition: transform 0.4s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.productCard:hover {
+    transform: translateY(-10px) scale(1.02);
+    border-color: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 35px 60px -15px rgba(0, 0, 0, 0.6);
+}
+
+/* Specific Card Positions & Animations */
+.card1 {
+    /* AC - Top Left */
+    top: 0;
+    left: 0;
+    animation: float 6s ease-in-out infinite;
+    z-index: 2;
+}
+
+.card2 {
+    /* TV - Center Right (Main) */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 320px;
+    /* Larger */
+    padding: 25px;
+    background: rgba(30, 27, 75, 0.6);
+    border: 1px solid rgba(139, 92, 246, 0.3);
+    box-shadow: 0 0 30px rgba(139, 92, 246, 0.2);
+    z-index: 3;
+    animation: float 7s ease-in-out infinite 1s;
+    /* Delayed */
+}
+
+.card3 {
+    /* Fridge - Bottom Left */
+    bottom: 20px;
+    left: 40px;
+    animation: float 8s ease-in-out infinite 0.5s;
+    z-index: 1;
+}
+
+.card4 {
+    /* Washing Machine - Top Right */
+    top: 40px;
+    right: 0;
+    animation: float 5s ease-in-out infinite 2s;
+    z-index: 1;
+}
+
+
+.cardImage {
+    width: 100%;
+    height: 140px;
+    /* Placeholder area */
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+    border-radius: 12px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.cardImage img {
+    object-fit: contain;
+}
+
+.cardTitle {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 4px;
+    color: white;
+}
+
+.cardPrice {
+    font-size: 0.9rem;
+    color: #94a3b8;
+}
+
+.priceTag {
+    color: #a78bfa;
+    font-weight: 600;
+}
+
+/* Animations */
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-15px);
+    }
+}
+
+.card2.floating {
+    /* Override transform for the centered card while keeping translate */
+    animation: floatCenter 7s ease-in-out infinite 1s;
+}
+
+@keyframes floatCenter {
+
+    0%,
+    100% {
+        transform: translate(-50%, -50%) translateY(0);
+    }
+
+    50% {
+        transform: translate(-50%, -50%) translateY(-15px);
+    }
+}
+
+/* Mobile Responsive */
+@media (max-width: 1024px) {
+    .title {
+        font-size: 3.5rem;
+    }
+
+    .container {
+        flex-direction: column;
+        padding-top: 60px;
+        padding-bottom: 60px;
+        text-align: center;
+        gap: 80px;
+    }
+
+    .content {
+        width: 100%;
+        max-width: 800px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .actions {
+        justify-content: center;
+    }
+
+    .benefits {
+        justify-content: center;
+    }
+
+    .showcase {
+        width: 100%;
+        height: 400px;
+        /* Simplify layout for tablet/mobile */
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+
+    .productCard {
+        position: relative;
+        top: auto !important;
+        left: auto !important;
+        right: auto !important;
+        bottom: auto !important;
+        transform: none !important;
+        width: 100%;
+        animation: none !important;
+    }
+
+    .card2 {
+        transform: none !important;
+        width: 100%;
+        grid-column: span 2;
+        /* Center prominent card */
+    }
+}
+
+@media (max-width: 640px) {
+    .title {
+        font-size: 2.8rem;
+    }
+
+    .subtitle {
+        font-size: 1.1rem;
+    }
+
+    .actions {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .primaryBtn,
+    .secondaryBtn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .showcase {
+        display: flex;
+        flex-direction: column;
+        height: auto;
+        gap: 20px;
+    }
+
+    .productCard {
+        width: 100%;
+    }
+}
