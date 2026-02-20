@@ -5,39 +5,33 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import styles from './Header.module.css';
-import { MenuIcon, XIcon, PhoneIcon } from '@/components/icons/Icons';
-import Button from '@/components/ui/Button';
+import { MenuIcon, XIcon, PhoneIcon, SearchIcon, ChevronDownIcon } from '@/components/icons/Icons';
 import { cn } from '@/lib/utils';
 
 export default function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
+    const [activeAccordion, setActiveAccordion] = useState<string | null>(null);
     const pathname = usePathname();
 
     const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
     const closeMenu = () => setIsMenuOpen(false);
 
-    // Initial scroll check and event listener
     useEffect(() => {
-        const handleScroll = () => {
-            setIsScrolled(window.scrollY > 10);
-        };
-
-        // Check immediately in case page is already scrolled on load
+        const handleScroll = () => setIsScrolled(window.scrollY > 20);
         handleScroll();
-
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    const navLinks = [
-        { name: 'Home', href: '/' },
-        { name: 'Products', href: '/category/all' },
-        { name: 'Gallery', href: '/#gallery' },
-        { name: 'Categories', href: '#' },
-        { name: 'About', href: '/#about' },
-        { name: 'Contact', href: '/#contact' },
-    ];
+    // Prevent body scroll when mobile menu is open
+    useEffect(() => {
+        if (isMenuOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'unset';
+        }
+    }, [isMenuOpen]);
 
     const megaMenuData = [
         {
@@ -45,6 +39,7 @@ export default function Header() {
             links: [
                 { name: 'Air Conditioners', href: '/category/air-conditioners' },
                 { name: 'Air Coolers', href: '/category/air-coolers' },
+                { name: 'Fans', href: '/category/fans' }
             ]
         },
         {
@@ -61,6 +56,7 @@ export default function Header() {
                 { name: 'Refrigerators', href: '/category/refrigerators' },
                 { name: 'Microwaves', href: '/category/microwaves' },
                 { name: 'Water Purifiers', href: '/category/water-purifiers' },
+                { name: 'Small Appliances', href: '/category/kitchen-appliances' }
             ]
         },
         {
@@ -73,152 +69,152 @@ export default function Header() {
     ];
 
     return (
-        <>
-            <header className={cn(styles.header, isScrolled ? styles.scrolled : '')}>
-                <div className={styles.container}>
-                    {/* Left Section - Brand */}
-                    <div className={styles.leftSection}>
-                        <Link href="/" className={styles.logoWrapper}>
-                            <Image
-                                src="/logo.png.png"
-                                alt="Raj Electronics Logo"
-                                fill
-                                className={styles.logoImage}
-                                sizes="50px"
-                                priority
-                            />
-                        </Link>
-                        <div className={styles.brandInfo}>
-                            <Link href="/" className={styles.brandName} onClick={closeMenu}>
-                                Raj Electronics
-                            </Link>
-                            <div className={styles.trustBadge}>
-                                <span className={styles.ratingStars}>⭐ 4.9</span>
-                                <span>(85+ Reviews)</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Desktop Navigation */}
-                    <nav className={styles.desktopNav}>
-                        {navLinks.map((link) => {
-                            if (link.name === 'Categories') {
-                                return (
-                                    <div key={link.name} className={styles.navItemWithDropdown}>
-                                        <button className={styles.navLink} style={{ background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'inherit' }}>
-                                            {link.name} <span style={{ fontSize: '0.8em', marginLeft: '4px' }}>▼</span>
-                                        </button>
-                                        <div className={styles.megaMenu}>
-                                            <div className={styles.megaMenuGrid}>
-                                                {megaMenuData.map((category) => (
-                                                    <div key={category.title} className={styles.megaMenuColumn}>
-                                                        <h4 className={styles.megaMenuTitle}>{category.title}</h4>
-                                                        <div className={styles.megaMenuList}>
-                                                            {category.links.map((subLink) => (
-                                                                <Link
-                                                                    key={subLink.name}
-                                                                    href={subLink.href}
-                                                                    className={styles.megaMenuLink}
-                                                                >
-                                                                    {subLink.name}
-                                                                </Link>
-                                                            ))}
-                                                        </div>
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        </div>
-                                    </div>
-                                );
-                            }
-
-                            return (
-                                <Link
-                                    key={link.name}
-                                    href={link.href}
-                                    className={cn(styles.navLink, pathname === link.href ? styles.active : '')}
-                                >
-                                    {link.name}
-                                </Link>
-                            );
-                        })}
-                    </nav>
-
-                    {/* Right Section - Call to Action */}
-                    <div className={styles.rightSection}>
-                        <a href="tel:+919290748866" className={styles.ctaBtn}>
-                            <PhoneIcon width={18} height={18} /> Call Now
-                        </a>
-                    </div>
-
-                    {/* Mobile Menu Button */}
-                    <div className={styles.mobileActions}>
-                        <Button variant="ghost" onClick={toggleMenu} aria-label="Toggle menu">
-                            {isMenuOpen ? <XIcon /> : <MenuIcon />}
-                        </Button>
-                    </div>
-
-                    {/* Mobile Navigation Drawer */}
-                    <div className={cn(styles.mobileNav, isMenuOpen ? styles.open : '')}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-                            <span style={{ fontWeight: 800, fontSize: '1.2rem', color: '#1e293b' }}>Menu</span>
-                            <Button variant="ghost" onClick={closeMenu} size="sm"><XIcon /></Button>
-                        </div>
-
-                        {navLinks.map((link) => {
-                            if (link.name === 'Categories') {
-                                return (
-                                    <div key={link.name} style={{ marginBottom: '10px' }}>
-                                        <div className={styles.mobileNavLink} style={{ color: '#64748b', fontSize: '0.9rem', paddingBottom: '4px' }}>CATEGORIES</div>
-                                        {megaMenuData.map((category) => (
-                                            <div key={category.title} style={{ paddingLeft: '15px' }}>
-                                                {category.links.map((subLink) => (
-                                                    <Link
-                                                        key={subLink.name}
-                                                        href={subLink.href}
-                                                        className={styles.mobileNavLink}
-                                                        style={{ display: 'block', fontSize: '0.95rem', padding: '10px 15px', fontWeight: 500 }}
-                                                        onClick={closeMenu}
-                                                    >
-                                                        {subLink.name}
-                                                    </Link>
-                                                ))}
-                                            </div>
-                                        ))}
-                                    </div>
-                                );
-                            }
-
-                            return (
-                                <Link
-                                    key={link.name}
-                                    href={link.href}
-                                    className={cn(styles.mobileNavLink, pathname === link.href ? styles.active : '')}
-                                    onClick={closeMenu}
-                                >
-                                    {link.name}
-                                </Link>
-                            );
-                        })}
-
-                        <div style={{ marginTop: 'auto', paddingTop: '20px', borderTop: '1px solid #e2e8f0' }}>
-                            <a href="tel:+919290748866" className={styles.ctaBtn} style={{
-                                display: 'flex',
-                                justifyContent: 'center',
-                                width: '100%',
-                                marginTop: '10px'
-                            }}>
-                                <PhoneIcon width={18} height={18} /> Call Now
-                            </a>
-                        </div>
+        <header className={styles.headerWrapper}>
+            {/* Very Top Announcement Bar */}
+            <div className={styles.topBar}>
+                <div className={styles.topBarContainer}>
+                    <p className={styles.topBarText}>🎉 Free Installation & Delivery on Orders above ₹20,000*</p>
+                    <div className={styles.topBarLinks}>
+                        <Link href="/track">Track Order</Link>
+                        <span>|</span>
+                        <Link href="/about">About Us</Link>
+                        <span>|</span>
+                        <a href="tel:+919290748866">Support: +91 9290748866</a>
                     </div>
                 </div>
-            </header>
+            </div>
 
-            <div
-                className={cn(styles.overlay, isMenuOpen ? styles.open : '')}
-                onClick={closeMenu}
-            />
-        </>
+            {/* Main Sticky Header */}
+            <div className={cn(styles.mainHeader, isScrolled ? styles.scrolled : '')}>
+                <div className={styles.container}>
+
+                    {/* Left: Mobile Hamburger */}
+                    <button className={styles.mobileHamburger} onClick={toggleMenu} aria-label="Menu">
+                        <MenuIcon width={28} height={28} />
+                    </button>
+
+                    {/* Center/Left: Logo */}
+                    <Link href="/" className={styles.logoContainer} onClick={closeMenu}>
+                        <Image
+                            src="/logo.png.png"
+                            alt="Raj Electronics Logo"
+                            width={42}
+                            height={42}
+                            className={styles.logoImage}
+                            priority
+                        />
+                        <div className={styles.brandTitleWrap}>
+                            <h1 className={styles.brandTitle}>Raj Electronics</h1>
+                            <span className={styles.brandSubtitle}>Legacy Since 1995</span>
+                        </div>
+                    </Link>
+
+                    {/* Center: Desktop Navigation */}
+                    <nav className={styles.desktopNav}>
+                        <Link href="/" className={cn(styles.navLink, pathname === '/' ? styles.active : '')}>Home</Link>
+                        <Link href="/category/all" className={cn(styles.navLink, pathname === '/category/all' ? styles.active : '')}>Shop All</Link>
+
+                        {/* Mega Menu Trigger */}
+                        <div className={styles.navDropdownTrigger}>
+                            <button className={styles.navLink}>
+                                Categories <ChevronDownIcon width={16} height={16} className={styles.chevron} />
+                            </button>
+                            <div className={styles.megaMenuWrapper}>
+                                <div className={styles.megaMenu}>
+                                    {megaMenuData.map(group => (
+                                        <div key={group.title} className={styles.megaMenuCol}>
+                                            <h4 className={styles.megaMenuHeading}>{group.title}</h4>
+                                            <ul className={styles.megaMenuList}>
+                                                {group.links.map(link => (
+                                                    <li key={link.name}>
+                                                        <Link href={link.href} className={styles.megaMenuLink}>
+                                                            {link.name}
+                                                        </Link>
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+
+                        <Link href="/#brands" className={cn(styles.navLink, pathname === '/#brands' ? styles.active : '')}>Top Brands</Link>
+                    </nav>
+
+                    {/* Right: Actions */}
+                    <div className={styles.actionItems}>
+                        <div className={styles.searchBar}>
+                            <SearchIcon width={18} height={18} className={styles.searchIcon} />
+                            <input type="text" placeholder="Search products..." className={styles.searchInput} />
+                        </div>
+                        <button className={styles.mobileSearchBtn} aria-label="Search">
+                            <SearchIcon width={24} height={24} />
+                        </button>
+                        <a href="tel:+919290748866" className={styles.callButton}>
+                            <span className={styles.callIconWrap}><PhoneIcon width={18} height={18} /></span>
+                            <span className={styles.callText}>Call Us</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            {/* Advanced Mobile Menu Drawer */}
+            <div className={cn(styles.mobileDrawerWrapper, isMenuOpen ? styles.open : '')}>
+                <div className={cn(styles.mobileDrawerOverlay, isMenuOpen ? styles.open : '')} onClick={closeMenu} />
+                <div className={cn(styles.mobileDrawer, isMenuOpen ? styles.open : '')}>
+                    <div className={styles.drawerHeader}>
+                        <div className={styles.drawerLogo}>
+                            <Image src="/logo.png.png" alt="Logo" width={32} height={32} />
+                            <span style={{ fontWeight: 700, fontSize: '1.2rem', color: '#0f172a' }}>Raj Electronics</span>
+                        </div>
+                        <button onClick={closeMenu} className={styles.closeBtn}><XIcon width={28} height={28} /></button>
+                    </div>
+
+                    <div className={styles.drawerBody}>
+                        <Link href="/" className={styles.drawerLink} onClick={closeMenu}>Home</Link>
+                        <Link href="/category/all" className={styles.drawerLink} onClick={closeMenu}>Shop All Products</Link>
+
+                        {/* Mobile Accordion for Categories */}
+                        <div className={styles.drawerAccordionGroup}>
+                            <button
+                                className={styles.drawerAccordionTrigger}
+                                onClick={() => setActiveAccordion(activeAccordion === 'cats' ? null : 'cats')}
+                            >
+                                Browse Categories
+                                <ChevronDownIcon
+                                    width={20}
+                                    height={20}
+                                    className={cn(styles.accordionChevron, activeAccordion === 'cats' ? styles.rotated : '')}
+                                />
+                            </button>
+                            <div className={cn(styles.drawerAccordionContent, activeAccordion === 'cats' ? styles.contentOpen : '')}>
+                                {megaMenuData.map((group) => (
+                                    <div key={group.title} className={styles.mobileGroupSpan}>
+                                        <h5 className={styles.mobileGroupTitle}>{group.title}</h5>
+                                        {group.links.map(link => (
+                                            <Link key={link.name} href={link.href} className={styles.mobileGroupLink} onClick={closeMenu}>
+                                                {link.name}
+                                            </Link>
+                                        ))}
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        <Link href="/#brands" className={styles.drawerLink} onClick={closeMenu}>Top Brands</Link>
+                        <Link href="/#about" className={styles.drawerLink} onClick={closeMenu}>About Us</Link>
+                        <Link href="/#contact" className={styles.drawerLink} onClick={closeMenu}>Contact</Link>
+                    </div>
+
+                    <div className={styles.drawerFooter}>
+                        <a href="tel:+919290748866" className={styles.drawerCtaBtn}>
+                            <PhoneIcon width={20} height={20} /> Call For Best Price
+                        </a>
+                        <p className={styles.drawerFooterText}>Mon - Sun: 10:30 AM to 9:30 PM</p>
+                    </div>
+                </div>
+            </div>
+        </header>
     );
 }
