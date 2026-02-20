@@ -1,11 +1,14 @@
 "use client";
 
 import { useRouter, useSearchParams } from 'next/navigation';
-import { BRANDS } from '@/types';
 import styles from './FilterSidebar.module.css';
 import Button from '@/components/ui/Button';
 
-export default function FilterSidebar() {
+interface FilterSidebarProps {
+    brands: string[];
+}
+
+export default function FilterSidebar({ brands }: FilterSidebarProps) {
     const router = useRouter();
     const searchParams = useSearchParams();
 
@@ -48,7 +51,7 @@ export default function FilterSidebar() {
             <div className={styles.section}>
                 <h3 className={styles.title}>Brands</h3>
                 <div className={styles.checkboxGroup}>
-                    {BRANDS.map(brand => (
+                    {brands.map(brand => (
                         <label key={brand} className={styles.checkboxLabel}>
                             <input
                                 type="checkbox"

@@ -34,6 +34,9 @@ export default async function CategoryPage(props: Props) {
     // 1. Fetch by category
     let products = await getProductsByCategory(categorySlug);
 
+    // Get all unique brands available in this category BEFORE applying brand filters
+    const uniqueBrands = Array.from(new Set(products.map(p => p.brand))).filter(Boolean).sort();
+
     // 2. Filter by Brand
     if (brandFilter) {
         const brands = Array.isArray(brandFilter) ? brandFilter : [brandFilter];
@@ -50,7 +53,7 @@ export default async function CategoryPage(props: Props) {
     return (
         <div className="container section">
             <div className={styles.layout}>
-                <FilterSidebar />
+                <FilterSidebar brands={uniqueBrands} />
 
                 <div className={styles.main}>
                     <CategoryNav />

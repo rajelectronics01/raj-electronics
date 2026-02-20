@@ -136,9 +136,10 @@ export default function ProductForm({ onSuccess, initialData, onCancel }: Produc
             <div className={styles.row}>
                 <div className={styles.group}>
                     <label>Brand</label>
-                    <select name="brand" required className={styles.select} defaultValue={initialData?.brand}>
-                        {BRANDS.map(b => <option key={b} value={b}>{b}</option>)}
-                    </select>
+                    <input list="brand-options" name="brand" required className={styles.input} defaultValue={initialData?.brand} placeholder="Select or type brand..." />
+                    <datalist id="brand-options">
+                        {BRANDS.map(b => <option key={b} value={b} />)}
+                    </datalist>
                 </div>
                 <div className={styles.group}>
                     <label>Category</label>

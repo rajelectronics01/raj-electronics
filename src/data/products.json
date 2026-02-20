@@ -109,8 +109,8 @@
   },
   {
     "name": "TG SMART 70L AIR COOLER ",
-    "brand": "Daikin",
-    "category": "Air Conditioners",
+    "brand": "TG Smart",
+    "category": "Air Coolers",
     "price": 7490,
     "originalPrice": 13490,
     "images": [
@@ -194,8 +194,8 @@
   },
   {
     "name": "Vguard Voltage Stabilizer for LED TV",
-    "brand": "Other",
-    "category": "Air Conditioners",
+    "brand": "Vguard",
+    "category": "Home Appliances",
     "price": 2900,
     "originalPrice": 4900,
     "images": [
@@ -274,9 +274,9 @@
     "slug": "crompton-ozone-royale-desert-air-cooler-88l-with-humidity-control-auto-drain-everlast-pump-auto-fill-4-way-air-deflection-and-high-density-honeycomb-pads"
   },
   {
-    "name": "Plastic Body Air Cooler 40L – Powerful & Energy-Efficient Air Cooling Solution, Large Water Tank, Honeycomb Cooling Pads, Low Noise Operation & High Air Delivery for Home & Office | Dark Grey",
+    "name": "TG Smart Air Cooler 40L – Powerful & Energy-Efficient Air Cooling Solution, Large Water Tank, Honeycomb Cooling Pads,| Dark Grey",
     "brand": "TG SMART",
-    "category": "Air Coolers",
+    "category": "Air Conditioners",
     "price": 6888,
     "originalPrice": 12000,
     "images": [
@@ -302,8 +302,8 @@
       "offices",
       "and outdoor spaces."
     ],
-    "isFeatured": true,
+    "isFeatured": false,
     "id": "1771565967524",
-    "slug": "plastic-body-air-cooler-40l-powerful-energy-efficient-air-cooling-solution-large-water-tank-honeycomb-cooling-pads-low-noise-operation-high-air-delivery-for-home-office-dark-grey"
+    "slug": "tg-smart-air-cooler-40l-powerful-energy-efficient-air-cooling-solution-large-water-tank-honeycomb-cooling-pads-dark-grey"
   }
 ]
