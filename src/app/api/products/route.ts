@@ -1,25 +1,15 @@
 import { NextResponse } from 'next/server';
-import fs from 'fs/promises';
-import path from 'path';
-import { Product } from '@/types';
-
-const dataFilePath = path.join(process.cwd(), 'src/data/products.json');
-
-async function getProducts() {
-    const jsonData = await fs.readFile(dataFilePath, 'utf8');
-    return JSON.parse(jsonData) as Product[];
-}
-
-async function saveProducts(products: Product[]) {
-    await fs.writeFile(dataFilePath, JSON.stringify(products, null, 2));
-}
+import prisma from '@/lib/prisma';
 
 export async function GET() {
     try {
-        const products = await getProducts();
+        const products = await prisma.product.findMany({
+            orderBy: { createdAt: 'desc' }
+        });
         return NextResponse.json(products);
     } catch (error) {
-        return NextResponse.json({ error: 'Failed to fetch products' }, { status: 500 });
+        console.error("Prisma GET Error:", error);
+        return NextResponse.json({ error: 'Failed to fetch products from Supabase' }, { status: 500 });
     }
 }
 
@@ -27,19 +17,28 @@ export async function POST(request: Request) {
     try {
         const body = await request.json();
         console.log('API POST - Received:', body);
-        const newProduct = {
-            ...body,
-            id: Date.now().toString(), // Simple ID generation
-            slug: body.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '')
-        };
 
-        const products = await getProducts();
-        products.push(newProduct);
-        await saveProducts(products);
+        const slug = body.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
+
+        const newProduct = await prisma.product.create({
+            data: {
+                name: body.name,
+                slug: slug,
+                brand: body.brand || "Generic",
+                category: body.category || "Uncategorized",
+                price: parseFloat(body.price),
+                originalPrice: body.originalPrice ? parseFloat(body.originalPrice) : null,
+                description: body.description || "",
+                images: body.images || [],
+                features: body.features || [],
+                inStock: body.inStock !== undefined ? body.inStock : true,
+            }
+        });
 
         return NextResponse.json(newProduct, { status: 201 });
     } catch (error) {
-        return NextResponse.json({ error: 'Failed to save product' }, { status: 500 });
+        console.error("Prisma POST Error:", error);
+        return NextResponse.json({ error: 'Failed to save product to Supabase' }, { status: 500 });
     }
 }
 
@@ -53,25 +52,28 @@ export async function PUT(request: Request) {
             return NextResponse.json({ error: 'Product ID is required' }, { status: 400 });
         }
 
-        const products = await getProducts();
-        const index = products.findIndex(p => p.id === id);
-
-        if (index === -1) {
-            return NextResponse.json({ error: 'Product not found' }, { status: 404 });
+        let newSlug = updates.slug;
+        if (updates.name) {
+            newSlug = updates.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
         }
 
-        const updatedProduct = { ...products[index], ...updates };
+        const dataPayload: any = { ...updates };
+        if (newSlug) dataPayload.slug = newSlug;
+        if (updates.price !== undefined) dataPayload.price = parseFloat(updates.price);
+        if (updates.originalPrice !== undefined) dataPayload.originalPrice = updates.originalPrice ? parseFloat(updates.originalPrice) : null;
 
-        // Update slug if name changed
-        if (updates.name && updates.name !== products[index].name) {
-            updatedProduct.slug = updates.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
-        }
+        // Exclude strictly internal prisma timestamps
+        delete dataPayload.createdAt;
+        delete dataPayload.updatedAt;
 
-        products[index] = updatedProduct;
-        await saveProducts(products);
+        const updatedProduct = await prisma.product.update({
+            where: { id: id },
+            data: dataPayload
+        });
 
         return NextResponse.json(updatedProduct);
     } catch (error) {
-        return NextResponse.json({ error: 'Failed to update product' }, { status: 500 });
+        console.error("Prisma PUT Error:", error);
+        return NextResponse.json({ error: 'Failed to update product in Supabase' }, { status: 500 });
     }
 }
