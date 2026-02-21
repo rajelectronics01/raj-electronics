@@ -2,6 +2,13 @@
 
 import styles from './FeaturedBrands.module.css';
 import { BRANDS } from '@/types';
+const BRAND_LOGOS: Record<string, string> = {
+    "Lloyd": "/brands/lloyd.png",
+    "Whirlpool": "/brands/whirlpool.png",
+    "Crompton": "/brands/crompton.png",
+    "Orient": "/brands/orient.png",
+    "TG Smart": "/brands/tgsmart.png.jpeg"
+};
 
 export default function FeaturedBrands() {
     return (
@@ -12,7 +19,15 @@ export default function FeaturedBrands() {
                     <div className={styles.grid}>
                         {BRANDS.map(brand => (
                             <div key={brand} className={styles.brandCard}>
-                                <span className={styles.brandName}>{brand}</span>
+                                {BRAND_LOGOS[brand] ? (
+                                    <img
+                                        src={BRAND_LOGOS[brand]}
+                                        alt={`${brand} Official Logo`}
+                                        className={styles.brandLogo}
+                                    />
+                                ) : (
+                                    <span className={styles.brandName}>{brand}</span>
+                                )}
                             </div>
                         ))}
                     </div>

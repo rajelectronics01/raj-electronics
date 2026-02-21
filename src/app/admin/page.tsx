@@ -24,9 +24,31 @@ export default function AdminPage() {
         setSelectedProduct(null);
     };
 
+    const handleLogout = async () => {
+        await fetch('/api/auth/logout', { method: 'POST' });
+        window.location.href = '/admin/login';
+    };
+
     return (
         <div className="container section">
-            <h1 className={styles.heading}>Admin Dashboard</h1>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
+                <h1 className={styles.heading} style={{ marginBottom: 0 }}>Admin Dashboard</h1>
+                <button
+                    onClick={handleLogout}
+                    style={{
+                        padding: '8px 16px',
+                        backgroundColor: '#ef4444',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '6px',
+                        cursor: 'pointer',
+                        fontWeight: 600,
+                        fontSize: '0.9rem'
+                    }}
+                >
+                    Log Out
+                </button>
+            </div>
             <div className={styles.layout}>
                 <div className={styles.formSection}>
                     <ProductForm

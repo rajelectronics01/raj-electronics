@@ -73,13 +73,13 @@ export default function Header() {
             {/* Very Top Announcement Bar */}
             <div className={styles.topBar}>
                 <div className={styles.topBarContainer}>
-                    <p className={styles.topBarText}>🎉 Free Installation & Delivery on Orders above ₹20,000*</p>
+                    <p className={styles.topBarText}>🎉 Free Installation & Delivery on Orders above ₹50,000*</p>
                     <div className={styles.topBarLinks}>
-                        <Link href="/track">Track Order</Link>
-                        <span>|</span>
                         <Link href="/about">About Us</Link>
                         <span>|</span>
                         <a href="tel:+919290748866">Support: +91 9290748866</a>
+                        <span>|</span>
+                        <Link href="/admin">Admin Panel</Link>
                     </div>
                 </div>
             </div>
@@ -139,7 +139,7 @@ export default function Header() {
                             </div>
                         </div>
 
-                        <Link href="/#brands" className={cn(styles.navLink, pathname === '/#brands' ? styles.active : '')}>Top Brands</Link>
+                        <Link href="/about" className={cn(styles.navLink, pathname === '/about' ? styles.active : '')}>About Us</Link>
                     </nav>
 
                     {/* Right: Actions */}
@@ -202,8 +202,8 @@ export default function Header() {
                             </div>
                         </div>
 
-                        <Link href="/#brands" className={styles.drawerLink} onClick={closeMenu}>Top Brands</Link>
-                        <Link href="/#about" className={styles.drawerLink} onClick={closeMenu}>About Us</Link>
+                        <Link href="/category/all" className={styles.drawerLink} onClick={closeMenu}>Top Brands</Link>
+                        <Link href="/about" className={styles.drawerLink} onClick={closeMenu}>About Us</Link>
                         <Link href="/#contact" className={styles.drawerLink} onClick={closeMenu}>Contact</Link>
                     </div>
 

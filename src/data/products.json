@@ -93,9 +93,9 @@
     "id": "6",
     "name": "Symphony Diet 12T Personal Tower Air Cooler",
     "slug": "symphony-diet-12t-air-cooler",
-    "brand": "Other",
+    "brand": "Symphony",
     "category": "Air Coolers",
-    "price": 5999,
+    "price": 6999,
     "originalPrice": 7999,
     "images": [
       "https://m.media-amazon.com/images/I/51c+0SONouL._AC_UY327_FMwebp_QL65_.jpg"
@@ -105,7 +105,7 @@
       "i-Pure technology",
       "Low power consumption"
     ],
-    "isFeatured": false
+    "isFeatured": true
   },
   {
     "name": "TG SMART 70L AIR COOLER ",
@@ -141,8 +141,8 @@
     "slug": "lloyd-1-5-ton-3-star-inverter-split-ac"
   },
   {
-    "name": "TG SMART 7.5KG Semi Utomatic Washing Machine",
-    "brand": "TG SMART",
+    "name": "TG SMART 7.5KG Semi Automatic Washing Machine",
+    "brand": "TG Smart",
     "category": "Washing Machines",
     "price": 8490,
     "originalPrice": 13490,
@@ -155,7 +155,7 @@
     ],
     "isFeatured": true,
     "id": "1771348763851",
-    "slug": "tg-smart-7-5kg-semi-utomatic-washing-machine"
+    "slug": "tg-smart-7-5kg-semi-automatic-washing-machine"
   },
   {
     "name": "Crompton Ozone 75 Litres Desert Air Cooler for home | Large & Easy Clean Ice Chamber | 4-Way Air Deflection | High Density Honeycomb Pads | Everlast Pump | Auto Fill",
@@ -275,8 +275,8 @@
   },
   {
     "name": "TG Smart Air Cooler 40L – Powerful & Energy-Efficient Air Cooling Solution, Large Water Tank, Honeycomb Cooling Pads,| Dark Grey",
-    "brand": "TG SMART",
-    "category": "Air Conditioners",
+    "brand": "TG Smart",
+    "category": "Air Coolers",
     "price": 6888,
     "originalPrice": 12000,
     "images": [
@@ -305,5 +305,48 @@
     "isFeatured": false,
     "id": "1771565967524",
     "slug": "tg-smart-air-cooler-40l-powerful-energy-efficient-air-cooling-solution-large-water-tank-honeycomb-cooling-pads-dark-grey"
+  },
+  {
+    "name": "Lloyd 1 Ton 5 Star Inverter Split AC",
+    "brand": "Lloyd",
+    "category": "Air Conditioners",
+    "price": 33000,
+    "originalPrice": 53990,
+    "images": [
+      "https://vsprod.vijaysales.com/media/catalog/product/2/3/237584_1_.jpg?optimize=medium&fit=bounds&height=500&width=500",
+      "https://vsprod.vijaysales.com/media/catalog/product/2/3/237584_2_.jpg?optimize=medium&fit=bounds&height=500&width=500",
+      "https://vsprod.vijaysales.com/media/catalog/product/2/3/237584_11_.jpg?optimize=medium&fit=bounds&height=500&width=500"
+    ],
+    "features": [
+      "Lloyd 1 Ton 5 Star Inverter Split AC | 5 in 1 Convertible | Smart 4-Way Swing | Wi-Fi Ready | Clean Air Filter | Turbo Cool | Strong Dehumidifier | 100% Copper (GLS12I5FOJGR",
+      "White) 2025 Model"
+    ],
+    "isFeatured": true,
+    "id": "1771680523025",
+    "slug": "lloyd-1-ton-5-star-inverter-split-ac"
+  },
+  {
+    "name": "Buy Blue Star 5 in 1 Convertible 1.5 Ton 3 Star Inverter Split AC with 4",
+    "brand": "Bluestar",
+    "category": "Air Conditioners",
+    "price": 35990,
+    "originalPrice": 58500,
+    "images": [
+      "https://media.tatacroma.com/Croma%20Assets/Large%20Appliances/Air%20Conditioner/Images/268486_0_tyxjp2.png",
+      "https://media-ik.croma.com/prod/https://media.tatacroma.com/Croma%20Assets/Large%20Appliances/Air%20Conditioner/Images/268486_1_cmzceq.png?tr=w-640",
+      "https://media-ik.croma.com/prod/https://media.tatacroma.com/Croma%20Assets/Large%20Appliances/Air%20Conditioner/Images/268486_10_pToTlXRgB.png?updatedAt=1769597935742?tr=w-640"
+    ],
+    "features": [
+      "Blue Star M Series 5 in 1 Convertible 1.5 Ton 3 Star",
+      "Inverter Split AC with 4-Way Swing (2023 Model",
+      "Copper Condenser",
+      "IC318MNU)",
+      "online at best prices from Croma.",
+      "Check product details",
+      "reviews & more."
+    ],
+    "isFeatured": true,
+    "id": "1771681611395",
+    "slug": "buy-blue-star-5-in-1-convertible-1-5-ton-3-star-inverter-split-ac-with-4"
   }
 ]

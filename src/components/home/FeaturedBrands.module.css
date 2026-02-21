@@ -50,6 +50,13 @@
     letter-spacing: 0.5px;
 }
 
+.brandLogo {
+    max-height: 48px;
+    max-width: 140px;
+    object-fit: contain;
+    transition: all 0.3s ease;
+}
+
 .brandCard:hover .brandName {
     color: var(--primary);
 }

@@ -110,7 +110,7 @@ export default function ProductForm({ onSuccess, initialData, onCancel }: Produc
 
             {!initialData && (
                 <div style={{ marginBottom: '20px', padding: '15px', backgroundColor: '#f5f5f5', borderRadius: '8px' }}>
-                    <label style={{ display: 'block', marginBottom: '8px', fontSize: '0.9rem', fontWeight: 500 }}>Import from URL (Amazon/Flipkart)</label>
+                    <label style={{ display: 'block', marginBottom: '8px', fontSize: '0.9rem', fontWeight: 500 }}>Import from URL (Amazon, Flipkart, or Brand Websites)</label>
                     <div style={{ display: 'flex', gap: '10px' }}>
                         <input
                             type="text"

@@ -419,6 +419,16 @@
 }
 
 @media (max-width: 480px) {
+    .topBarContainer {
+        flex-direction: column;
+        gap: 5px;
+        text-align: center;
+    }
+
+    .topBarText {
+        font-size: 0.75rem;
+    }
+
     .brandTitle {
         font-size: 1.15rem;
         /* Slightly smaller text for very tiny screens */
