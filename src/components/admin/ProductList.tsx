@@ -19,10 +19,19 @@ export default function ProductList({ refreshTrigger, onEdit }: ProductListProps
         fetch('/api/products')
             .then(res => res.json())
             .then(data => {
-                setProducts(data);
+                if (Array.isArray(data)) {
+                    setProducts(data);
+                } else {
+                    console.error("Failed to fetch products:", data.error);
+                    setProducts([]); // Fallback to empty array
+                }
                 setLoading(false);
             })
-            .catch(err => setLoading(false));
+            .catch(err => {
+                console.error("Fetch error:", err);
+                setProducts([]);
+                setLoading(false);
+            });
     }, [refreshTrigger]);
 
     if (loading) return <div>Loading products...</div>;
