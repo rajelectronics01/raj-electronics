@@ -5,6 +5,8 @@ import CategoryNav from '@/components/product/CategoryNav';
 import styles from './page.module.css';
 import { Metadata } from 'next';
 
+export const dynamic = 'force-dynamic';
+
 interface Props {
     params: Promise<{ slug: string }>;
     searchParams: Promise<{ [key: string]: string | string[] | undefined }>;

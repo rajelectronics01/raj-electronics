@@ -7,6 +7,8 @@ import ShopByCategory from "@/components/home/ShopByCategory";
 import WhyChooseUs from "@/components/home/WhyChooseUs";
 import WhatsAppButton from "@/components/ui/WhatsAppButton";
 
+export const dynamic = 'force-dynamic';
+
 export default function Home() {
   return (
     <main>

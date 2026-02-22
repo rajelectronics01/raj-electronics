@@ -64,9 +64,11 @@ export async function PUT(request: Request) {
         if (updates.price !== undefined) dataPayload.price = parseFloat(updates.price);
         if (updates.originalPrice !== undefined) dataPayload.originalPrice = updates.originalPrice ? parseFloat(updates.originalPrice) : null;
 
-        // Exclude strictly internal prisma timestamps
+        // Exclude strictly internal prisma timestamps and unknown fields
         delete dataPayload.createdAt;
         delete dataPayload.updatedAt;
+        delete dataPayload.isFeatured; // not in schema
+
 
         const updatedProduct = await prisma.product.update({
             where: { id: id },
