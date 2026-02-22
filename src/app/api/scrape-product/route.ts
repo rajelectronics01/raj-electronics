@@ -82,12 +82,24 @@ export async function GET(request: Request) {
             productData.originalPrice = parseInt(originalPriceText.replace(/[^0-9]/g, '')) || 0;
 
             // Image extraction
-            const landingImage = $('#landingImage').attr('src');
+            const landingImage = $('#landingImage').attr('src') || $('#main-image').attr('src');
             if (landingImage) productData.images.push(landingImage);
 
+            // Amazon dynamic image extraction (often high res)
+            const dynamicImageMap = $('#landingImage').attr('data-a-dynamic-image');
+            if (dynamicImageMap) {
+                try {
+                    const images = JSON.parse(dynamicImageMap);
+                    const highRes = Object.keys(images).sort((a, b) => images[b][0] - images[a][0])[0];
+                    if (highRes && !productData.images.includes(highRes)) {
+                        productData.images.unshift(highRes); // Preferred high res
+                    }
+                } catch (e) { }
+            }
+
             // Try to extract more Amazon thumbnail images and convert them to high-res
-            $('#altImages ul li img').each((_, el) => {
-                let src = $(el).attr('src');
+            $('#altImages ul li img, .imageThumbnail img').each((_, el) => {
+                let src = $(el).attr('src') || $(el).attr('data-old-hires');
                 if (src && src.includes('I/')) {
                     // Amazon thumbnails have size markers like ._SS40_. Make them high res
                     src = src.replace(/\._[A-Za-z0-9_]+_\./, '.');
@@ -97,32 +109,26 @@ export async function GET(request: Request) {
                 }
             });
 
-            // Fallback image extraction
-            if (productData.images.length === 0) {
-                const dynamicImage = $('#imgTagWrapperId img').attr('src');
-                if (dynamicImage) productData.images.push(dynamicImage);
-            }
-
             // Features
             $('#feature-bullets li span.a-list-item').each((_, el) => {
                 const text = $(el).text().trim();
-                if (text) productData.features.push(text);
+                if (text && !text.toLowerCase().includes('click here')) productData.features.push(text);
             });
 
         } else if (url.includes('flipkart')) {
             productData.name = $('.B_NuCI').text().trim() || $('.yhB1nd span').text().trim() || $('h1 span').text().trim();
 
-            const priceText = $('._30jeq3').first().text();
+            const priceText = $('._30jeq3').first().text() || $('.nxv_81').first().text();
             productData.price = parseInt(priceText.replace(/[^0-9]/g, '')) || 0;
 
-            const originalPriceText = $('._3I9_wc').first().text();
+            const originalPriceText = $('._3I9_wc').first().text() || $('.y_UxS4').first().text();
             productData.originalPrice = parseInt(originalPriceText.replace(/[^0-9]/g, '')) || 0;
 
-            const image = $('._396cs4').first().attr('src') || $('img.DByuf4').attr('src');
+            const image = $('._396cs4').first().attr('src') || $('img.DByuf4').attr('src') || $('.CXW8mj img').attr('src');
             if (image) productData.images.push(image);
 
             // Extract more Flipkart image thumbnails and up-res them
-            $('ul.undefined li img, ._2r_T1I').each((_, el) => {
+            $('ul.undefined li img, ._2r_T1I, ._2AmZfG img').each((_, el) => {
                 let src = $(el).attr('src');
                 if (src) {
                     // Flipkart format: replace thumbnail dimensions with 832/832

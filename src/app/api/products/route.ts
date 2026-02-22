@@ -81,3 +81,23 @@ export async function PUT(request: Request) {
         return NextResponse.json({ error: 'Failed to update product in Supabase' }, { status: 500 });
     }
 }
+
+export async function DELETE(request: Request) {
+    try {
+        const { searchParams } = new URL(request.url);
+        const id = searchParams.get('id');
+
+        if (!id) {
+            return NextResponse.json({ error: 'Product ID is required' }, { status: 400 });
+        }
+
+        await prisma.product.delete({
+            where: { id: id }
+        });
+
+        return NextResponse.json({ message: 'Product deleted successfully' });
+    } catch (error) {
+        console.error("Prisma DELETE Error:", error);
+        return NextResponse.json({ error: 'Failed to delete product from Supabase' }, { status: 500 });
+    }
+}

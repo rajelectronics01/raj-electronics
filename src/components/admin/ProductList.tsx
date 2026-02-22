@@ -68,7 +68,16 @@ export default function ProductList({ refreshTrigger, onEdit }: ProductListProps
                                 <td>{formatPrice(product.price)}</td>
                                 <td>{product.isFeatured ? 'Yes' : 'No'}</td>
                                 <td>
-                                    <Button size="sm" variant="ghost" onClick={() => onEdit(product)}>Edit</Button>
+                                    <div style={{ display: 'flex', gap: '8px' }}>
+                                        <Button size="sm" variant="ghost" onClick={() => onEdit(product)}>Edit</Button>
+                                        <Button
+                                            size="sm"
+                                            style={{ backgroundColor: '#fee2e2', color: '#ef4444', border: 'none' }}
+                                            onClick={() => handleDelete(product.id, product.name)}
+                                        >
+                                            Delete
+                                        </Button>
+                                    </div>
                                 </td>
                             </tr>
                         ))}
@@ -77,4 +86,22 @@ export default function ProductList({ refreshTrigger, onEdit }: ProductListProps
             </div>
         </div>
     );
+}
+
+async function handleDelete(id: string, name: string) {
+    if (confirm(`Are you sure you want to delete "${name}"? This action cannot be undone.`)) {
+        try {
+            const res = await fetch(`/api/products?id=${id}`, { method: 'DELETE' });
+            if (res.ok) {
+                alert('Product deleted successfully!');
+                window.location.reload(); // Quick refresh
+            } else {
+                const data = await res.json();
+                alert(`Error: ${data.error || 'Failed to delete product'}`);
+            }
+        } catch (error) {
+            console.error('Delete error:', error);
+            alert('An unexpected error occurred while deleting the product.');
+        }
+    }
 }
