@@ -30,6 +30,16 @@ export async function getProductById(id: string): Promise<Product | undefined> {
     } as Product;
 }
 
+export async function getProductBySlug(slug: string): Promise<Product | undefined> {
+    const product = await prisma.product.findUnique({ where: { slug } });
+    if (!product) return undefined;
+    return {
+        ...product,
+        originalPrice: product.originalPrice ?? undefined,
+        isFeatured: false
+    } as Product;
+}
+
 export async function getProductsByCategory(category: string): Promise<Product[]> {
     if (category === 'all') return getProducts();
 

@@ -8,9 +8,10 @@ import { formatPrice } from '@/lib/utils';
 
 interface ProductCardProps {
     product: Product;
+    priority?: boolean;
 }
 
-export default function ProductCard({ product }: ProductCardProps) {
+export default function ProductCard({ product, priority }: ProductCardProps) {
     const discount = product.originalPrice
         ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
         : 0;
@@ -18,27 +19,37 @@ export default function ProductCard({ product }: ProductCardProps) {
     return (
         <div className={styles.card}>
             <div className={styles.imageWrapper}>
-                {/* Placeholder image if no real image provided, or use next/image with fallback */}
-                <div className={styles.imageContainer}>
-                    <Image
-                        src={product.images && product.images.length > 0 ? product.images[0] : '/placeholder.png'}
-                        alt={product.name}
-                        fill
-                        className={styles.image}
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    />
-                </div>
-                {discount > 0 && (
-                    <span className={styles.badge}>{discount}% OFF</span>
+                {product.originalPrice && discount > 0 && (
+                    <div className={styles.badge}>{discount}% OFF</div>
                 )}
+
+                <div className={styles.imageContainer}>
+                    <Link href={`/product/${product.slug}`} className={styles.link} style={{ width: '100%', height: '100%', display: 'block' }}>
+                        {product.images?.[0] ? (
+                            <Image
+                                src={product.images[0]}
+                                alt={product.name}
+                                fill
+                                priority={priority}
+                                className={styles.image}
+                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                            />
+                        ) : (
+                            <div className={styles.placeholderImage} />
+                        )}
+                    </Link>
+                </div>
             </div>
 
             <div className={styles.content}>
                 <div className={styles.brand}>{product.brand}</div>
+
                 <h3 className={styles.title}>
-                    <Link href={`/product/${product.id}`} className={styles.link}>
-                        {product.name}
-                    </Link>
+                    <Link
+                        href={`/product/${product.slug}`}
+                        className={styles.titleLink}
+                        title={product.name}
+                    >{product.name}</Link>
                 </h3>
 
                 <div className={styles.priceContainer}>
@@ -60,7 +71,7 @@ export default function ProductCard({ product }: ProductCardProps) {
                         <PhoneIcon width={16} height={16} style={{ marginRight: '5px' }} /> Call
                     </Button>
                     <Button
-                        href={`/product/${product.id}`}
+                        href={`/product/${product.slug}`}
                         variant="primary"
                         size="sm"
                         className={styles.enquireBtn}

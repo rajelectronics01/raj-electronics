@@ -7,11 +7,11 @@ import Footer from "@/components/layout/Footer";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Raj Electronics - Best Electronics Store in Secunderabad",
-  description: "Shop the best electronics at Raj Electronics, Secunderabad. ACs, TVs, Refrigerators, and more. 4.9 Star Rating. Visit us today!",
+  title: "Raj Electronics - Best Electronics Store in Secunderabad | AC, TV, Washing Machine",
+  description: "Raj Electronics is the top electronics store in Secunderabad. Buy ACs, TVs, Refrigerators, Washing Machines with best prices and EMI options.",
   keywords: "Electronics store Secunderabad, AC shop Secunderabad, TV shop near me, Air cooler shop, Refrigerator shop",
   openGraph: {
-    title: "Raj Electronics - Secunderabad",
+    title: "Raj Electronics - Best Electronics Store in Secunderabad | AC, TV, Washing Machine",
     description: "Your Trusted Electronics Store in Secunderabad.",
     locale: "en_IN",
     type: "website",

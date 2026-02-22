@@ -3,19 +3,30 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import styles from './Header.module.css';
-import { MenuIcon, XIcon, PhoneIcon, SearchIcon, ChevronDownIcon } from '@/components/icons/Icons';
+import { MenuIcon, XIcon, PhoneIcon, SearchIcon, ChevronDownIcon, UserIcon } from '@/components/icons/Icons';
 import { cn } from '@/lib/utils';
 
 export default function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
     const [activeAccordion, setActiveAccordion] = useState<string | null>(null);
+    const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
+    const [searchQuery, setSearchQuery] = useState('');
     const pathname = usePathname();
+    const router = useRouter();
 
     const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
     const closeMenu = () => setIsMenuOpen(false);
+
+    const handleSearch = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (searchQuery.trim()) {
+            router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+            closeMenu();
+        }
+    };
 
     useEffect(() => {
         const handleScroll = () => setIsScrolled(window.scrollY > 20);
@@ -75,11 +86,9 @@ export default function Header() {
                 <div className={styles.topBarContainer}>
                     <p className={styles.topBarText}>🎉 Free Installation & Delivery on Orders above ₹50,000*</p>
                     <div className={styles.topBarLinks}>
-                        <Link href="/about">About Us</Link>
-                        <span>|</span>
-                        <a href="tel:+919290748866">Support: +91 9290748866</a>
-                        <span>|</span>
-                        <Link href="/admin">Admin Panel</Link>
+                        <Link href="/admin" aria-label="Admin Panel" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                            <UserIcon width={18} height={18} />
+                        </Link>
                     </div>
                 </div>
             </div>
@@ -144,19 +153,54 @@ export default function Header() {
 
                     {/* Right: Actions */}
                     <div className={styles.actionItems}>
-                        <div className={styles.searchBar}>
+                        <form className={styles.searchBar} onSubmit={handleSearch}>
                             <SearchIcon width={18} height={18} className={styles.searchIcon} />
-                            <input type="text" placeholder="Search products..." className={styles.searchInput} />
+                            <input
+                                type="text"
+                                placeholder="Search products..."
+                                className={styles.searchInput}
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                            />
+                        </form>
+                        {/* Mobile Search Input Toggle */}
+                        <div className={styles.mobileSearchWrapper}>
+                            <button
+                                className={styles.mobileSearchBtn}
+                                aria-label="Toggle Search"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    setIsMobileSearchOpen(!isMobileSearchOpen);
+                                }}
+                            >
+                                {isMobileSearchOpen ? <XIcon width={24} height={24} /> : <SearchIcon width={24} height={24} />}
+                            </button>
                         </div>
-                        <button className={styles.mobileSearchBtn} aria-label="Search">
-                            <SearchIcon width={24} height={24} />
-                        </button>
                         <a href="tel:+919290748866" className={styles.callButton}>
                             <span className={styles.callIconWrap}><PhoneIcon width={18} height={18} /></span>
                             <span className={styles.callText}>Call Us</span>
                         </a>
                     </div>
                 </div>
+
+                {/* Mobile Search Dropdown Bar */}
+                {isMobileSearchOpen && (
+                    <div className={styles.mobileSearchDropdown}>
+                        <form onSubmit={handleSearch} className={styles.mobileSearchForm}>
+                            <input
+                                type="text"
+                                placeholder="Search products..."
+                                className={styles.mobileSearchInput}
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                                autoFocus
+                            />
+                            <button type="submit" className={styles.mobileSearchSubmitBtn}>
+                                <SearchIcon width={18} height={18} />
+                            </button>
+                        </form>
+                    </div>
+                )}
             </div>
 
             {/* Advanced Mobile Menu Drawer */}

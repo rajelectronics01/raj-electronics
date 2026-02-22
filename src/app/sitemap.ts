@@ -6,7 +6,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const baseUrl = 'https://rajelectronics.com'; // Replace with actual domain
 
     const productEntries: MetadataRoute.Sitemap = products.map((product) => ({
-        url: `${baseUrl}/product/${product.id}`,
+        url: `${baseUrl}/product/${product.slug}`,
         lastModified: new Date(),
         changeFrequency: 'weekly',
         priority: 0.8,

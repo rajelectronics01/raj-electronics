@@ -416,6 +416,65 @@
     .logoContainer:hover .logoImage {
         transform: none;
     }
+
+    .mobileSearchWrapper {
+        position: relative;
+    }
+
+    /* Dropdown slides down over the header */
+    .mobileSearchDropdown {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: white;
+        padding: 15px 20px;
+        box-shadow: 0 10px 15px -10px rgba(0, 0, 0, 0.1);
+        border-top: 1px solid #f1f5f9;
+        animation: slideDown 0.3s ease-out forwards;
+        z-index: 850;
+    }
+
+    @keyframes slideDown {
+        from {
+            transform: translateY(-10px);
+            opacity: 0;
+        }
+
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    .mobileSearchForm {
+        display: flex;
+        align-items: center;
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 99px;
+        padding: 5px 15px;
+    }
+
+    .mobileSearchInput {
+        flex: 1;
+        background: transparent;
+        border: none;
+        outline: none;
+        padding: 8px 5px;
+        font-size: 1rem;
+        color: #0f172a;
+    }
+
+    .mobileSearchSubmitBtn {
+        background: none;
+        border: none;
+        color: #0ea5e9;
+        padding: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 }
 
 @media (max-width: 480px) {

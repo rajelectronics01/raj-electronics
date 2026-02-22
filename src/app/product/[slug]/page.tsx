@@ -2,7 +2,7 @@ import ProductGallery from '@/components/product/ProductGallery';
 
 
 import { notFound } from 'next/navigation';
-import { getProductById, getProductsByCategory } from '@/lib/products';
+import { getProductBySlug, getProductsByCategory } from '@/lib/products';
 import { formatPrice } from '@/lib/utils';
 import Button from '@/components/ui/Button';
 import ProductCard from '@/components/product/ProductCard';
@@ -11,12 +11,12 @@ import { Metadata } from 'next';
 import { PhoneIcon, MapPinIcon } from '@/components/icons/Icons';
 
 interface Props {
-    params: Promise<{ id: string }>;
+    params: Promise<{ slug: string }>;
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-    const { id } = await params;
-    const product = await getProductById(id);
+    const { slug } = await params;
+    const product = await getProductBySlug(slug);
 
     if (!product) {
         return { title: 'Product Not Found' };
@@ -30,7 +30,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ProductPage(props: Props) {
     const params = await props.params;
-    const product = await getProductById(params.id);
+    const product = await getProductBySlug(params.slug);
 
     if (!product) {
         notFound();

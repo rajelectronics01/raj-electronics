@@ -18,8 +18,8 @@ export default async function FeaturedProducts() {
                 </div>
 
                 <div className={styles.grid}>
-                    {products.map(product => (
-                        <ProductCard key={product.id} product={product} />
+                    {products.map((product, index) => (
+                        <ProductCard key={product.id} product={product} priority={index < 4} />
                     ))}
                 </div>
             </div>
