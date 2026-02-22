@@ -14,7 +14,7 @@ export default function ShopByCategory() {
     return (
         <section className={styles.section}>
             <div className="container">
-                <h2 className={styles.title}>Shop By Category</h2>
+                <h2 className={styles.title}>Find the Best AC, TV & Home Appliances by Category</h2>
                 <div className={styles.grid}>
                     {CATEGORIES.map(cat => (
                         <Link key={cat.slug} href={`/category/${cat.slug}`} className={styles.card}>

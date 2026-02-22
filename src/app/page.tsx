@@ -13,10 +13,10 @@ export default function Home() {
   return (
     <main>
       <Hero />
-      <StoreGallery />
-      <FeaturedBrands />
       <ShopByCategory />
       <FeaturedProducts />
+      <FeaturedBrands />
+      <StoreGallery />
       <WhyChooseUs />
       <Reviews />
 

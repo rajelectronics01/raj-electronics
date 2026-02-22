@@ -99,22 +99,25 @@ export default function ProductList({ refreshTrigger, onEdit, onDeleteSuccess }:
                                 <td>
                                     <div style={{ display: 'flex', gap: '8px' }}>
                                         <Button size="sm" variant="ghost" onClick={() => onEdit(product)}>Edit</Button>
-                                        <Button
-                                            size="sm"
+                                        <button
                                             style={{
                                                 backgroundColor: '#fee2e2',
                                                 color: '#ef4444',
                                                 border: '1px solid #fecaca',
-                                                cursor: 'pointer'
+                                                cursor: 'pointer',
+                                                padding: '4px 8px',
+                                                borderRadius: '4px',
+                                                fontSize: '0.875rem'
                                             }}
                                             onClick={(e) => {
-                                                console.log('Delete button clicked');
+                                                console.log('DELETE_CLICK_START - ID:', product.id);
+                                                e.preventDefault();
                                                 e.stopPropagation();
                                                 handleDelete(product.id, product.name);
                                             }}
                                         >
                                             Delete
-                                        </Button>
+                                        </button>
                                     </div>
                                 </td>
                             </tr>

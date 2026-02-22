@@ -76,10 +76,27 @@ export async function GET(request: Request) {
             let priceText = $('.a-price .a-offscreen').first().text();
             if (!priceText) priceText = $('.a-price-whole').first().text();
 
-            productData.price = parseInt(priceText.replace(/[^0-9]/g, '')) || 0;
+            if (priceText) {
+                // Handle decimals (e.g., 8,540.00 -> 8540)
+                const basePrice = priceText.split('.')[0];
+                productData.price = parseInt(basePrice.replace(/[^0-9]/g, '')) || 0;
+            }
 
-            const originalPriceText = $('.a-text-price .a-offscreen').first().text();
-            productData.originalPrice = parseInt(originalPriceText.replace(/[^0-9]/g, '')) || 0;
+            let originalPriceText = $('.a-text-price .a-offscreen').first().text();
+            if (originalPriceText) {
+                const baseOriginalPrice = originalPriceText.split('.')[0];
+                productData.originalPrice = parseInt(baseOriginalPrice.replace(/[^0-9]/g, '')) || 0;
+            }
+
+            // Brand extraction
+            productData.brand = $('#bylineInfo').text().replace(/Visit the\s+|Store\s+/gi, '').trim() ||
+                $('.po-brand .a-span9').text().trim();
+
+            // Category extraction (Breadcrumbs)
+            const breadcrumbs = $('#wayfinding-breadcrumbs_container ul li').map((_, el) => $(el).text().trim()).get();
+            if (breadcrumbs.length > 0) {
+                productData.category = breadcrumbs[breadcrumbs.length - 1];
+            }
 
             // Image extraction
             const landingImage = $('#landingImage').attr('src') || $('#main-image').attr('src');
@@ -119,13 +136,22 @@ export async function GET(request: Request) {
             productData.name = $('.B_NuCI').text().trim() || $('.yhB1nd span').text().trim() || $('h1 span').text().trim();
 
             const priceText = $('._30jeq3').first().text() || $('.nxv_81').first().text();
-            productData.price = parseInt(priceText.replace(/[^0-9]/g, '')) || 0;
+            if (priceText) {
+                const basePrice = priceText.split('.')[0];
+                productData.price = parseInt(basePrice.replace(/[^0-9]/g, '')) || 0;
+            }
 
             const originalPriceText = $('._3I9_wc').first().text() || $('.y_UxS4').first().text();
-            productData.originalPrice = parseInt(originalPriceText.replace(/[^0-9]/g, '')) || 0;
+            if (originalPriceText) {
+                const baseOriginalPrice = originalPriceText.split('.')[0];
+                productData.originalPrice = parseInt(baseOriginalPrice.replace(/[^0-9]/g, '')) || 0;
+            }
 
             const image = $('._396cs4').first().attr('src') || $('img.DByuf4').attr('src') || $('.CXW8mj img').attr('src');
             if (image) productData.images.push(image);
+
+            // Brand extraction for Flipkart
+            productData.brand = $('.G9uJOA').first().text().trim() || $('.s1A96w').text().trim() || $('._2Wk9S9').text().trim();
 
             // Extract more Flipkart image thumbnails and up-res them
             $('ul.undefined li img, ._2r_T1I, ._2AmZfG img').each((_, el) => {

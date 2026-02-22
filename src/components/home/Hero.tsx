@@ -23,14 +23,11 @@ export default function Hero() {
                     </div>
 
                     <div className={styles.bannerContent}>
-                        <h1 className={styles.bannerTitle}>
-                            Mega Electronics Sale – <br />
-                            Limited Time
+                        <h1 className={styles.title}>
+                            Best Electronics Store in <span className={styles.highlight}>Secunderabad</span>
                         </h1>
-
-                        <p className={styles.bannerSubtitle}>
-                            Up to 50% OFF on ACs, TVs, <br />
-                            Refrigerators & Washing Machines
+                        <p className={styles.subtitle}>
+                            Authorized Dealer for premium ACs, TVs, and Home Appliances on RP Road. Best prices and instant EMI.
                         </p>
 
                         <p className={styles.bannerDesc}>
@@ -130,9 +127,6 @@ export default function Hero() {
             {/* Support/Info Bar */}
             <div className={styles.infoBarWrapper}>
                 <div className={styles.infoContainer}>
-                    <div className={styles.infoItem}>
-                        🚚 Free Delivery
-                    </div>
                     <div className={styles.infoItem}>
                         ₹ Easy EMI Options
                     </div>

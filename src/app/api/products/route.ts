@@ -34,6 +34,7 @@ export async function POST(request: Request) {
                 images: body.images || [],
                 features: body.features || [],
                 inStock: body.inStock !== undefined ? body.inStock : true,
+                isFeatured: body.isFeatured !== undefined ? body.isFeatured : false,
             }
         });
 
@@ -67,7 +68,7 @@ export async function PUT(request: Request) {
         // Exclude strictly internal prisma timestamps and unknown fields
         delete dataPayload.createdAt;
         delete dataPayload.updatedAt;
-        delete dataPayload.isFeatured; // not in schema
+        // delete dataPayload.isFeatured; // now in schema
 
 
         const updatedProduct = await prisma.product.update({
@@ -83,17 +84,21 @@ export async function PUT(request: Request) {
 }
 
 export async function DELETE(request: Request) {
+    console.log('API DELETE - Method called');
     try {
         const { searchParams } = new URL(request.url);
         const id = searchParams.get('id');
+        console.log('API DELETE - ID requested:', id);
 
         if (!id) {
+            console.error('API DELETE - Missing ID');
             return NextResponse.json({ error: 'Product ID is required' }, { status: 400 });
         }
 
-        await prisma.product.delete({
+        const deleted = await prisma.product.delete({
             where: { id: id }
         });
+        console.log('API DELETE - Successfully deleted product:', deleted.id);
 
         return NextResponse.json({ message: 'Product deleted successfully' });
     } catch (error) {

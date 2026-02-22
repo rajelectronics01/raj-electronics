@@ -135,20 +135,25 @@
     color: #334155;
     font-weight: 600;
     font-size: 0.95rem;
-    padding: 8px 16px;
-    border-radius: 99px;
+    padding: 8px 12px;
+    border-radius: 4px;
     transition: all 0.2s;
     display: flex;
     align-items: center;
     gap: 4px;
     height: fit-content;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-family: inherit;
 }
 
 .navLink:hover,
 .navLink.active {
     color: #0284c7;
-    /* Sky blue */
-    background-color: #f0f9ff;
+    background-color: transparent;
+    text-decoration: underline;
+    text-underline-offset: 4px;
 }
 
 .chevron {
@@ -605,12 +610,11 @@
 
 /* Accordion Specifics */
 .drawerAccordionGroup {
-    display: flex;
-    flex-direction: column;
     background-color: #f8fafc;
     border-radius: 12px;
     margin: 5px 0;
     overflow: hidden;
+    flex-shrink: 0;
 }
 
 .drawerAccordionTrigger {
@@ -644,8 +648,9 @@
 }
 
 .drawerAccordionContent.contentOpen {
-    max-height: 1000px;
+    max-height: 2000px;
     /* arbitrary high number */
+    flex-shrink: 0;
 }
 
 .mobileGroupSpan {

@@ -28,7 +28,7 @@ export default function ProductCard({ product, priority }: ProductCardProps) {
                         {product.images?.[0] ? (
                             <Image
                                 src={product.images[0]}
-                                alt={product.name}
+                                alt={`${product.brand} ${product.name} - best price at Raj Electronics`}
                                 fill
                                 priority={priority}
                                 className={styles.image}

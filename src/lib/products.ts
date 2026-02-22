@@ -10,14 +10,21 @@ export async function getProducts(): Promise<Product[]> {
     return products.map(p => ({
         ...p,
         originalPrice: p.originalPrice ?? undefined,
-        isFeatured: false // Default to false since it's not in the DB schema yet
+        isFeatured: (p as any).isFeatured || false
     })) as Product[];
 }
 
 export async function getFeaturedProducts(): Promise<Product[]> {
-    const allProducts = await getProducts();
-    // Return top 8 newest products as "featured" for now
-    return allProducts.slice(0, 8);
+    const products = await prisma.product.findMany({
+        where: { isFeatured: true },
+        orderBy: { createdAt: 'desc' }
+    });
+
+    return products.map(p => ({
+        ...p,
+        originalPrice: p.originalPrice ?? undefined,
+        isFeatured: true
+    })) as Product[];
 }
 
 export async function getProductById(id: string): Promise<Product | undefined> {
@@ -26,7 +33,7 @@ export async function getProductById(id: string): Promise<Product | undefined> {
     return {
         ...product,
         originalPrice: product.originalPrice ?? undefined,
-        isFeatured: false
+        isFeatured: (product as any).isFeatured || false
     } as Product;
 }
 
@@ -36,7 +43,7 @@ export async function getProductBySlug(slug: string): Promise<Product | undefine
     return {
         ...product,
         originalPrice: product.originalPrice ?? undefined,
-        isFeatured: false
+        isFeatured: (product as any).isFeatured || false
     } as Product;
 }
 
@@ -56,6 +63,6 @@ export async function getProductsByCategory(category: string): Promise<Product[]
     return products.map(p => ({
         ...p,
         originalPrice: p.originalPrice ?? undefined,
-        isFeatured: false
+        isFeatured: (p as any).isFeatured || false
     })) as Product[];
 }

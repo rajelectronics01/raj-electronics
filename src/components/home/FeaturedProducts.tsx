@@ -11,7 +11,7 @@ export default async function FeaturedProducts() {
         <section className="section">
             <div className="container">
                 <div className={styles.header}>
-                    <h2 className={styles.title}>Featured Products</h2>
+                    <h2 className={styles.title}>Best-Selling Electronics & Featured Deals in Secunderabad</h2>
                     <Link href="/category/all">
                         <Button variant="outline">View All Products</Button>
                     </Link>
