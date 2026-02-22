@@ -105,7 +105,7 @@ export default function Header() {
                     {/* Center/Left: Logo */}
                     <Link href="/" className={styles.logoContainer} onClick={closeMenu}>
                         <Image
-                            src="/logo.png.png"
+                            src="/logo.png"
                             alt="Raj Electronics Logo"
                             width={42}
                             height={42}
@@ -209,7 +209,7 @@ export default function Header() {
                 <div className={cn(styles.mobileDrawer, isMenuOpen ? styles.open : '')}>
                     <div className={styles.drawerHeader}>
                         <div className={styles.drawerLogo}>
-                            <Image src="/logo.png.png" alt="Logo" width={32} height={32} />
+                            <Image src="/logo.png" alt="Logo" width={32} height={32} />
                             <span style={{ fontWeight: 700, fontSize: '1.2rem', color: '#0f172a' }}>Raj Electronics</span>
                         </div>
                         <button onClick={closeMenu} className={styles.closeBtn}><XIcon width={28} height={28} /></button>

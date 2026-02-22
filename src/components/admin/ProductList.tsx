@@ -35,6 +35,34 @@ export default function ProductList({ refreshTrigger, onEdit, onDeleteSuccess }:
             });
     }, [refreshTrigger]);
 
+    const handleDelete = async (id: string, name: string) => {
+        console.log(`Delete requested for product: ${name} (ID: ${id})`);
+
+        const confirmed = window.confirm(`Are you sure you want to delete "${name}"? This action cannot be undone.`);
+
+        if (confirmed) {
+            try {
+                console.log(`Executing DELETE request for ID: ${id}`);
+                const res = await fetch(`/api/products?id=${id}`, { method: 'DELETE' });
+
+                if (res.ok) {
+                    console.log('Delete successful');
+                    alert('Product deleted successfully!');
+                    onDeleteSuccess();
+                } else {
+                    const data = await res.json();
+                    console.error('Delete failed:', data);
+                    alert(`Error: ${data.error || 'Failed to delete product'}`);
+                }
+            } catch (error) {
+                console.error('Delete handler caught error:', error);
+                alert('An unexpected error occurred while deleting the product.');
+            }
+        } else {
+            console.log('Delete cancelled by user');
+        }
+    };
+
     if (loading) return <div>Loading products...</div>;
 
     return (
@@ -73,8 +101,17 @@ export default function ProductList({ refreshTrigger, onEdit, onDeleteSuccess }:
                                         <Button size="sm" variant="ghost" onClick={() => onEdit(product)}>Edit</Button>
                                         <Button
                                             size="sm"
-                                            style={{ backgroundColor: '#fee2e2', color: '#ef4444', border: 'none' }}
-                                            onClick={() => handleDelete(product.id, product.name)}
+                                            style={{
+                                                backgroundColor: '#fee2e2',
+                                                color: '#ef4444',
+                                                border: '1px solid #fecaca',
+                                                cursor: 'pointer'
+                                            }}
+                                            onClick={(e) => {
+                                                console.log('Delete button clicked');
+                                                e.stopPropagation();
+                                                handleDelete(product.id, product.name);
+                                            }}
                                         >
                                             Delete
                                         </Button>
@@ -87,22 +124,4 @@ export default function ProductList({ refreshTrigger, onEdit, onDeleteSuccess }:
             </div>
         </div>
     );
-
-    async function handleDelete(id: string, name: string) {
-        if (typeof window !== 'undefined' && window.confirm(`Are you sure you want to delete "${name}"? This action cannot be undone.`)) {
-            try {
-                const res = await fetch(`/api/products?id=${id}`, { method: 'DELETE' });
-                if (res.ok) {
-                    alert('Product deleted successfully!');
-                    onDeleteSuccess();
-                } else {
-                    const data = await res.json();
-                    alert(`Error: ${data.error || 'Failed to delete product'}`);
-                }
-            } catch (error) {
-                console.error('Delete error:', error);
-                alert('An unexpected error occurred while deleting the product.');
-            }
-        }
-    }
 }

@@ -18,7 +18,7 @@ export default function Hero() {
                 {/* Main Banner (Left Side) - Act as primary Hero */}
                 <div className={styles.mainBanner}>
                     <div className={styles.bannerBackground}>
-                        <Image src="/images/hero/main-banner.png" alt="Smart Home Appliances" fill priority style={{ objectFit: 'cover' }} className={styles.bgImg} />
+                        <Image src="/images/hero/blue-white-bg.png" alt="Smart Home Appliances" fill priority style={{ objectFit: 'cover' }} className={styles.bgImg} />
                         <div className={styles.bgOverlay}></div>
                     </div>
 
@@ -62,7 +62,7 @@ export default function Hero() {
                         </div>
                         <div className={styles.dealImageWide}>
                             <div className={styles.imageWrapper}>
-                                <Image src="/images/hero/ac.png" alt="Air Conditioner" fill priority sizes="(max-width: 768px) 100vw, 50vw" style={{ objectFit: 'cover' }} />
+                                <Image src="/images/hero/ac-clean.png" alt="Air Conditioner" fill priority sizes="(max-width: 768px) 100vw, 50vw" style={{ objectFit: 'contain' }} />
                             </div>
                         </div>
                         <div className={styles.dealCta}>
@@ -80,7 +80,7 @@ export default function Hero() {
                         </div>
                         <div className={styles.dealImageWide}>
                             <div className={styles.imageWrapperTV}>
-                                <Image src="/images/hero/tv.png" alt="Smart TV" fill priority sizes="(max-width: 768px) 100vw, 50vw" style={{ objectFit: 'cover' }} />
+                                <Image src="/images/hero/tv-clean.png" alt="Smart TV" fill priority sizes="(max-width: 768px) 100vw, 50vw" style={{ objectFit: 'contain' }} />
                             </div>
                         </div>
                         <div className={styles.dealCta}>
@@ -98,7 +98,7 @@ export default function Hero() {
                         </div>
                         <div className={styles.dealImageTall}>
                             <div className={styles.imageWrapper}>
-                                <Image src="/images/hero/fridge.png" alt="Refrigerator" fill priority sizes="(max-width: 768px) 100vw, 50vw" style={{ objectFit: 'cover' }} />
+                                <Image src="/images/hero/fridge-clean.png" alt="Refrigerator" fill priority sizes="(max-width: 768px) 100vw, 50vw" style={{ objectFit: 'contain' }} />
                             </div>
                         </div>
                         <div className={styles.dealCta}>
@@ -116,7 +116,7 @@ export default function Hero() {
                         </div>
                         <div className={styles.dealImageWide}>
                             <div className={styles.imageWrapper}>
-                                <Image src="/images/hero/washing-machine.png" alt="Washing Machine" fill priority sizes="(max-width: 768px) 100vw, 50vw" style={{ objectFit: 'cover' }} />
+                                <Image src="/images/hero/washing-machine-clean.png" alt="Washing Machine" fill priority sizes="(max-width: 768px) 100vw, 50vw" style={{ objectFit: 'contain' }} />
                             </div>
                         </div>
                         <div className={styles.dealCta}>
