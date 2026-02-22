@@ -233,7 +233,21 @@ export async function GET(request: Request) {
 
         // Clean up data
         productData.features = productData.features.slice(0, 5); // Limit features
-        productData.images = productData.images.slice(0, 4); // Limit images to max 4
+
+        // Final fallback for images if still empty: grab anything that looks like a product image
+        if (productData.images.length === 0) {
+            $('img').each((_, el) => {
+                const src = $(el).attr('src') || $(el).attr('data-src');
+                if (src && src.startsWith('http')) {
+                    const lowSrc = src.toLowerCase();
+                    if (lowSrc.includes('product') || lowSrc.includes('item') || lowSrc.includes('media') || lowSrc.includes('asset')) {
+                        if (!productData.images.includes(src)) productData.images.push(src);
+                    }
+                }
+            });
+        }
+
+        productData.images = productData.images.filter(Boolean).slice(0, 4); // Limit images to max 4
 
         console.log('Scraped Data:', productData);
 

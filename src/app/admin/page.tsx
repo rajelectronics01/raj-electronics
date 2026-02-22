@@ -61,6 +61,7 @@ export default function AdminPage() {
                     <ProductList
                         refreshTrigger={refreshTrigger}
                         onEdit={handleEdit}
+                        onDeleteSuccess={handleSuccess}
                     />
                 </div>
             </div>

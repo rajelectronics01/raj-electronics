@@ -9,9 +9,10 @@ import Button from '@/components/ui/Button';
 interface ProductListProps {
     refreshTrigger: number;
     onEdit: (product: Product) => void;
+    onDeleteSuccess: () => void;
 }
 
-export default function ProductList({ refreshTrigger, onEdit }: ProductListProps) {
+export default function ProductList({ refreshTrigger, onEdit, onDeleteSuccess }: ProductListProps) {
     const [products, setProducts] = useState<Product[]>([]);
     const [loading, setLoading] = useState(true);
 
@@ -86,22 +87,22 @@ export default function ProductList({ refreshTrigger, onEdit }: ProductListProps
             </div>
         </div>
     );
-}
 
-async function handleDelete(id: string, name: string) {
-    if (confirm(`Are you sure you want to delete "${name}"? This action cannot be undone.`)) {
-        try {
-            const res = await fetch(`/api/products?id=${id}`, { method: 'DELETE' });
-            if (res.ok) {
-                alert('Product deleted successfully!');
-                window.location.reload(); // Quick refresh
-            } else {
-                const data = await res.json();
-                alert(`Error: ${data.error || 'Failed to delete product'}`);
+    async function handleDelete(id: string, name: string) {
+        if (typeof window !== 'undefined' && window.confirm(`Are you sure you want to delete "${name}"? This action cannot be undone.`)) {
+            try {
+                const res = await fetch(`/api/products?id=${id}`, { method: 'DELETE' });
+                if (res.ok) {
+                    alert('Product deleted successfully!');
+                    onDeleteSuccess();
+                } else {
+                    const data = await res.json();
+                    alert(`Error: ${data.error || 'Failed to delete product'}`);
+                }
+            } catch (error) {
+                console.error('Delete error:', error);
+                alert('An unexpected error occurred while deleting the product.');
             }
-        } catch (error) {
-            console.error('Delete error:', error);
-            alert('An unexpected error occurred while deleting the product.');
         }
     }
 }
