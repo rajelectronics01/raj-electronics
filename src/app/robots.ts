@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
             allow: '/',
             disallow: '/admin/',
         },
-        sitemap: 'https://raj-electronics-rho.vercel.app/sitemap.xml',
+        sitemap: 'https://rajelectronics.co/sitemap.xml',
     };
 }

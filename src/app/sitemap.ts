@@ -3,7 +3,7 @@ import { MetadataRoute } from 'next';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const products = await getProducts();
-    const baseUrl = 'https://raj-electronics-rho.vercel.app';
+    const baseUrl = 'https://rajelectronics.co';
 
     const productEntries: MetadataRoute.Sitemap = products.map((product) => ({
         url: `${baseUrl}/product/${product.slug}`,
