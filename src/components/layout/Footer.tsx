@@ -11,7 +11,7 @@ export default function Footer() {
                     {/* Column 1: About */}
                     <div className={styles.col}>
                         <h3 className={styles.heading}>Raj Electronics</h3>
-                        <p className={styles.tagline}>Your Trusted Electronics Store in Secunderabad.</p>
+                        <p className={styles.tagline}>Top Dealer for ACs, TVs, Coolers & Home Appliances in Secunderabad & Hyderabad. Best Prices Guaranteed.</p>
                         <div className={styles.contactItem}>
                             <MapPinIcon className={styles.icon} />
                             <address className={styles.address}>
@@ -32,20 +32,20 @@ export default function Footer() {
                         <h4 className={styles.subHeading}>Quick Links</h4>
                         <ul className={styles.links}>
                             <li><Link href="/">Home</Link></li>
-                            <li><Link href="/category/all">All Products</Link></li>
-                            <li><Link href="/category/air-conditioners">Air Conditioners</Link></li>
+                            <li><Link href="/category/all">All Electronics</Link></li>
+                            <li><Link href="/category/air-conditioners">Best Air Conditioners</Link></li>
                             <li><Link href="/category/televisions">Smart TVs</Link></li>
                         </ul>
                     </div>
 
-                    {/* Column 3: Policy / Socials */}
+                    {/* Column 3: Popular Categories & Info */}
                     <div className={styles.col}>
-                        <h4 className={styles.subHeading}>Customer Service</h4>
+                        <h4 className={styles.subHeading}>Popular Categories & Info</h4>
                         <ul className={styles.links}>
-                            <li><Link href="#">About Us</Link></li>
-                            <li><Link href="#">Contact Us</Link></li>
-                            <li><Link href="#">Terms & Conditions</Link></li>
-                            <li><Link href="#">Privacy Policy</Link></li>
+                            <li><Link href="/category/air-coolers">Buy Air Coolers</Link></li>
+                            <li><Link href="/category/refrigerators">Refrigerators</Link></li>
+                            <li><Link href="/category/washing-machines">Washing Machines</Link></li>
+                            <li><a href="https://maps.google.com/?q=Raj+Electronics+Secunderabad" target="_blank" rel="noopener noreferrer">Visit Our Store (Map)</a></li>
                         </ul>
                     </div>
                 </div>

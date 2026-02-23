@@ -6,6 +6,7 @@ import { getProductBySlug, getProductsByCategory } from '@/lib/products';
 import { formatPrice } from '@/lib/utils';
 import Button from '@/components/ui/Button';
 import ProductCard from '@/components/product/ProductCard';
+import ShareButtons from '@/components/product/ShareButtons';
 import styles from './page.module.css';
 import { Metadata } from 'next';
 import { PhoneIcon, MapPinIcon } from '@/components/icons/Icons';
@@ -98,6 +99,8 @@ export default async function ProductPage(props: Props) {
                     <p className={styles.storeNote}>
                         * Prices may vary in-store. Visit Raj Electronics, Secunderabad for live demo and best deals.
                     </p>
+
+                    <ShareButtons productName={product.name} productBrand={product.brand} />
                 </div>
             </div>
 
