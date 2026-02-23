@@ -84,7 +84,7 @@ export default function Header() {
             {/* Very Top Announcement Bar */}
             <div className={styles.topBar}>
                 <div className={styles.topBarContainer}>
-                    <p className={styles.topBarText}>🎉 Free Installation & Delivery on Orders above ₹50,000*</p>
+                    <p className={styles.topBarText}>🏆 Top Dealer for ACs, TVs, Coolers & Home Appliances in Secunderabad & Hyderabad. Best Prices Guaranteed.</p>
                     <div className={styles.topBarLinks}>
                         <Link href="/admin" aria-label="Admin Panel" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                             <UserIcon width={18} height={18} />
