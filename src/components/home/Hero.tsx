@@ -59,7 +59,7 @@ export default function Hero() {
                         </div>
                         <div className={styles.dealImageWide}>
                             <div className={styles.imageWrapper}>
-                                <Image src="/images/hero/ac-clean.png" alt="Air Conditioner" fill priority sizes="(max-width: 768px) 100vw, 50vw" style={{ objectFit: 'contain' }} />
+                                <Image src="/images/hero/ac-clean.png" alt="Air Conditioner Deals" fill sizes="(max-width: 768px) 100vw, 50vw" style={{ objectFit: 'contain' }} loading="lazy" />
                             </div>
                         </div>
                         <div className={styles.dealCta}>
@@ -77,7 +77,7 @@ export default function Hero() {
                         </div>
                         <div className={styles.dealImageWide}>
                             <div className={styles.imageWrapperTV}>
-                                <Image src="/images/hero/tv-clean.png" alt="Smart TV" fill priority sizes="(max-width: 768px) 100vw, 50vw" style={{ objectFit: 'contain' }} />
+                                <Image src="/images/hero/tv-clean.png" alt="Smart TV Offers" fill sizes="(max-width: 768px) 100vw, 50vw" style={{ objectFit: 'contain' }} loading="lazy" />
                             </div>
                         </div>
                         <div className={styles.dealCta}>
@@ -95,7 +95,7 @@ export default function Hero() {
                         </div>
                         <div className={styles.dealImageTall}>
                             <div className={styles.imageWrapper}>
-                                <Image src="/images/hero/fridge-clean.png" alt="Refrigerator" fill priority sizes="(max-width: 768px) 100vw, 50vw" style={{ objectFit: 'contain' }} />
+                                <Image src="/images/hero/fridge-clean.png" alt="Refrigerator Discounts" fill sizes="(max-width: 768px) 100vw, 50vw" style={{ objectFit: 'contain' }} loading="lazy" />
                             </div>
                         </div>
                         <div className={styles.dealCta}>
@@ -113,7 +113,7 @@ export default function Hero() {
                         </div>
                         <div className={styles.dealImageWide}>
                             <div className={styles.imageWrapper}>
-                                <Image src="/images/hero/washing-machine-clean.png" alt="Washing Machine" fill priority sizes="(max-width: 768px) 100vw, 50vw" style={{ objectFit: 'contain' }} />
+                                <Image src="/images/hero/washing-machine-clean.png" alt="Washing Machine Sale" fill sizes="(max-width: 768px) 100vw, 50vw" style={{ objectFit: 'contain' }} loading="lazy" />
                             </div>
                         </div>
                         <div className={styles.dealCta}>
