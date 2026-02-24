@@ -14,6 +14,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://rajelectronics.co'),
   title: "Raj Electronics - Best Electronics Store in Secunderabad | Authorized Dealer for AC, TV & More",
   description: "Raj Electronics is the most trusted electronics shop on RP Road, Secunderabad. We offer the best prices on Split ACs, Smart TVs, Refrigerators, and Washing Machines from top brands like Sony, Samsung, Voltas, and Blue Star. Affordable EMI options available.",
   keywords: "Best electronics shop Secunderabad, authorized AC dealer Secunderabad, affordable air coolers RP Road, TV shop near Secunderabad station, washing machine dealer Hyderabad, Raj Electronics RP Road",
@@ -35,6 +36,7 @@ export const metadata: Metadata = {
       url: "/logo.png",
     },
   },
+  manifest: '/manifest.json',
 };
 
 const jsonLd = {
