@@ -24,6 +24,7 @@ export const metadata: Metadata = {
     description: "Shop for premium ACs, TVs, and home appliances at Raj Electronics, Secunderabad. Best local prices & EMI.",
     locale: "en_IN",
     type: "website",
+    siteName: "Raj Electronics",
   },
   verification: {
     google: "Yc4FSnBRedB6-fU-GPfMDOLUZrBH8b98qKp5KxAqKnI",
@@ -40,42 +41,50 @@ export const metadata: Metadata = {
   manifest: '/manifest.json',
 };
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "LocalBusiness",
-  "name": "Raj Electronics",
-  "image": "https://rajelectronics.com/logo.png",
-  "@id": "https://rajelectronics.com",
-  "url": "https://rajelectronics.com",
-  "telephone": "+919290748866",
-  "address": {
-    "@type": "PostalAddress",
-    "streetAddress": "RP Road",
-    "addressLocality": "Secunderabad",
-    "addressRegion": "Telangana",
-    "postalCode": "500003",
-    "addressCountry": "IN"
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Raj Electronics",
+    "url": "https://rajelectronics.co/"
   },
-  "geo": {
-    "@type": "GeoCoordinates",
-    "latitude": 17.447,
-    "longitude": 78.498
-  },
-  "openingHoursSpecification": {
-    "@type": "OpeningHoursSpecification",
-    "dayOfWeek": [
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday",
-      "Sunday"
-    ],
-    "opens": "10:30",
-    "closes": "21:30"
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "Raj Electronics",
+    "image": "https://rajelectronics.com/logo.png",
+    "@id": "https://rajelectronics.com",
+    "url": "https://rajelectronics.com",
+    "telephone": "+919290748866",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "RP Road",
+      "addressLocality": "Secunderabad",
+      "addressRegion": "Telangana",
+      "postalCode": "500003",
+      "addressCountry": "IN"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 17.447,
+      "longitude": 78.498
+    },
+    "openingHoursSpecification": {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Sunday"
+      ],
+      "opens": "10:30",
+      "closes": "21:30"
+    }
   }
-};
+];
 
 export default function RootLayout({
   children,
