@@ -29,15 +29,7 @@ export const metadata: Metadata = {
   verification: {
     google: "Yc4FSnBRedB6-fU-GPfMDOLUZrBH8b98qKp5KxAqKnI",
   },
-  icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon.ico",
-    apple: "/logo.png",
-    other: {
-      rel: "apple-touch-icon-precomposed",
-      url: "/logo.png",
-    },
-  },
+
   manifest: '/manifest.json',
 };
 
