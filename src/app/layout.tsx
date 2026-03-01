@@ -93,6 +93,10 @@ export default function RootLayout({
           src="https://www.googletagmanager.com/gtag/js?id=G-VNCW6KFZLX"
         />
         <Script
+          strategy="afterInteractive"
+          src="https://www.googletagmanager.com/gtag/js?id=AW-16932910687"
+        />
+        <Script
           id="google-analytics"
           strategy="afterInteractive"
           dangerouslySetInnerHTML={{
@@ -101,6 +105,7 @@ export default function RootLayout({
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
               gtag('config', 'G-VNCW6KFZLX');
+              gtag('config', 'AW-16932910687');
             `,
           }}
         />
