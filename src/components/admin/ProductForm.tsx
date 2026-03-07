@@ -86,6 +86,8 @@ export default function ProductForm({ onSuccess, initialData, onCancel }: Produc
                 else if (scrapedCat.includes('tv') || scrapedCat.includes('television')) category = 'Televisions';
                 else if (scrapedCat.includes('fridge') || scrapedCat.includes('refrigerator')) category = 'Refrigerators';
                 else if (scrapedCat.includes('wash') || scrapedCat.includes('machine')) category = 'Washing Machines';
+                else if (scrapedCat.includes('dispenser') || scrapedCat.includes('water')) category = 'Water Dispensers';
+                else if (scrapedCat.includes('freezer') || scrapedCat.includes('chest')) category = 'Chest Freezers';
             } else if (data.name) {
                 // Try from name
                 const name = data.name.toLowerCase();
@@ -94,6 +96,8 @@ export default function ProductForm({ onSuccess, initialData, onCancel }: Produc
                 else if (name.includes('tv') || name.includes('television') || name.includes('led')) category = 'Televisions';
                 else if (name.includes('fridge') || name.includes('refrigerator')) category = 'Refrigerators';
                 else if (name.includes('wash')) category = 'Washing Machines';
+                else if (name.includes('dispenser') || name.includes('water purifier')) category = 'Water Dispensers';
+                else if (name.includes('freezer') || name.includes('deep freezer')) category = 'Chest Freezers';
             }
 
             // Populate form fields directly via state
@@ -233,6 +237,8 @@ export default function ProductForm({ onSuccess, initialData, onCancel }: Produc
                         <option value="Refrigerators">Refrigerators</option>
                         <option value="Washing Machines">Washing Machines</option>
                         <option value="Home Appliances">Home Appliances</option>
+                        <option value="Water Dispensers">Water Dispensers</option>
+                        <option value="Chest Freezers">Chest Freezers</option>
                     </select>
                 </div>
             </div>

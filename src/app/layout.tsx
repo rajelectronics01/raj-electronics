@@ -29,7 +29,19 @@ export const metadata: Metadata = {
   verification: {
     google: "Yc4FSnBRedB6-fU-GPfMDOLUZrBH8b98qKp5KxAqKnI",
   },
-
+  alternates: {
+    canonical: 'https://rajelectronics.co',
+  },
+  icons: {
+    icon: [
+      { url: '/favicon.png', type: 'image/png' },
+      { url: '/logo-192.png', sizes: '192x192', type: 'image/png' },
+      { url: '/logo-512.png', sizes: '512x512', type: 'image/png' },
+    ],
+    apple: [
+      { url: '/logo-192.png', sizes: '192x192', type: 'image/png' },
+    ],
+  },
   manifest: '/manifest.json',
 };
 

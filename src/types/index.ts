@@ -12,6 +12,6 @@ export interface Product {
     description?: string;
 }
 
-export type Category = "Air Conditioners" | "Air Coolers" | "Televisions" | "Refrigerators" | "Washing Machines" | "Home Appliances";
+export type Category = "Air Conditioners" | "Air Coolers" | "Televisions" | "Refrigerators" | "Washing Machines" | "Home Appliances" | "Water Dispensers" | "Chest Freezers";
 
 export const BRANDS = ["Lloyd", "Whirlpool", "Crompton", "Orient", "TG Smart"];

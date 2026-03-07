@@ -44,6 +44,8 @@ export default function Footer() {
                         <ul className={styles.links}>
                             <li><Link href="/category/air-coolers">Buy Air Coolers</Link></li>
                             <li><Link href="/category/refrigerators">Refrigerators</Link></li>
+                            <li><Link href="/category/chest-freezers">Chest Freezers</Link></li>
+                            <li><Link href="/category/water-dispensers">Water Dispensers</Link></li>
                             <li><Link href="/category/washing-machines">Washing Machines</Link></li>
                             <li><a href="https://maps.google.com/?q=Raj+Electronics+Secunderabad" target="_blank" rel="noopener noreferrer">Visit Our Store (Map)</a></li>
                         </ul>

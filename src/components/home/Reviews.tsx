@@ -53,7 +53,7 @@ export default function Reviews() {
 
                 <div style={{ textAlign: 'center', marginTop: '30px' }}>
                     <a href="https://maps.google.com/?q=Raj+Electronics+Secunderabad" target="_blank" className={styles.link}>
-                        Read all 85+ reviews on Google
+                        Read all 105+ reviews on Google
                     </a>
                 </div>
             </div>

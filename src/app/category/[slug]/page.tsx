@@ -5,7 +5,7 @@ import CategoryNav from '@/components/product/CategoryNav';
 import styles from './page.module.css';
 import { Metadata } from 'next';
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 3600;
 
 interface Props {
     params: Promise<{ slug: string }>;

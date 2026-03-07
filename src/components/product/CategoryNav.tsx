@@ -18,6 +18,8 @@ const CATEGORIES: Category[] = [
     { name: 'Refrigerators', slug: 'refrigerators', icon: '🧊' },
     { name: 'Washing Machines', slug: 'washing-machines', icon: '🌀' },
     { name: 'Home Appliances', slug: 'home-appliances', icon: '🔌' },
+    { name: 'Water Dispensers', slug: 'water-dispensers', icon: '🚰' },
+    { name: 'Chest Freezers', slug: 'chest-freezers', icon: '🍦' },
 ];
 
 export default function CategoryNav() {

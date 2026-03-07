@@ -11,6 +11,8 @@ import styles from './page.module.css';
 import { Metadata } from 'next';
 import { PhoneIcon, MapPinIcon } from '@/components/icons/Icons';
 
+export const revalidate = 3600;
+
 interface Props {
     params: Promise<{ slug: string }>;
 }

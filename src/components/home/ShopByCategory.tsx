@@ -8,6 +8,8 @@ const CATEGORIES = [
     { name: 'Washing Machines', slug: 'washing-machines', color: '#f3e8ff', icon: '🌀' },
     { name: 'Air Coolers', slug: 'air-coolers', color: '#ffedd5', icon: '🌬️' },
     { name: 'Home Appliances', slug: 'home-appliances', color: '#fee2e2', icon: '🔌' },
+    { name: 'Water Dispensers', slug: 'water-dispensers', color: '#cffafe', icon: '🚰' },
+    { name: 'Chest Freezers', slug: 'chest-freezers', color: '#e0e7ff', icon: '🍦' },
 ];
 
 export default function ShopByCategory() {

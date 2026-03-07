@@ -65,8 +65,10 @@ export default function Header() {
             title: 'KITCHEN',
             links: [
                 { name: 'Refrigerators', href: '/category/refrigerators' },
+                { name: 'Chest Freezers', href: '/category/chest-freezers' },
                 { name: 'Microwaves', href: '/category/microwaves' },
                 { name: 'Water Purifiers', href: '/category/water-purifiers' },
+                { name: 'Water Dispensers', href: '/category/water-dispensers' },
                 { name: 'Small Appliances', href: '/category/kitchen-appliances' }
             ]
         },

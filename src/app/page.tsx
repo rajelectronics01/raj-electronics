@@ -7,7 +7,7 @@ import ShopByCategory from "@/components/home/ShopByCategory";
 import WhyChooseUs from "@/components/home/WhyChooseUs";
 import WhatsAppButton from "@/components/ui/WhatsAppButton";
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 3600;
 
 export default function Home() {
   return (
