@@ -76,12 +76,22 @@
 }
 
 .bannerTitle {
-    font-size: 3.5rem;
+    font-size: 4.2rem;
+    /* Increased size slightly */
     font-weight: 800;
     line-height: 1.15;
     margin-bottom: 24px;
-    color: #0f172a;
-    letter-spacing: -0.5px;
+    color: #002366;
+    /* Deep blue from second image */
+    letter-spacing: -1px;
+}
+
+.highlight {
+    background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
+    /* cyan gradient */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 .bannerSubtitle {
@@ -378,7 +388,7 @@
     }
 
     .bannerTitle {
-        font-size: 3rem;
+        font-size: 3.5rem;
     }
 }
 
@@ -402,7 +412,7 @@
     }
 
     .bannerTitle {
-        font-size: 2.5rem;
+        font-size: 3rem;
     }
 
     .bannerSubtitle {
@@ -421,7 +431,7 @@
 
 @media (max-width: 480px) {
     .bannerTitle {
-        font-size: 2.2rem;
+        font-size: 2.6rem;
     }
 
     .hero {

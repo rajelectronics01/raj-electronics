@@ -23,7 +23,7 @@ export default function Hero() {
                     </div>
 
                     <div className={styles.bannerContent}>
-                        <h1 className={styles.title}>
+                        <h1 className={styles.bannerTitle}>
                             Best Electronics Store in <span className={styles.highlight}>Secunderabad</span>
                         </h1>
                         <p className={styles.subtitle}>
