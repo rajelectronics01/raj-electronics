@@ -1,10 +1,10 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import { Product } from '@/types';
 import { PhoneIcon } from '@/components/icons/Icons';
 import styles from './ProductCard.module.css';
 import Button from '@/components/ui/Button';
 import { formatPrice } from '@/lib/utils';
+import ImageScrubber from './ImageScrubber';
 
 interface ProductCardProps {
     product: Product;
@@ -26,13 +26,10 @@ export default function ProductCard({ product, priority }: ProductCardProps) {
                 <div className={styles.imageContainer}>
                     <Link href={`/product/${product.slug}`} className={styles.link} style={{ width: '100%', height: '100%', display: 'block' }}>
                         {product.images?.[0] ? (
-                            <Image
-                                src={product.images[0]}
+                            <ImageScrubber 
+                                images={product.images}
                                 alt={`${product.brand} ${product.name} - best price at Raj Electronics`}
-                                fill
                                 priority={priority}
-                                className={styles.image}
-                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
                             />
                         ) : (
                             <div className={styles.placeholderImage} />

@@ -67,7 +67,6 @@ export default function Header() {
                 { name: 'Refrigerators', href: '/category/refrigerators' },
                 { name: 'Chest Freezers', href: '/category/chest-freezers' },
                 { name: 'Microwaves', href: '/category/microwaves' },
-                { name: 'Water Purifiers', href: '/category/water-purifiers' },
                 { name: 'Water Dispensers', href: '/category/water-dispensers' },
                 { name: 'Small Appliances', href: '/category/kitchen-appliances' }
             ]
@@ -76,7 +75,7 @@ export default function Header() {
             title: 'HOME CARE',
             links: [
                 { name: 'Washing Machines', href: '/category/washing-machines' },
-                { name: 'Vacuum Cleaners', href: '/category/vacuum-cleaners' },
+                { name: 'Geysers', href: '/category/geysers' }
             ]
         }
     ];

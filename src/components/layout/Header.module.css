@@ -411,12 +411,14 @@
     .container {
         position: relative;
         justify-content: space-between;
+        gap: 8px;
     }
 
     .logoContainer {
-        /* Instead of absolute positioning which causes overflow, auto-margin centers it between the hamburger and search */
-        margin: 0 auto;
-        padding-left: 10px;
+        flex: 1;
+        justify-content: flex-start;
+        margin-left: 10px;
+        min-width: 0; /* allows text truncation if really needed */
     }
 
     .logoContainer:hover .logoImage {
@@ -498,6 +500,8 @@
         font-size: 1.15rem;
         /* Slightly smaller text for very tiny screens */
         white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .logoImage {
