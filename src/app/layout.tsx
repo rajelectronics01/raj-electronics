@@ -1,11 +1,15 @@
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
+import { Inter, DM_Sans } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import Script from "next/script";
+import { UserProvider } from "@/context/UserContext";
+import { CartProvider } from "@/context/CartContext";
+import CartDrawer from "@/components/ui/CartDrawer";
 
 const inter = Inter({ subsets: ["latin"], display: "swap" });
+const dmSans = DM_Sans({ subsets: ["latin"], display: "swap", variable: '--font-dm' });
 
 export const viewport: Viewport = {
   themeColor: '#111827',
@@ -21,7 +25,7 @@ export const metadata: Metadata = {
   keywords: "Best electronics shop Secunderabad, authorized AC dealer Secunderabad, affordable air coolers RP Road, TV shop near Secunderabad station, washing machine dealer Hyderabad, Raj Electronics RP Road",
   openGraph: {
     title: "Raj Electronics - Best Electronics Store in Secunderabad | Authorized Dealer",
-    description: "Shop for premium ACs, TVs, and home appliances at Raj Electronics, Secunderabad. Best local prices & EMI.",
+    description: "Shop for premium ACs, TVs,Air Coolers, and home appliances at Raj Electronics, Secunderabad. Best local prices & EMI.",
     locale: "en_IN",
     type: "website",
     siteName: "Raj Electronics",
@@ -97,7 +101,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning className={`${dmSans.variable}`}>
       <head>
         {/* Google tag (gtag.js) */}
         <Script
@@ -122,16 +126,21 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={inter.className}>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
-        <Header />
-        <main style={{ minHeight: 'calc(100vh - 300px)' }}>
-          {children}
-        </main>
-        <Footer />
+      <body className={`${inter.className} ${dmSans.variable}`}>
+        <UserProvider>
+          <CartProvider>
+            <script
+              type="application/ld+json"
+              dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+            />
+            <Header />
+            <CartDrawer />
+            <main style={{ minHeight: 'calc(100vh - 300px)' }}>
+              {children}
+            </main>
+            <Footer />
+          </CartProvider>
+        </UserProvider>
       </body>
     </html>
   );

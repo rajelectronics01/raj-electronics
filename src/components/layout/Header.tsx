@@ -1,12 +1,14 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import styles from './Header.module.css';
-import { MenuIcon, XIcon, PhoneIcon, SearchIcon, ChevronDownIcon, UserIcon } from '@/components/icons/Icons';
+import { MenuIcon, XIcon, PhoneIcon, SearchIcon, ChevronDownIcon, UserIcon, ShoppingCartIcon } from '@/components/icons/Icons';
 import { cn } from '@/lib/utils';
+import { useUser } from '@/context/UserContext';
+import { useCart } from '@/context/CartContext';
 
 export default function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -14,8 +16,29 @@ export default function Header() {
     const [activeAccordion, setActiveAccordion] = useState<string | null>(null);
     const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
+    const [userMenuOpen, setUserMenuOpen] = useState(false);
+    const userMenuRef = useRef<HTMLDivElement>(null);
     const pathname = usePathname();
     const router = useRouter();
+    const { user, loading: userLoading, logout } = useUser();
+    const { setIsOpen: setCartOpen, totalItems } = useCart();
+
+    // Close user menu when clicking outside
+    useEffect(() => {
+        const handleClick = (e: MouseEvent) => {
+            if (userMenuRef.current && !userMenuRef.current.contains(e.target as Node)) {
+                setUserMenuOpen(false);
+            }
+        };
+        document.addEventListener('mousedown', handleClick);
+        return () => document.removeEventListener('mousedown', handleClick);
+    }, []);
+
+    const handleLogout = async () => {
+        await logout();
+        setUserMenuOpen(false);
+        router.push('/');
+    };
 
     const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
     const closeMenu = () => setIsMenuOpen(false);
@@ -87,8 +110,8 @@ export default function Header() {
                 <div className={styles.topBarContainer}>
                     <p className={styles.topBarText}>🏆 Top Dealer for ACs, TVs, Coolers & Home Appliances in Secunderabad & Hyderabad. Best Prices Guaranteed.</p>
                     <div className={styles.topBarLinks}>
-                        <Link href="/admin" aria-label="Admin Panel" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                            <UserIcon width={18} height={18} />
+                        <Link href="/admin" aria-label="Admin Panel" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: 0.3 }}>
+                            <UserIcon width={16} height={16} />
                         </Link>
                     </div>
                 </div>
@@ -98,10 +121,15 @@ export default function Header() {
             <div className={cn(styles.mainHeader, isScrolled ? styles.scrolled : '')}>
                 <div className={styles.container}>
 
-                    {/* Left: Mobile Hamburger */}
-                    <button className={styles.mobileHamburger} onClick={toggleMenu} aria-label="Menu">
-                        <MenuIcon width={28} height={28} />
-                    </button>
+                    <div className={styles.mobileActions}>
+                        <button className={styles.mobileHamburger} onClick={toggleMenu} aria-label="Menu">
+                            <MenuIcon width={28} height={28} />
+                        </button>
+                        <button className={styles.cartBtn} onClick={() => setCartOpen(true)} aria-label="Open cart">
+                            <ShoppingCartIcon width={24} height={24} />
+                            {totalItems > 0 && <span className={styles.cartBadge}>{totalItems}</span>}
+                        </button>
+                    </div>
 
                     {/* Center/Left: Logo */}
                     <Link href="/" className={styles.logoContainer} onClick={closeMenu}>
@@ -177,6 +205,15 @@ export default function Header() {
                                 {isMobileSearchOpen ? <XIcon width={24} height={24} /> : <SearchIcon width={24} height={24} />}
                             </button>
                         </div>
+                        <button 
+                            className={cn(styles.cartBtn, styles.desktopCartBtn)} 
+                            onClick={() => setCartOpen(true)}
+                            aria-label="Open cart"
+                        >
+                            <ShoppingCartIcon width={22} height={22} />
+                            {totalItems > 0 && <span className={styles.cartBadge}>{totalItems}</span>}
+                        </button>
+
                         <a href="tel:+919290748866" className={styles.callButton}>
                             <span className={styles.callIconWrap}><PhoneIcon width={18} height={18} /></span>
                             <span className={styles.callText}>Call Us</span>
