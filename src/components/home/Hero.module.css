@@ -114,22 +114,35 @@
 
 @media (max-width: 768px) {
   .sliderContainer {
-    aspect-ratio: 16 / 7; /* Taller on mobile for visibility */
-    min-height: 180px;
+    aspect-ratio: 1920 / 600; /* Show much more of the banner width */
+    min-height: 140px;
   }
 
   .arrowBtn {
-    width: 36px;
-    height: 36px;
+    width: 32px;
+    height: 32px;
     opacity: 1; /* Always show arrows on mobile */
   }
 
-  .arrowLeft { left: 10px; }
-  .arrowRight { right: 10px; }
+  .arrowLeft { left: 5px; }
+  .arrowRight { right: 5px; }
+
+  .dotsWrapper {
+    gap: 6px;
+    bottom: 10px;
+  }
+
+  .dot {
+    width: 10px;
+    height: 10px;
+  }
 }
 
 @media (max-width: 480px) {
   .sliderContainer {
-    aspect-ratio: 1 / 1; /* Square on very small phones */
+    /* Since the user mostly uploaded ultra-wide desktop banners, 
+       we use a wide aspect ratio so the text is fully readable and not cropped. */
+    aspect-ratio: 1920 / 650; 
+    min-height: 100px;
   }
 }

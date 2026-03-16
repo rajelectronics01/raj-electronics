@@ -119,19 +119,8 @@ export default function Header() {
 
             {/* Main Sticky Header */}
             <div className={cn(styles.mainHeader, isScrolled ? styles.scrolled : '')}>
-                <div className={styles.container}>
-
-                    <div className={styles.mobileActions}>
-                        <button className={styles.mobileHamburger} onClick={toggleMenu} aria-label="Menu">
-                            <MenuIcon width={28} height={28} />
-                        </button>
-                        <button className={styles.cartBtn} onClick={() => setCartOpen(true)} aria-label="Open cart">
-                            <ShoppingCartIcon width={24} height={24} />
-                            {totalItems > 0 && <span className={styles.cartBadge}>{totalItems}</span>}
-                        </button>
-                    </div>
-
-                    {/* Center/Left: Logo */}
+                {/* --- DESKTOP CONTAINER --- */}
+                <div className={styles.desktopContainer}>
                     <Link href="/" className={styles.logoContainer} onClick={closeMenu}>
                         <Image
                             src="/logo.png"
@@ -192,21 +181,9 @@ export default function Header() {
                                 onChange={(e) => setSearchQuery(e.target.value)}
                             />
                         </form>
-                        {/* Mobile Search Input Toggle */}
-                        <div className={styles.mobileSearchWrapper}>
-                            <button
-                                className={styles.mobileSearchBtn}
-                                aria-label="Toggle Search"
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    setIsMobileSearchOpen(!isMobileSearchOpen);
-                                }}
-                            >
-                                {isMobileSearchOpen ? <XIcon width={24} height={24} /> : <SearchIcon width={24} height={24} />}
-                            </button>
-                        </div>
+                        
                         <button 
-                            className={cn(styles.cartBtn, styles.desktopCartBtn)} 
+                            className={styles.cartBtn} 
                             onClick={() => setCartOpen(true)}
                             aria-label="Open cart"
                         >
@@ -221,24 +198,46 @@ export default function Header() {
                     </div>
                 </div>
 
-                {/* Mobile Search Dropdown Bar */}
-                {isMobileSearchOpen && (
-                    <div className={styles.mobileSearchDropdown}>
-                        <form onSubmit={handleSearch} className={styles.mobileSearchForm}>
+                {/* --- MOBILE CONTAINER (Vijay Sales Style) --- */}
+                <div className={styles.mobileContainer}>
+                    <div className={styles.mobileTopRow}>
+                        <div className={styles.mobileLeftActions}>
+                            <button className={styles.mobileHamburger} onClick={toggleMenu} aria-label="Menu">
+                                <MenuIcon width={26} height={26} />
+                            </button>
+                        </div>
+                        
+                        <Link href="/" className={styles.mobileLogoContainer} onClick={closeMenu}>
+                            {/* Option 1: Graphic Logo */}
+                            {/* <Image src="/logo.png" alt="Logo" width={28} height={28} /> */}
+                            {/* Option 2: Text Logo to match references */}
+                            <h1 className={styles.mobileBrandTitle}>Raj Electronics</h1>
+                        </Link>
+                        
+                        <div className={styles.mobileRightActions}>
+                            <Link href="/admin" aria-label="Admin/User Profile" className={styles.mobileIconBtn}>
+                                <UserIcon width={24} height={24} />
+                            </Link>
+                            <button className={styles.mobileIconBtn} onClick={() => setCartOpen(true)} aria-label="Open cart">
+                                <ShoppingCartIcon width={24} height={24} />
+                                {totalItems > 0 && <span className={styles.cartBadgeMobile}>{totalItems}</span>}
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div className={styles.mobileSearchRow}>
+                        <form className={styles.mobileFullSearchForm} onSubmit={handleSearch}>
+                            <SearchIcon width={20} height={20} className={styles.mobileSearchIcon} />
                             <input
                                 type="text"
-                                placeholder="Search products..."
-                                className={styles.mobileSearchInput}
+                                placeholder="Search for phone, TV, home appliances..."
+                                className={styles.mobileFullSearchInput}
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                autoFocus
                             />
-                            <button type="submit" className={styles.mobileSearchSubmitBtn}>
-                                <SearchIcon width={18} height={18} />
-                            </button>
                         </form>
                     </div>
-                )}
+                </div>
             </div>
 
             {/* Advanced Mobile Menu Drawer */}

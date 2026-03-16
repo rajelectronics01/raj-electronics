@@ -183,7 +183,7 @@
     height: 65px;
 }
 
-.container {
+.desktopContainer {
     max-width: 1320px;
     width: 100%;
     margin: 0 auto;
@@ -192,6 +192,10 @@
     justify-content: space-between;
     align-items: center;
     height: 100%;
+}
+
+.mobileContainer {
+    display: none;
 }
 
 /* Left: Logo Area */
@@ -474,157 +478,141 @@
         display: none;
     }
 
-    /* Hide generic top bar on small screens to save space */
-
-    .desktopNav {
+    .desktopContainer {
         display: none;
     }
-
-    .searchBar {
-        display: none;
+    
+    .mainHeader, .mainHeader.scrolled {
+        height: auto; /* Let the content define the height on mobile */
+        padding-bottom: 10px; /* Slight bottom padding since search bar is flush */
     }
 
-    .mobileSearchBtn,
-    .mobileHamburger {
+    .mobileContainer {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        padding: 10px 15px 0 15px;
+        gap: 12px;
+    }
+
+    .mobileTopRow {
         display: flex;
         align-items: center;
-        justify-content: center;
-    }
-
-    .actionItems {
-        gap: 10px;
-    }
-
-    .brandTitle {
-        font-size: 1.25rem;
-    }
-
-    .brandSubtitle {
-        display: none;
-    }
-
-    /* keep logo ultra clean on mobile */
-
-    .callText {
-        display: none;
-    }
-
-    .callButton {
-        padding: 0;
-        width: 42px;
-        height: 42px;
-        justify-content: center;
-        background: #f1f5f9;
-        color: #0f172a;
-        box-shadow: none;
-    }
-
-    .callIconWrap {
-        background: transparent;
-        color: #10b981;
-    }
-
-    /* Center Logo safely on Mobile using Flexbox */
-    .container {
-        position: relative;
         justify-content: space-between;
-        gap: 8px;
+        width: 100%;
     }
 
-    .logoContainer {
-        flex: 1;
-        justify-content: flex-start;
-        margin-left: 10px;
-        min-width: 0; /* allows text truncation if really needed */
-    }
-
-    .logoContainer:hover .logoImage {
-        transform: none;
-    }
-
-    .mobileSearchWrapper {
-        position: relative;
-    }
-
-    /* Dropdown slides down over the header */
-    .mobileSearchDropdown {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
-        background: white;
-        padding: 15px 20px;
-        box-shadow: 0 10px 15px -10px rgba(0, 0, 0, 0.1);
-        border-top: 1px solid #f1f5f9;
-        animation: slideDown 0.3s ease-out forwards;
-        z-index: 850;
-    }
-
-    @keyframes slideDown {
-        from {
-            transform: translateY(-10px);
-            opacity: 0;
-        }
-
-        to {
-            transform: translateY(0);
-            opacity: 1;
-        }
-    }
-
-    .mobileSearchForm {
+    .mobileLeftActions {
         display: flex;
         align-items: center;
-        background: #f8fafc;
-        border: 1px solid #e2e8f0;
-        border-radius: 99px;
-        padding: 5px 15px;
+        flex: 1; /* Keep logo pushed to center */
     }
 
-    .mobileSearchInput {
-        flex: 1;
-        background: transparent;
-        border: none;
-        outline: none;
-        padding: 8px 5px;
-        font-size: 1rem;
-        color: #0f172a;
-    }
-
-    .mobileSearchSubmitBtn {
+    .mobileHamburger {
         background: none;
         border: none;
-        color: #0284c7;
+        color: #0f172a;
+        cursor: pointer;
         padding: 5px;
         display: flex;
         align-items: center;
+        margin-left: -5px; /* Alignment offset */
+    }
+
+    .mobileLogoContainer {
+        display: flex;
         justify-content: center;
+        align-items: center;
+        text-decoration: none;
+        flex: 2; /* Center space */
+    }
+
+    .mobileBrandTitle {
+        font-size: 1.35rem;
+        font-weight: 900;
+        color: #0f172a;
+        margin: 0;
+        letter-spacing: -0.5px;
+        font-style: italic; /* Inspired by reference brand */
+    }
+
+    .mobileRightActions {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 15px;
+        flex: 1; /* Keep logo pushed to center */
+    }
+
+    .mobileIconBtn {
+        background: none;
+        border: none;
+        color: #0f172a;
+        cursor: pointer;
+        padding: 2px;
+        position: relative;
+        display: flex;
+        align-items: center;
+        transition: transform 0.2s;
+    }
+    
+    .mobileIconBtn:active {
+        transform: scale(0.95);
+    }
+
+    .cartBadgeMobile {
+        position: absolute;
+        top: -6px;
+        right: -6px;
+        background: #ef4444; 
+        color: white;
+        font-size: 0.65rem;
+        font-weight: bold;
+        padding: 2px 5px;
+        border-radius: 10px;
+        border: 2px solid white;
+    }
+
+    .mobileSearchRow {
+        width: 100%;
+    }
+
+    .mobileFullSearchForm {
+        position: relative;
+        display: flex;
+        align-items: center;
+        width: 100%;
+    }
+
+    .mobileSearchIcon {
+        position: absolute;
+        left: 12px;
+        color: #64748b;
+    }
+
+    .mobileFullSearchInput {
+        width: 100%;
+        padding: 12px 15px 12px 40px;
+        border-radius: 8px; /* Sleeker, square-ish edges matching reference */
+        border: 1px solid #e2e8f0;
+        background-color: #f1f5f9;
+        outline: none;
+        font-size: 0.95rem;
+        color: #0f172a;
+        transition: all 0.2s;
+    }
+    
+    .mobileFullSearchInput:focus {
+        border-color: #0ea5e9;
+        background-color: #ffffff;
+        box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
     }
 }
 
 @media (max-width: 480px) {
-    .topBarContainer {
-        flex-direction: column;
-        gap: 5px;
-        text-align: center;
-    }
-
-    .topBarText {
-        font-size: 0.75rem;
-    }
-
-    .brandTitle {
-        font-size: 1.15rem;
-        /* Slightly smaller text for very tiny screens */
+    .mobileBrandTitle {
+        font-size: 1.2rem;
         white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-
-    .logoImage {
-        width: 32px;
-        /* Smaller logo image */
-        height: 32px;
     }
 }
 
