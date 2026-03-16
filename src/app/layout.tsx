@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, DM_Sans } from "next/font/google";
+import { Inter, DM_Sans, Playfair_Display, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
@@ -10,6 +10,8 @@ import CartDrawer from "@/components/ui/CartDrawer";
 
 const inter = Inter({ subsets: ["latin"], display: "swap" });
 const dmSans = DM_Sans({ subsets: ["latin"], display: "swap", variable: '--font-dm' });
+const playfair = Playfair_Display({ subsets: ["latin"], weight: ['700'], display: "swap", variable: '--font-playfair' });
+const jetbrainsMono = JetBrains_Mono({ subsets: ["latin"], weight: ['400'], display: "swap", variable: '--font-mono' });
 
 export const viewport: Viewport = {
   themeColor: '#111827',
@@ -101,7 +103,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning className={`${dmSans.variable}`}>
+    <html lang="en" suppressHydrationWarning className={`${dmSans.variable} ${playfair.variable} ${jetbrainsMono.variable}`}>
       <head>
         {/* Google tag (gtag.js) */}
         <Script
@@ -126,7 +128,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={`${inter.className} ${dmSans.variable}`}>
+      <body className={`${inter.className} ${dmSans.variable} ${playfair.variable} ${jetbrainsMono.variable}`}>
         <UserProvider>
           <CartProvider>
             <script

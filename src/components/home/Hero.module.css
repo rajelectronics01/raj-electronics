@@ -131,8 +131,8 @@
 
   .sliderContainer {
     /* More portrait aspect ratio for mobile-optimized banners */
-    aspect-ratio: 4 / 5; 
-    min-height: 380px;
+    aspect-ratio: 1125 / 825; 
+    min-height: 250px;
   }
 
   .arrowBtn {
@@ -158,7 +158,7 @@
 @media (max-width: 480px) {
   .sliderContainer {
     /* Very standard portrait ratio for mobile e-comm hero banners */
-    aspect-ratio: 3 / 4; 
-    min-height: 350px;
+    aspect-ratio: 1125 / 825; 
+    min-height: 200px;
   }
 }

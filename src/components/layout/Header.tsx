@@ -211,8 +211,8 @@ export default function Header() {
                             <Image 
                                 src="/logo.png" 
                                 alt="Logo" 
-                                width={26} 
-                                height={26} 
+                                width={32} 
+                                height={32} 
                                 className={styles.mobileLogoImage}
                             />
                             <h1 className={styles.mobileBrandTitle}>Raj Electronics</h1>
