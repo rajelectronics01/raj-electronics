@@ -523,8 +523,14 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        gap: 8px; /* space between logo & text */
         text-decoration: none;
         flex: 2; /* Center space */
+    }
+
+    .mobileLogoImage {
+        object-fit: contain;
+        border-radius: 4px;
     }
 
     .mobileBrandTitle {

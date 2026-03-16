@@ -208,9 +208,13 @@ export default function Header() {
                         </div>
                         
                         <Link href="/" className={styles.mobileLogoContainer} onClick={closeMenu}>
-                            {/* Option 1: Graphic Logo */}
-                            {/* <Image src="/logo.png" alt="Logo" width={28} height={28} /> */}
-                            {/* Option 2: Text Logo to match references */}
+                            <Image 
+                                src="/logo.png" 
+                                alt="Logo" 
+                                width={26} 
+                                height={26} 
+                                className={styles.mobileLogoImage}
+                            />
                             <h1 className={styles.mobileBrandTitle}>Raj Electronics</h1>
                         </Link>
                         
