@@ -37,6 +37,14 @@
   height: 100%;
 }
 
+.desktopImage {
+  display: block;
+}
+
+.mobileImage {
+  display: none;
+}
+
 /* Nav Arrows */
 .arrowBtn {
   position: absolute;
@@ -113,9 +121,18 @@
 }
 
 @media (max-width: 768px) {
+  .desktopImage {
+    display: none;
+  }
+  
+  .mobileImage {
+    display: block;
+  }
+
   .sliderContainer {
-    aspect-ratio: 1920 / 600; /* Show much more of the banner width */
-    min-height: 140px;
+    /* More portrait aspect ratio for mobile-optimized banners */
+    aspect-ratio: 4 / 5; 
+    min-height: 380px;
   }
 
   .arrowBtn {
@@ -140,9 +157,8 @@
 
 @media (max-width: 480px) {
   .sliderContainer {
-    /* Since the user mostly uploaded ultra-wide desktop banners, 
-       we use a wide aspect ratio so the text is fully readable and not cropped. */
-    aspect-ratio: 1920 / 650; 
-    min-height: 100px;
+    /* Very standard portrait ratio for mobile e-comm hero banners */
+    aspect-ratio: 3 / 4; 
+    min-height: 350px;
   }
 }

@@ -12,36 +12,42 @@ const SLIDES = [
     {
         id: 1,
         image: "/images/hero/Gudi Padwa  Ugadi Offers_Desktop.jpg",
+        mobileImage: "/images/hero/mobile/Gudi Padwa  Ugadi Offers_Mobile.jpg", // Add your mobile image here
         alt: "Gudi Padwa & Ugadi Offers",
         link: "/category/all"
     },
     {
         id: 2,
         image: "/images/hero/Biggest Ac Fest Desktop Banner.jpg",
+        mobileImage: "/images/hero/mobile/Biggest Ac Fest Mobile Banner.jpg", // Add your mobile image here
         alt: "Biggest AC Festival",
         link: "/category/air-conditioners"
     },
     {
         id: 3,
         image: "/images/hero/Breakfast Essentials  Desktop.jpg",
+        mobileImage: "/images/hero/mobile/Breakfast Essentials  Mobile.jpg", // Add your mobile image here
         alt: "Breakfast Essentials",
         link: "/category/kitchen-appliances"
     },
     {
         id: 4,
         image: "/images/hero/Air_Cooler_Category_Banner_-_Desktop_1920x.webp",
+        mobileImage: "/images/hero/mobile/Air_Cooler_Category_Banner_-_Mobile.webp", // Add your mobile image here
         alt: "Air Coolers",
         link: "/category/air-coolers"
     },
     {
         id: 5,
         image: "/images/hero/REF Desktop.jpg",
+        mobileImage: "/images/hero/mobile/REF Mobile.jpg", // Add your mobile image here
         alt: "Refrigerators Offers",
         link: "/category/refrigerators"
     },
     {
         id: 6,
         image: "/images/hero/catagory_horzontal_copy_2_1.webp",
+        mobileImage: "/images/hero/mobile/catagory_mobile.webp", // Add your mobile image here
         alt: "Horizontal Offers",
         link: "/category/all"
     }
@@ -107,12 +113,22 @@ export default function Hero() {
                         >
                             <Image
                                 src={slide.image}
-                                alt={slide.alt}
+                                alt={`Desktop: ${slide.alt}`}
                                 fill
-                                className={styles.slideImage}
+                                className={`${styles.slideImage} ${styles.desktopImage}`}
                                 priority={idx === 0} // Prioritize loading the very first image for LCP
-                                sizes="100vw"
+                                sizes="(min-width: 768px) 100vw, 1px"
                             />
+                            {slide.mobileImage && (
+                                <Image
+                                    src={slide.mobileImage}
+                                    alt={`Mobile: ${slide.alt}`}
+                                    fill
+                                    className={`${styles.slideImage} ${styles.mobileImage}`}
+                                    priority={idx === 0} 
+                                    sizes="(max-width: 767px) 100vw, 1px"
+                                />
+                            )}
                         </Link>
                     ))}
                 </div>
