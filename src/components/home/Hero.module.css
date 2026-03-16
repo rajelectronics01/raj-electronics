@@ -7,14 +7,13 @@
   background-color: #f1f5f9;
 }
 
-/* Aspect ratio for the banner (Cinematic look like 2.5:1 or roughly matching the screenshots) */
+/* Aspect ratio for the banner based on references (approx 3.5:1 width-to-height for desktop) */
 .sliderContainer {
   position: relative;
   width: 100%;
-  /* Standard ultra-wide banner aspect ratio for desktop */
-  aspect-ratio: 16 / 5;
+  /* Standard ultra-wide banner aspect ratio */
+  aspect-ratio: 1920 / 500;
   min-height: 250px;
-  /* For mobile */
 }
 
 .slideTrack {
@@ -27,98 +26,15 @@
   min-width: 100%;
   height: 100%;
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
+  display: block;
   overflow: hidden;
   text-decoration: none;
 }
 
-/* Base styles for the content inside the composed CSS banners */
-.slideContent {
-  position: relative;
-  z-index: 2;
-  padding: 0 8%;
-  color: white;
-  width: 50%;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 16px;
-}
-
-.slideTitle {
-  font-size: clamp(2rem, 4vw, 3.5rem);
-  font-weight: 900;
-  line-height: 1.1;
-  text-transform: uppercase;
-  margin: 0;
-  text-shadow: 0 4px 12px rgba(0,0,0,0.15);
-}
-
-.slideSubtitle {
-  font-size: clamp(1rem, 2vw, 1.8rem);
-  font-weight: 700;
-  margin: 0;
-  color: rgba(255, 255, 255, 0.9);
-}
-
-.slideBadge {
-  background-color: #ef4444;
-  color: white;
-  padding: 8px 16px;
-  border-radius: 8px;
-  font-weight: 800;
-  font-size: clamp(1rem, 1.5vw, 1.5rem);
-  display: inline-block;
-  box-shadow: 0 4px 10px rgba(239, 68, 68, 0.4);
-  transform: rotate(-2deg);
-}
-
-.slideBtn {
-  background-color: #0f172a;
-  color: white;
-  padding: 12px 32px;
-  border-radius: 99px;
-  font-weight: 700;
-  font-size: 1.1rem;
-  margin-top: 10px;
-  transition: all 0.2s ease;
-  border: 2px solid transparent;
-}
-
-.slideBtn:hover {
-  background-color: transparent;
-  border-color: #0f172a;
-  color: #0f172a;
-}
-
-.slideBtn.lightBtn {
-  background-color: white;
-  color: #0f172a;
-}
-
-.slideBtn.lightBtn:hover {
-  background-color: transparent;
-  border-color: white;
-  color: white;
-}
-
-.slideImageWrap {
-  position: absolute;
-  right: 5%;
-  bottom: 0;
-  width: 45%;
-  height: 90%;
-  display: flex;
-  align-items: flex-end;
-  justify-content: flex-end;
-}
-
 .slideImage {
-  object-fit: contain;
-  /* Add a subtle drop shadow to product cutouts to make them pop */
-  filter: drop-shadow(0 20px 30px rgba(0,0,0,0.2));
+  object-fit: cover; /* Cover ensures it fills without stretching */
+  width: 100%;
+  height: 100%;
 }
 
 /* Nav Arrows */
@@ -128,18 +44,19 @@
   transform: translateY(-50%);
   width: 50px;
   height: 50px;
-  background-color: rgba(0, 0, 0, 0.15);
+  background-color: rgba(255, 255, 255, 0.7); /* Slightly lighter like Vijay Sales */
   backdrop-filter: blur(4px);
   border: none;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
+  color: #333;
   cursor: pointer;
   z-index: 10;
   transition: all 0.2s ease;
   opacity: 0;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
 .heroWrapper:hover .arrowBtn {
@@ -147,16 +64,17 @@
 }
 
 .arrowBtn:hover {
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: white;
   transform: translateY(-50%) scale(1.1);
+  color: #ef4444; /* Give it a store-brand red hover if you wish */
 }
 
 .arrowLeft {
-  left: 20px;
+  left: 30px;
 }
 
 .arrowRight {
-  right: 20px;
+  right: 30px;
 }
 
 /* Pagination Dots */
@@ -166,42 +84,38 @@
   left: 50%;
   transform: translateX(-50%);
   display: flex;
-  gap: 8px;
+  gap: 10px;
   z-index: 10;
 }
 
 .dot {
-  width: 10px;
-  height: 10px;
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.4);
-  border: none;
+  background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent dot */
+  border: 1px solid rgba(0,0,0,0.1);
   cursor: pointer;
   padding: 0;
   transition: all 0.3s ease;
 }
 
 .dot.active {
-  background-color: white;
-  box-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
-  transform: scale(1.2);
+  background-color: white; /* Active dot is bright white */
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+  transform: scale(1.15);
+}
+
+@media (max-width: 1024px) {
+  .sliderContainer {
+    aspect-ratio: 16 / 5; /* slightly taller for tablets */
+    min-height: 200px;
+  }
 }
 
 @media (max-width: 768px) {
   .sliderContainer {
-    aspect-ratio: 16 / 9; /* Taller on mobile for text visibility */
-    min-height: 220px;
-  }
-  
-  .slideContent {
-    width: 60%;
-    padding: 0 5%;
-    gap: 8px;
-  }
-
-  .slideImageWrap {
-    width: 40%;
-    right: -5%; /* Let image bleed slightly off edge on mobile */
+    aspect-ratio: 16 / 7; /* Taller on mobile for visibility */
+    min-height: 180px;
   }
 
   .arrowBtn {
@@ -212,36 +126,10 @@
 
   .arrowLeft { left: 10px; }
   .arrowRight { right: 10px; }
-  
-  .slideBtn {
-    padding: 8px 20px;
-    font-size: 0.9rem;
-    margin-top: 5px;
-  }
 }
 
 @media (max-width: 480px) {
   .sliderContainer {
-    aspect-ratio: 1 / 1; /* Square on very small phones to stack content */
-  }
-
-  .slideContent {
-    width: 100%;
-    text-align: center;
-    align-items: center;
-    top: 10%;
-    position: absolute;
-    z-index: 5;
-  }
-
-  .slideImageWrap {
-    width: 80%;
-    right: 10%;
-    height: 50%;
-    z-index: 1;
-  }
-  
-  .slideSubtitle {
-    display: none; /* Hide subtitle on very small screens to save space */
+    aspect-ratio: 1 / 1; /* Square on very small phones */
   }
 }
