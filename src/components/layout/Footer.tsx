@@ -50,6 +50,17 @@ export default function Footer() {
                             <li><a href="https://maps.google.com/?q=Raj+Electronics+Secunderabad" target="_blank" rel="noopener noreferrer">Visit Our Store (Map)</a></li>
                         </ul>
                     </div>
+
+                    {/* Column 4: Policies & Support */}
+                    <div className={styles.col}>
+                        <h4 className={styles.subHeading}>Policies & Support</h4>
+                        <ul className={styles.links}>
+                            <li><Link href="/terms-and-conditions">Terms & Conditions</Link></li>
+                            <li><Link href="/privacy-policy">Privacy Policy</Link></li>
+                            <li><Link href="/refund-policy">Refund & Cancellation</Link></li>
+                            <li><Link href="/shipping-policy">Shipping Policy</Link></li>
+                        </ul>
+                    </div>
                 </div>
 
                 <div className={styles.copyright}>
