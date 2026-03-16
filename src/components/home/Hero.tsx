@@ -11,24 +11,39 @@ import { ChevronLeftIcon, ChevronRightIcon } from '../icons/Icons';
 const SLIDES = [
     {
         id: 1,
-        // Replace with your Gudi Padwa banner image
-        image: "/images/hero/main-banner.jpg", 
+        image: "/images/hero/Gudi Padwa  Ugadi Offers_Desktop.jpg",
         alt: "Gudi Padwa & Ugadi Offers",
         link: "/category/all"
     },
     {
         id: 2,
-        // Replace with your AC Festival banner image
-        image: "/images/hero/main-banner.png", 
+        image: "/images/hero/Biggest Ac Fest Desktop Banner.jpg",
         alt: "Biggest AC Festival",
         link: "/category/air-conditioners"
     },
     {
         id: 3,
-        // Replace with your Smart Morning (Kitchen) banner image
-        image: "/images/hero/main-banner.jpg", 
-        alt: "Start Your Morning The Smart Way",
-        link: "/category/home-appliances"
+        image: "/images/hero/Breakfast Essentials  Desktop.jpg",
+        alt: "Breakfast Essentials",
+        link: "/category/kitchen-appliances"
+    },
+    {
+        id: 4,
+        image: "/images/hero/Air_Cooler_Category_Banner_-_Desktop_1920x.webp",
+        alt: "Air Coolers",
+        link: "/category/air-coolers"
+    },
+    {
+        id: 5,
+        image: "/images/hero/REF Desktop.jpg",
+        alt: "Refrigerators Offers",
+        link: "/category/refrigerators"
+    },
+    {
+        id: 6,
+        image: "/images/hero/catagory_horzontal_copy_2_1.webp",
+        alt: "Horizontal Offers",
+        link: "/category/all"
     }
 ];
 
@@ -55,23 +70,23 @@ export default function Hero() {
     }, [isHovered, nextSlide]);
 
     return (
-        <section 
+        <section
             className={styles.heroWrapper}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
         >
             <div className={styles.sliderContainer}>
-                
+
                 {/* Arrow Controls */}
-                <button 
-                    className={`${styles.arrowBtn} ${styles.arrowLeft}`} 
+                <button
+                    className={`${styles.arrowBtn} ${styles.arrowLeft}`}
                     onClick={prevSlide}
                     aria-label="Previous Slide"
                 >
                     <ChevronLeftIcon width={28} height={28} />
                 </button>
-                <button 
-                    className={`${styles.arrowBtn} ${styles.arrowRight}`} 
+                <button
+                    className={`${styles.arrowBtn} ${styles.arrowRight}`}
                     onClick={nextSlide}
                     aria-label="Next Slide"
                 >
@@ -79,14 +94,14 @@ export default function Hero() {
                 </button>
 
                 {/* Slides Track */}
-                <div 
+                <div
                     className={styles.slideTrack}
                     style={{ transform: `translateX(-${currentSlide * 100}%)` }}
                 >
                     {SLIDES.map((slide, idx) => (
-                        <Link 
-                            href={slide.link} 
-                            key={slide.id} 
+                        <Link
+                            href={slide.link}
+                            key={slide.id}
                             className={styles.slide}
                             aria-label={`Go to ${slide.alt}`}
                         >
