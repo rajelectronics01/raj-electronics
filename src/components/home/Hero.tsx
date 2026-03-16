@@ -12,42 +12,42 @@ const SLIDES = [
     {
         id: 1,
         image: "/images/hero/Gudi Padwa  Ugadi Offers_Desktop.jpg",
-        mobileImage: "/images/hero/mobile/Gudi Padwa  Ugadi Offers_Mobile.jpg", // Add your mobile image here
+        mobileImage: "/images/hero/mobile/mobile_banner_1.jpeg",
         alt: "Gudi Padwa & Ugadi Offers",
         link: "/category/all"
     },
     {
         id: 2,
         image: "/images/hero/Biggest Ac Fest Desktop Banner.jpg",
-        mobileImage: "/images/hero/mobile/Biggest Ac Fest Mobile Banner.jpg", // Add your mobile image here
+        mobileImage: "/images/hero/mobile/mobile_banner_2.jpeg",
         alt: "Biggest AC Festival",
         link: "/category/air-conditioners"
     },
     {
         id: 3,
         image: "/images/hero/Breakfast Essentials  Desktop.jpg",
-        mobileImage: "/images/hero/mobile/Breakfast Essentials  Mobile.jpg", // Add your mobile image here
+        mobileImage: "/images/hero/mobile/mobile_banner_3.jpeg",
         alt: "Breakfast Essentials",
         link: "/category/kitchen-appliances"
     },
     {
         id: 4,
         image: "/images/hero/Air_Cooler_Category_Banner_-_Desktop_1920x.webp",
-        mobileImage: "/images/hero/mobile/Air_Cooler_Category_Banner_-_Mobile.webp", // Add your mobile image here
+        mobileImage: "/images/hero/mobile/mobile_banner_4.jpeg",
         alt: "Air Coolers",
         link: "/category/air-coolers"
     },
     {
         id: 5,
         image: "/images/hero/REF Desktop.jpg",
-        mobileImage: "/images/hero/mobile/REF Mobile.jpg", // Add your mobile image here
+        mobileImage: "/images/hero/mobile/mobile_banner_5.jpeg",
         alt: "Refrigerators Offers",
         link: "/category/refrigerators"
     },
     {
         id: 6,
         image: "/images/hero/catagory_horzontal_copy_2_1.webp",
-        mobileImage: "/images/hero/mobile/catagory_mobile.webp", // Add your mobile image here
+        mobileImage: undefined, // No 6th mobile uploaded, fallback to desktop
         alt: "Horizontal Offers",
         link: "/category/all"
     }
