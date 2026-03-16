@@ -1,145 +1,142 @@
-// Removed 'use client' to allow server rendering of images without hydration jumps
+'use client';
 
-import Link from 'next/link';
+import { useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import styles from './Hero.module.css';
+import { ChevronLeftIcon, ChevronRightIcon } from '../icons/Icons';
 
-// Simple SVG Icons
-const Icons = {
-    ChevronRight: () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6" /></svg>
-};
+const SLIDES = [
+    {
+        id: 1,
+        title: "BIGGEST AC FESTIVAL",
+        subtitle: "Kam Bill. Zyada Chill.",
+        badge: "UP TO 50% OFF!",
+        image: "/images/hero/ac-clean.png",
+        bgColor: "linear-gradient(135deg, #38bdf8 0%, #0284c7 100%)", /* Blue summery vibe */
+        textColor: "white",
+        btnColor: "styles.lightBtn",
+        link: "/category/air-conditioners"
+    },
+    {
+        id: 2,
+        title: "GUDI PADWA & UGADI",
+        subtitle: "Celebrate New Beginnings",
+        badge: "FESTIVE OFFERS",
+        image: "/images/hero/tv-clean.png",
+        bgColor: "linear-gradient(90deg, #ea580c 0%, #facc15 100%)", /* Festive orange/yellow */
+        textColor: "white",
+        btnColor: "styles.darkBtn",
+        link: "/category/televisions"
+    },
+    {
+        id: 3,
+        title: "START YOUR MORNING",
+        subtitle: "THE SMART WAY",
+        badge: "UP TO 60% OFF",
+        image: "/images/hero/fridge-clean.png",
+        bgColor: "linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%)", /* Sleek grey/silver */
+        textColor: "#0f172a",
+        btnColor: "styles.darkBtn",
+        link: "/category/refrigerators"
+    }
+];
 
 export default function Hero() {
+    const [currentSlide, setCurrentSlide] = useState(0);
+    const [isHovered, setIsHovered] = useState(false);
+
+    const nextSlide = useCallback(() => {
+        setCurrentSlide((prev) => (prev === SLIDES.length - 1 ? 0 : prev + 1));
+    }, []);
+
+    const prevSlide = () => {
+        setCurrentSlide((prev) => (prev === 0 ? SLIDES.length - 1 : prev - 1));
+    };
+
+    // Auto-advance slides
+    useEffect(() => {
+        if (!isHovered) {
+            const timer = setInterval(() => {
+                nextSlide();
+            }, 5000); // 5 seconds per slide
+            return () => clearInterval(timer);
+        }
+    }, [isHovered, nextSlide]);
+
     return (
-        <section className={styles.hero}>
-            <div className={styles.ambientGlowRed}></div>
+        <section 
+            className={styles.heroWrapper}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+        >
+            <div className={styles.sliderContainer}>
+                
+                {/* Arrow Controls */}
+                <button 
+                    className={`${styles.arrowBtn} ${styles.arrowLeft}`} 
+                    onClick={prevSlide}
+                    aria-label="Previous Slide"
+                >
+                    <ChevronLeftIcon width={28} height={28} />
+                </button>
+                <button 
+                    className={`${styles.arrowBtn} ${styles.arrowRight}`} 
+                    onClick={nextSlide}
+                    aria-label="Next Slide"
+                >
+                    <ChevronRightIcon width={28} height={28} />
+                </button>
 
-            <div className={styles.container}>
-                {/* Main Banner (Left Side) - Act as primary Hero */}
-                <div className={styles.mainBanner}>
-                    <div className={styles.bannerBackground}>
-                        <Image src="/images/hero/blue-white-bg.png" alt="Smart Home Appliances" fill priority style={{ objectFit: 'cover' }} className={styles.bgImg} />
-                        <div className={styles.bgOverlay}></div>
-                    </div>
-
-                    <div className={styles.bannerContent}>
-                        <h1 className={styles.bannerTitle}>
-                            Best Electronics Store in <span className={styles.highlight}>Secunderabad</span>
-                        </h1>
-                        <p className={styles.subtitle}>
-                            Authorized Dealer for premium ACs, TVs, and Home Appliances on RP Road. Best prices and instant EMI.
-                        </p>
-
-                        <p className={styles.bannerDesc}>
-                            Top brands. Best prices. Easy EMI available.<br />
-                            Visit Raj Electronics, Secunderabad.
-                        </p>
-
-                        <div className={styles.bannerActions}>
-                            <Link href="/category/all" className={styles.primaryBtn}>
-                                Shop Now
-                            </Link>
-                            <Link href="/category/all" className={styles.outlineBtn}>
-                                View Offers
-                            </Link>
+                {/* Slides Track */}
+                <div 
+                    className={styles.slideTrack}
+                    style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+                >
+                    {SLIDES.map((slide, idx) => (
+                        <div 
+                            key={slide.id} 
+                            className={styles.slide}
+                            style={{ background: slide.bgColor }}
+                        >
+                            <div className={styles.slideContent} style={{ color: slide.textColor }}>
+                                <div className={styles.slideBadge}>{slide.badge}</div>
+                                <h2 className={styles.slideTitle} style={{ color: slide.textColor }}>{slide.title}</h2>
+                                <h3 className={styles.slideSubtitle} style={{ color: slide.textColor }}>{slide.subtitle}</h3>
+                                <Link 
+                                    href={slide.link} 
+                                    className={`${styles.slideBtn} ${slide.textColor === 'white' ? styles.lightBtn : ''}`}
+                                >
+                                    Shop Now
+                                </Link>
+                            </div>
+                            
+                            <div className={styles.slideImageWrap}>
+                                <Image
+                                    src={slide.image}
+                                    alt={slide.title}
+                                    width={600}
+                                    height={400}
+                                    className={styles.slideImage}
+                                    priority={idx === 0} // Only prioritize the first one
+                                />
+                            </div>
                         </div>
-                    </div>
+                    ))}
                 </div>
 
-                {/* Right Content - Deals Grid */}
-                <div className={styles.dealsGrid}>
-
-                    {/* Deal Card 1 - AC */}
-                    <Link href="/category/air-conditioners" className={styles.dealCard}>
-                        <div className={styles.dealBadge}>UP TO 40% OFF</div>
-                        <div className={styles.cardGlow}></div>
-                        <div className={styles.dealContent}>
-                            <h3 className={styles.dealTitle}>Air Conditioners<br />Special Deals</h3>
-                            <p className={styles.dealSubText}>Save up to ₹8,000<br /><span className={styles.emiText}>EMI Available</span></p>
-                        </div>
-                        <div className={styles.dealImageWide}>
-                            <div className={styles.imageWrapper}>
-                                <Image src="/images/hero/ac-clean.png" alt="Air Conditioner Deals" fill sizes="(max-width: 768px) 100vw, 50vw" style={{ objectFit: 'contain' }} loading="lazy" />
-                            </div>
-                        </div>
-                        <div className={styles.dealCta}>
-                            <div className={styles.roundCta}><Icons.ChevronRight /></div>
-                        </div>
-                    </Link>
-
-                    {/* Deal Card 2 - TV */}
-                    <Link href="/category/televisions" className={styles.dealCard}>
-                        <div className={styles.dealBadge}>TOP BRAND</div>
-                        <div className={styles.cardGlow}></div>
-                        <div className={styles.dealContent}>
-                            <h3 className={styles.dealTitle}>Smart TVs Sale</h3>
-                            <p className={styles.dealSubText}>4K & OLED Models<br /><span className={styles.emiText}>Exchange Offers</span></p>
-                        </div>
-                        <div className={styles.dealImageWide}>
-                            <div className={styles.imageWrapperTV}>
-                                <Image src="/images/hero/tv-clean.png" alt="Smart TV Offers" fill sizes="(max-width: 768px) 100vw, 50vw" style={{ objectFit: 'contain' }} loading="lazy" />
-                            </div>
-                        </div>
-                        <div className={styles.dealCta}>
-                            <div className={styles.roundCta}><Icons.ChevronRight /></div>
-                        </div>
-                    </Link>
-
-                    {/* Deal Card 3 - Fridge */}
-                    <Link href="/category/refrigerators" className={styles.dealCard}>
-                        <div className={styles.dealBadge}>MEGA SALE</div>
-                        <div className={styles.cardGlow}></div>
-                        <div className={styles.dealContent}>
-                            <h3 className={styles.dealTitle}>Refrigerator<br />Offers</h3>
-                            <p className={styles.dealSubText}>Double Door & Side-by-Side<br /><span className={styles.emiText}>Starting ₹14,999</span></p>
-                        </div>
-                        <div className={styles.dealImageTall}>
-                            <div className={styles.imageWrapper}>
-                                <Image src="/images/hero/fridge-clean.png" alt="Refrigerator Discounts" fill sizes="(max-width: 768px) 100vw, 50vw" style={{ objectFit: 'contain' }} loading="lazy" />
-                            </div>
-                        </div>
-                        <div className={styles.dealCta}>
-                            <div className={styles.roundCta}><Icons.ChevronRight /></div>
-                        </div>
-                    </Link>
-
-                    {/* Deal Card 4 - Washing Machine */}
-                    <Link href="/category/washing-machines" className={styles.dealCard}>
-                        <div className={styles.dealBadge}>BEST SELLER</div>
-                        <div className={styles.cardGlow}></div>
-                        <div className={styles.dealContent}>
-                            <h3 className={styles.dealTitle}>Washing Machines</h3>
-                            <p className={styles.dealSubText}>Fully Automatic | Best Prices<br /><span className={styles.emiText}>Free Install</span></p>
-                        </div>
-                        <div className={styles.dealImageWide}>
-                            <div className={styles.imageWrapper}>
-                                <Image src="/images/hero/washing-machine-clean.png" alt="Washing Machine Sale" fill sizes="(max-width: 768px) 100vw, 50vw" style={{ objectFit: 'contain' }} loading="lazy" />
-                            </div>
-                        </div>
-                        <div className={styles.dealCta}>
-                            <div className={styles.roundCta}><Icons.ChevronRight /></div>
-                        </div>
-                    </Link>
-
+                {/* Pagination Dots */}
+                <div className={styles.dotsWrapper}>
+                    {SLIDES.map((_, idx) => (
+                        <button
+                            key={idx}
+                            className={`${styles.dot} ${currentSlide === idx ? styles.active : ''}`}
+                            onClick={() => setCurrentSlide(idx)}
+                            aria-label={`Go to slide ${idx + 1}`}
+                        />
+                    ))}
                 </div>
-            </div>
 
-            {/* Support/Info Bar */}
-            <div className={styles.infoBarWrapper}>
-                <div className={styles.infoContainer}>
-                    <div className={styles.infoItem}>
-                        ₹ Easy EMI Options
-                    </div>
-                    <div className={styles.infoItem}>
-                        🛠️ Same Day Installation
-                    </div>
-                    <div className={styles.infoItem}>
-                        🛡️ Trusted Since 1993
-                    </div>
-                    <div className={styles.infoItem}>
-                        ⭐ 4.9 <span style={{ opacity: 0.8, marginLeft: '4px' }}>Customer Rating</span>
-                    </div>
-                </div>
             </div>
         </section>
     );
