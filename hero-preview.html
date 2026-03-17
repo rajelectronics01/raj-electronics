@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raj Electronics — Hero Preview</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:wght@400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+
+    <style>
+        /* ═══════════════════════════════════════════════
+           RESET & BASE
+           ═══════════════════════════════════════════════ */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            -webkit-text-size-adjust: 100%;
+        }
+
+        body {
+            font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #0A0A0A;
+            color: #F5F0E8;
+            overflow-x: hidden;
+        }
+
+        /* ═══════════════════════════════════════════════
+           CSS VARIABLES
+           ═══════════════════════════════════════════════ */
+        :root {
+            --bg-dark: #0A0A0A;
+            --accent-gold: #E8A020;
+            --accent-gold-hover: #F0B040;
+            --text-primary: #F5F0E8;
+            --text-secondary: #9A9080;
+            --font-headline: 'Playfair Display', Georgia, serif;
+            --font-body: 'DM Sans', -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+            --hero-height: 100vh;
+            --hero-height: 100dvh;
+            --transition-slide: 600ms ease-in-out;
+            --auto-advance: 5000;
+        }
+
+        /* ═══════════════════════════════════════════════
+           HERO CONTAINER
+           ═══════════════════════════════════════════════ */
+        .hero {
+            position: relative;
+            width: 100%;
+            height: var(--hero-height);
+            min-height: 600px;
+            overflow: hidden;
+            background: var(--bg-dark);
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        /* ═══════════════════════════════════════════════
+           SLIDES TRACK
+           ═══════════════════════════════════════════════ */
+        .hero__track {
+            display: flex;
+            width: 500%; /* 5 slides */
+            height: 100%;
+            transition: transform var(--transition-slide);
+            will-change: transform;
+        }
+
+        .hero__track.no-transition {
+            transition: none !important;
+        }
+
+        /* ═══════════════════════════════════════════════
+           INDIVIDUAL SLIDE
+           ═══════════════════════════════════════════════ */
+        .slide {
+            width: 20%; /* 100% / 5 */
+            height: 100%;
+            flex-shrink: 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        /* ─── TEXT PANEL (Left) ─── */
+        .slide__text {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 80px 64px;
+            background: var(--bg-dark);
+            z-index: 2;
+        }
+
+        .slide__eyebrow {
+            font-family: var(--font-body);
+            font-size: 11px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--accent-gold);
+            margin-bottom: 24px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 500ms ease 100ms, transform 500ms ease 100ms;
+        }
+
+        .slide.active .slide__eyebrow {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .slide__headline {
+            font-family: var(--font-headline);
+            font-size: clamp(36px, 5vw, 72px);
+            font-weight: 700;
+            line-height: 1.1;
+            color: var(--text-primary);
+            margin-bottom: 20px;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 500ms ease 200ms, transform 500ms ease 200ms;
+        }
+
+        .slide.active .slide__headline {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .slide__subline {
+            font-family: var(--font-body);
+            font-size: 16px;
+            font-weight: 400;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 40px;
+            max-width: 420px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 500ms ease 300ms, transform 500ms ease 300ms;
+        }
+
+        .slide.active .slide__subline {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ─── CTAs ─── */
+        .slide__ctas {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            flex-wrap: wrap;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 500ms ease 400ms, transform 500ms ease 400ms;
+        }
+
+        .slide.active .slide__ctas {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .cta-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 32px;
+            border: 2px solid var(--accent-gold);
+            border-radius: 0;
+            background: transparent;
+            color: var(--accent-gold);
+            font-family: var(--font-body);
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background 300ms ease, color 300ms ease, transform 200ms ease;
+        }
+
+        .cta-primary:hover {
+            background: var(--accent-gold);
+            color: var(--bg-dark);
+            transform: translateX(4px);
+        }
+
+        .cta-primary::before {
+            content: '→';
+            font-size: 16px;
+            transition: transform 300ms ease;
+        }
+
+        .cta-primary:hover::before {
+            transform: translateX(4px);
+        }
+
+        .cta-secondary {
+            font-family: var(--font-body);
+            font-size: 14px;
+            font-weight: 400;
+            color: var(--text-secondary);
+            text-decoration: none;
+            cursor: pointer;
+            transition: color 300ms ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: none;
+            border: none;
+        }
+
+        .cta-secondary:hover {
+            color: var(--text-primary);
+        }
+
+        .cta-secondary::after {
+            content: '→';
+            transition: transform 300ms ease;
+        }
+
+        .cta-secondary:hover::after {
+            transform: translateX(4px);
+        }
+
+        /* ─── PHOTO PANEL (Right) ─── */
+        .slide__photo {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slide__photo img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        /* Left-edge gradient overlay for photo panel */
+        .slide__photo::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 30%;
+            height: 100%;
+            background: linear-gradient(to right, var(--bg-dark) 0%, transparent 100%);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* Vignette on edges */
+        .slide__photo::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            box-shadow: inset 0 0 120px 40px rgba(10, 10, 10, 0.3);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* ═══════════════════════════════════════════════
+           SLIDE COUNTER (top right)
+           ═══════════════════════════════════════════════ */
+        .hero__counter {
+            position: absolute;
+            top: 32px;
+            right: 40px;
+            z-index: 10;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            color: var(--text-secondary);
+            letter-spacing: 2px;
+            display: flex;
+            align-items: baseline;
+            gap: 4px;
+        }
+
+        .hero__counter-current {
+            color: var(--text-primary);
+            font-size: 20px;
+            font-weight: 400;
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            line-height: 24px;
+            text-align: right;
+        }
+
+        .hero__counter-current span {
+            display: block;
+            transition: transform 400ms cubic-bezier(0.4, 0, 0.2, 1), opacity 400ms ease;
+        }
+
+        .hero__counter-total {
+            color: var(--text-secondary);
+            font-size: 13px;
+        }
+
+        /* ═══════════════════════════════════════════════
+           NAV ARROWS
+           ═══════════════════════════════════════════════ */
+        .hero__nav {
+            position: absolute;
+            bottom: 48px;
+            right: 40px;
+            z-index: 10;
+            display: flex;
+            gap: 8px;
+        }
+
+        .hero__nav-btn {
+            width: 48px;
+            height: 48px;
+            border: 1px solid rgba(245, 240, 232, 0.2);
+            border-radius: 0;
+            background: rgba(10, 10, 10, 0.6);
+            backdrop-filter: blur(8px);
+            color: var(--text-primary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 300ms ease, border-color 300ms ease, transform 150ms ease;
+        }
+
+        .hero__nav-btn:hover {
+            background: var(--accent-gold);
+            border-color: var(--accent-gold);
+            color: var(--bg-dark);
+        }
+
+        .hero__nav-btn:active {
+            transform: scale(0.95);
+        }
+
+        .hero__nav-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* ═══════════════════════════════════════════════
+           PROGRESS BAR
+           ═══════════════════════════════════════════════ */
+        .hero__progress {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: rgba(245, 240, 232, 0.08);
+            z-index: 10;
+        }
+
+        .hero__progress-bar {
+            height: 100%;
+            background: var(--accent-gold);
+            width: 0%;
+            transition: none;
+        }
+
+        .hero__progress-bar.animating {
+            transition: width 5000ms linear;
+            width: 100%;
+        }
+
+        /* ═══════════════════════════════════════════════
+           SLIDE DOTS (bottom center, optional indicator)
+           ═══════════════════════════════════════════════ */
+        .hero__dots {
+            position: absolute;
+            bottom: 48px;
+            left: 64px;
+            z-index: 10;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .hero__dot {
+            width: 32px;
+            height: 2px;
+            background: rgba(245, 240, 232, 0.2);
+            border: none;
+            cursor: pointer;
+            transition: background 300ms ease, width 300ms ease;
+            padding: 0;
+        }
+
+        .hero__dot.active {
+            background: var(--accent-gold);
+            width: 48px;
+        }
+
+        .hero__dot:hover {
+            background: rgba(245, 240, 232, 0.5);
+        }
+
+        /* ═══════════════════════════════════════════════
+           REDUCED MOTION
+           ═══════════════════════════════════════════════ */
+        @media (prefers-reduced-motion: reduce) {
+            .hero__track {
+                transition: none !important;
+            }
+            .slide__eyebrow,
+            .slide__headline,
+            .slide__subline,
+            .slide__ctas {
+                transition: none !important;
+                opacity: 1 !important;
+                transform: none !important;
+            }
+            .hero__progress-bar {
+                transition: none !important;
+            }
+            .hero__counter-current span {
+                transition: none !important;
+            }
+        }
+
+        /* ═══════════════════════════════════════════════
+           RESPONSIVE — TABLET (768–1023)
+           ═══════════════════════════════════════════════ */
+        @media (max-width: 1023px) and (min-width: 768px) {
+            .slide {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .slide__text {
+                padding: 60px 36px;
+            }
+
+            .slide__headline {
+                font-size: clamp(32px, 4.5vw, 56px);
+            }
+
+            .hero__dots {
+                left: 36px;
+            }
+        }
+
+        /* ═══════════════════════════════════════════════
+           RESPONSIVE — MOBILE (< 768px)
+           ═══════════════════════════════════════════════ */
+        @media (max-width: 767px) {
+            .hero {
+                min-height: 100vh;
+                min-height: 100dvh;
+            }
+
+            .slide {
+                grid-template-columns: 1fr;
+                grid-template-rows: 45vh 55vh;
+                grid-template-rows: 45dvh 55dvh;
+            }
+
+            .slide__photo {
+                order: -1; /* Photo on top */
+            }
+
+            .slide__photo::before {
+                /* Bottom gradient instead of left */
+                width: 100%;
+                height: 40%;
+                top: auto;
+                bottom: 0;
+                background: linear-gradient(to top, var(--bg-dark) 0%, transparent 100%);
+            }
+
+            .slide__text {
+                padding: 32px 24px;
+                justify-content: flex-start;
+            }
+
+            .slide__headline {
+                font-size: clamp(28px, 8vw, 40px);
+            }
+
+            .slide__eyebrow {
+                font-size: 10px;
+                margin-bottom: 16px;
+            }
+
+            .slide__subline {
+                font-size: 14px;
+                margin-bottom: 28px;
+            }
+
+            .cta-primary {
+                padding: 12px 24px;
+                font-size: 13px;
+            }
+
+            .cta-secondary {
+                font-size: 13px;
+            }
+
+            .hero__counter {
+                top: 20px;
+                right: 24px;
+            }
+
+            .hero__nav {
+                bottom: 32px;
+                right: 24px;
+            }
+
+            .hero__nav-btn {
+                width: 40px;
+                height: 40px;
+            }
+
+            .hero__dots {
+                left: 24px;
+                bottom: 38px;
+            }
+        }
+
+        /* ═══════════════════════════════════════════════
+           SMALL MOBILE (≤ 375px)
+           ═══════════════════════════════════════════════ */
+        @media (max-width: 375px) {
+            .slide__text {
+                padding: 24px 20px;
+            }
+
+            .slide__headline {
+                font-size: 28px;
+            }
+
+            .slide__ctas {
+                gap: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<section class="hero" id="hero" aria-label="Hero slideshow" role="region">
+
+    <!-- Slide Counter -->
+    <div class="hero__counter" aria-live="polite" aria-atomic="true">
+        <span class="hero__counter-current" id="counterCurrent"><span>01</span></span>
+        <span class="hero__counter-total"> / 05</span>
+    </div>
+
+    <!-- Slides Track -->
+    <div class="hero__track" id="heroTrack">
+
+        <!-- SLIDE 1 — Air Conditioners -->
+        <div class="slide active" data-index="0">
+            <div class="slide__text">
+                <p class="slide__eyebrow">Authorized Dealer · RP Road, Secunderabad</p>
+                <h2 class="slide__headline">Secunderabad's Largest Live AC Display</h2>
+                <p class="slide__subline">Walk in. Feel the difference before you decide.</p>
+                <div class="slide__ctas">
+                    <a href="/category/air-conditioners" class="cta-primary" id="cta-ac">Explore Air Conditioners</a>
+                    <a href="tel:+919290748866" class="cta-secondary">Call for Best Price</a>
+                </div>
+            </div>
+            <div class="slide__photo">
+                <img
+                    src="/images/shop in.jpeg"
+                    alt="Raj Electronics store interior showing AC display wall with Carrier, Whirlpool and Lloyd split air conditioners mounted for live demonstration"
+                    fetchpriority="high"
+                    decoding="async"
+                >
+            </div>
+        </div>
+
+        <!-- SLIDE 2 — Smart TVs -->
+        <div class="slide" data-index="1">
+            <div class="slide__text">
+                <p class="slide__eyebrow">4K · OLED · Google TV</p>
+                <h2 class="slide__headline">See It On The Wall Before It's On Yours</h2>
+                <p class="slide__subline">Samsung, Sansui, and more — all live in-store.</p>
+                <div class="slide__ctas">
+                    <a href="/category/televisions" class="cta-primary" id="cta-tv">Browse Smart TVs</a>
+                    <a href="tel:+919290748866" class="cta-secondary">Call for Best Price</a>
+                </div>
+            </div>
+            <div class="slide__photo">
+                <img
+                    src="/images/shop main.jpeg"
+                    alt="Raj Electronics in-store TV display wall showing multiple Videocon, Sansui smart TVs with ACs and appliances"
+                    loading="lazy"
+                    decoding="async"
+                >
+            </div>
+        </div>
+
+        <!-- SLIDE 3 — Refrigerators -->
+        <div class="slide" data-index="2">
+            <div class="slide__text">
+                <p class="slide__eyebrow">Double Door · Side by Side · Single Door</p>
+                <h2 class="slide__headline">Best Prices. No Online Tricks.</h2>
+                <p class="slide__subline">We guarantee to beat any verified price. Walk in or call.</p>
+                <div class="slide__ctas">
+                    <a href="/category/refrigerators" class="cta-primary" id="cta-fridge">View Refrigerators</a>
+                    <a href="tel:+919290748866" class="cta-secondary">Call for Best Price</a>
+                </div>
+            </div>
+            <div class="slide__photo">
+                <img
+                    src="/images/shop ref.jpeg"
+                    alt="Raj Electronics refrigerator display featuring Whirlpool and Lloyd double-door refrigerators with floral designs"
+                    loading="lazy"
+                    decoding="async"
+                >
+            </div>
+        </div>
+
+        <!-- SLIDE 4 — Washing Machines -->
+        <div class="slide" data-index="3">
+            <div class="slide__text">
+                <p class="slide__eyebrow">Fully Automatic · Semi Automatic</p>
+                <h2 class="slide__headline">Free Install. Same Day. Zero Hassle.</h2>
+                <p class="slide__subline">We don't just sell — we set it up right.</p>
+                <div class="slide__ctas">
+                    <a href="/category/washing-machines" class="cta-primary" id="cta-wm">Shop Washing Machines</a>
+                    <a href="tel:+919290748866" class="cta-secondary">Call for Best Price</a>
+                </div>
+            </div>
+            <div class="slide__photo">
+                <img
+                    src="/images/interior.jpeg"
+                    alt="Raj Electronics interior showing washing machines, refrigerators, air coolers and multiple appliance brands on display"
+                    loading="lazy"
+                    decoding="async"
+                >
+            </div>
+        </div>
+
+        <!-- SLIDE 5 — Trust / About -->
+        <div class="slide" data-index="4">
+            <div class="slide__text">
+                <p class="slide__eyebrow">Established 1995</p>
+                <h2 class="slide__headline">Three Decades. One Address. 50,000 Families.</h2>
+                <p class="slide__subline">Raj Electronics, 7-1-949 Rashtrapati Road, Secunderabad.</p>
+                <div class="slide__ctas">
+                    <a href="/about" class="cta-primary" id="cta-story">Our Story</a>
+                    <a href="https://maps.google.com/?q=Raj+Electronics+RP+Road+Secunderabad" class="cta-secondary" target="_blank" rel="noopener">Get Directions</a>
+                </div>
+            </div>
+            <div class="slide__photo">
+                <img
+                    src="/images/shop front.jpeg"
+                    alt="Raj Electronics shop front at RP Road, Secunderabad, showing the Lloyd and Whirlpool branded storefront with products on display"
+                    loading="lazy"
+                    decoding="async"
+                >
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Dot Indicators -->
+    <div class="hero__dots" role="tablist" aria-label="Slide navigation">
+        <button class="hero__dot active" data-slide="0" role="tab" aria-selected="true" aria-label="Slide 1: Air Conditioners"></button>
+        <button class="hero__dot" data-slide="1" role="tab" aria-selected="false" aria-label="Slide 2: Smart TVs"></button>
+        <button class="hero__dot" data-slide="2" role="tab" aria-selected="false" aria-label="Slide 3: Refrigerators"></button>
+        <button class="hero__dot" data-slide="3" role="tab" aria-selected="false" aria-label="Slide 4: Washing Machines"></button>
+        <button class="hero__dot" data-slide="4" role="tab" aria-selected="false" aria-label="Slide 5: Our Story"></button>
+    </div>
+
+    <!-- Navigation Arrows -->
+    <div class="hero__nav">
+        <button class="hero__nav-btn" id="navPrev" aria-label="Previous slide">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M15 19l-7-7 7-7"/>
+            </svg>
+        </button>
+        <button class="hero__nav-btn" id="navNext" aria-label="Next slide">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 5l7 7-7 7"/>
+            </svg>
+        </button>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="hero__progress" aria-hidden="true">
+        <div class="hero__progress-bar" id="progressBar"></div>
+    </div>
+
+</section>
+
+<script>
+(function() {
+    'use strict';
+
+    // ─── Config ───
+    const SLIDE_COUNT = 5;
+    const AUTO_ADVANCE_MS = 5000;
+    const SWIPE_THRESHOLD = 50;
+
+    // ─── DOM refs ───
+    const hero = document.getElementById('hero');
+    const track = document.getElementById('heroTrack');
+    const progressBar = document.getElementById('progressBar');
+    const counterCurrent = document.getElementById('counterCurrent');
+    const prevBtn = document.getElementById('navPrev');
+    const nextBtn = document.getElementById('navNext');
+    const dots = document.querySelectorAll('.hero__dot');
+    const slides = document.querySelectorAll('.slide');
+
+    // ─── State ───
+    let currentSlide = 0;
+    let autoTimer = null;
+    let isPaused = false;
+    let isTransitioning = false;
+
+    // ─── Reduced motion check ───
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // ─── Go to slide ───
+    function goToSlide(index, direction) {
+        if (isTransitioning || index === currentSlide) return;
+        isTransitioning = true;
+
+        // Remove active from current
+        slides[currentSlide].classList.remove('active');
+        dots[currentSlide].classList.remove('active');
+        dots[currentSlide].setAttribute('aria-selected', 'false');
+
+        currentSlide = index;
+
+        // Move track
+        track.style.transform = `translateX(-${currentSlide * 20}%)`;
+
+        // Activate new slide
+        slides[currentSlide].classList.add('active');
+        dots[currentSlide].classList.add('active');
+        dots[currentSlide].setAttribute('aria-selected', 'true');
+
+        // Update counter with animation
+        updateCounter(currentSlide);
+
+        // Reset progress
+        resetProgress();
+
+        // Transition lock
+        setTimeout(() => {
+            isTransitioning = false;
+        }, 650);
+    }
+
+    // ─── Counter update ───
+    function updateCounter(index) {
+        const numStr = String(index + 1).padStart(2, '0');
+        const span = counterCurrent.querySelector('span');
+        if (!prefersReducedMotion) {
+            span.style.transform = 'translateY(-100%)';
+            span.style.opacity = '0';
+            setTimeout(() => {
+                span.textContent = numStr;
+                span.style.transform = 'translateY(100%)';
+                requestAnimationFrame(() => {
+                    requestAnimationFrame(() => {
+                        span.style.transform = 'translateY(0)';
+                        span.style.opacity = '1';
+                    });
+                });
+            }, 200);
+        } else {
+            span.textContent = numStr;
+        }
+    }
+
+    // ─── Navigation ───
+    function nextSlide() {
+        const next = (currentSlide + 1) % SLIDE_COUNT;
+        goToSlide(next, 'right');
+    }
+
+    function prevSlide() {
+        const prev = (currentSlide - 1 + SLIDE_COUNT) % SLIDE_COUNT;
+        goToSlide(prev, 'left');
+    }
+
+    // ─── Auto advance ───
+    function resetProgress() {
+        progressBar.classList.remove('animating');
+        progressBar.style.width = '0%';
+
+        if (!prefersReducedMotion && !isPaused) {
+            // Force reflow to restart the animation
+            void progressBar.offsetWidth;
+            progressBar.classList.add('animating');
+        }
+    }
+
+    function startAutoAdvance() {
+        if (prefersReducedMotion) return;
+        stopAutoAdvance();
+        resetProgress();
+        autoTimer = setInterval(() => {
+            if (!isPaused) {
+                nextSlide();
+            }
+        }, AUTO_ADVANCE_MS);
+    }
+
+    function stopAutoAdvance() {
+        if (autoTimer) {
+            clearInterval(autoTimer);
+            autoTimer = null;
+        }
+    }
+
+    // ─── Pause on hover ───
+    hero.addEventListener('mouseenter', () => {
+        isPaused = true;
+        progressBar.classList.remove('animating');
+        // Freeze progress bar at current width
+        const computed = getComputedStyle(progressBar);
+        progressBar.style.width = computed.width;
+    });
+
+    hero.addEventListener('mouseleave', () => {
+        isPaused = false;
+        resetProgress();
+    });
+
+    // ─── Button clicks ───
+    nextBtn.addEventListener('click', () => {
+        nextSlide();
+        restartAuto();
+    });
+
+    prevBtn.addEventListener('click', () => {
+        prevSlide();
+        restartAuto();
+    });
+
+    // ─── Dot clicks ───
+    dots.forEach(dot => {
+        dot.addEventListener('click', () => {
+            const target = parseInt(dot.dataset.slide, 10);
+            goToSlide(target);
+            restartAuto();
+        });
+    });
+
+    function restartAuto() {
+        stopAutoAdvance();
+        startAutoAdvance();
+    }
+
+    // ─── Keyboard navigation ───
+    document.addEventListener('keydown', (e) => {
+        // Only respond if hero is in viewport
+        const rect = hero.getBoundingClientRect();
+        if (rect.bottom < 0 || rect.top > window.innerHeight) return;
+
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+            e.preventDefault();
+            nextSlide();
+            restartAuto();
+        } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+            e.preventDefault();
+            prevSlide();
+            restartAuto();
+        }
+    });
+
+    // ─── Touch / Pointer swipe ───
+    let pointerStartX = 0;
+    let pointerStartY = 0;
+    let pointerDown = false;
+
+    hero.addEventListener('pointerdown', (e) => {
+        if (e.pointerType === 'mouse') return; // Only touch/pen
+        pointerStartX = e.clientX;
+        pointerStartY = e.clientY;
+        pointerDown = true;
+    });
+
+    hero.addEventListener('pointermove', (e) => {
+        if (!pointerDown) return;
+        // Prevent scrolling while swiping horizontally
+        const diffX = Math.abs(e.clientX - pointerStartX);
+        const diffY = Math.abs(e.clientY - pointerStartY);
+        if (diffX > diffY && diffX > 10) {
+            e.preventDefault();
+        }
+    }, { passive: false });
+
+    hero.addEventListener('pointerup', (e) => {
+        if (!pointerDown) return;
+        pointerDown = false;
+
+        const diffX = e.clientX - pointerStartX;
+        const diffY = Math.abs(e.clientY - pointerStartY);
+
+        // Only trigger if horizontal swipe is greater than vertical
+        if (Math.abs(diffX) > SWIPE_THRESHOLD && Math.abs(diffX) > diffY) {
+            if (diffX < 0) {
+                nextSlide();
+            } else {
+                prevSlide();
+            }
+            restartAuto();
+        }
+    });
+
+    hero.addEventListener('pointercancel', () => {
+        pointerDown = false;
+    });
+
+    // Prevent pull-to-refresh / scroll on touch within hero
+    hero.style.touchAction = 'pan-y pinch-zoom';
+
+    // ─── Initialize ───
+    startAutoAdvance();
+
+})();
+</script>
+
+</body>
+</html>

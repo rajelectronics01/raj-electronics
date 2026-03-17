@@ -4,12 +4,14 @@ import { useState } from 'react';
 import ProductForm from '@/components/admin/ProductForm';
 import ProductList from '@/components/admin/ProductList';
 import OrdersTab from '@/components/admin/OrdersTab';
+import HeroAdminTab from '@/components/admin/HeroAdminTab';
+import GalleryAdminTab from '@/components/admin/GalleryAdminTab';
 import styles from './page.module.css';
 
 export default function AdminPage() {
     const [refreshTrigger, setRefreshTrigger] = useState(0);
     const [selectedProduct, setSelectedProduct] = useState<any>(null);
-    const [activeTab, setActiveTab] = useState<'products' | 'orders'>('orders');
+    const [activeTab, setActiveTab] = useState<'products' | 'orders' | 'hero' | 'gallery'>('orders');
 
     const handleSuccess = () => {
         setRefreshTrigger(prev => prev + 1);
@@ -49,6 +51,18 @@ export default function AdminPage() {
                         >
                             Products
                         </button>
+                        <button
+                            onClick={() => setActiveTab('hero')}
+                            style={{ padding: '8px 16px', borderRadius: '6px', fontWeight: 600, border: 'none', cursor: 'pointer', backgroundColor: activeTab === 'hero' ? '#0056b3' : '#fff', color: activeTab === 'hero' ? '#fff' : '#666' }}
+                        >
+                            Hero Banner
+                        </button>
+                        <button
+                            onClick={() => setActiveTab('gallery')}
+                            style={{ padding: '8px 16px', borderRadius: '6px', fontWeight: 600, border: 'none', cursor: 'pointer', backgroundColor: activeTab === 'gallery' ? '#0056b3' : '#fff', color: activeTab === 'gallery' ? '#fff' : '#666' }}
+                        >
+                            Gallery
+                        </button>
                     </div>
                     <button
                         onClick={handleLogout}
@@ -71,6 +85,16 @@ export default function AdminPage() {
                 {activeTab === 'orders' && (
                     <div style={{ background: '#fff', borderRadius: '12px', padding: '20px', boxShadow: '0 4px 12px rgba(0,0,0,0.05)' }}>
                         <OrdersTab />
+                    </div>
+                )}
+                {activeTab === 'hero' && (
+                    <div style={{ background: '#fff', borderRadius: '12px', padding: '20px', boxShadow: '0 4px 12px rgba(0,0,0,0.05)' }}>
+                        <HeroAdminTab />
+                    </div>
+                )}
+                {activeTab === 'gallery' && (
+                    <div style={{ background: '#fff', borderRadius: '12px', padding: '20px', boxShadow: '0 4px 12px rgba(0,0,0,0.05)' }}>
+                        <GalleryAdminTab />
                     </div>
                 )}
             </div>

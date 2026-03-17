@@ -46,7 +46,9 @@ export default function ProductCard({ product, priority }: ProductCardProps) {
                         href={`/product/${product.slug}`}
                         className={styles.titleLink}
                         title={product.name}
-                    >{product.name}</Link>
+                    >
+                        {product.name.length > 60 ? product.name.substring(0, 57) + '...' : product.name}
+                    </Link>
                 </h3>
 
                 <div className={styles.priceContainer}>

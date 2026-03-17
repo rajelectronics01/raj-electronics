@@ -16,6 +16,7 @@ export default function ProductForm({ onSuccess, initialData, onCancel }: Produc
     const [error, setError] = useState('');
     const [scrapeUrl, setScrapeUrl] = useState('');
     const [isScraping, setIsScraping] = useState(false);
+    const [isUploading, setIsUploading] = useState(false);
 
     // Form states
     const [formData, setFormData] = useState({
@@ -117,6 +118,40 @@ export default function ProductForm({ onSuccess, initialData, onCancel }: Produc
             setError(err.message || 'Failed to fetch product data. Please check the URL and try again.');
         } finally {
             setIsScraping(false);
+        }
+    };
+
+    const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const files = e.target.files;
+        if (!files || files.length === 0) return;
+
+        setIsUploading(true);
+        setError('');
+
+        const form = new FormData();
+        Array.from(files).forEach((file) => {
+            form.append('files', file);
+        });
+
+        try {
+            const res = await fetch('/api/upload', {
+                method: 'POST',
+                body: form
+            });
+
+            if (!res.ok) throw new Error('Failed to upload images');
+
+            const data = await res.json();
+            
+            // Append urls to existing or overwrite if empty
+            const currentImages = formData.images ? formData.images.split(',').map(i => i.trim()).filter(Boolean) : [];
+            const newImages = [...currentImages, ...data.urls].join(', ');
+
+            setFormData(prev => ({ ...prev, images: newImages }));
+        } catch (err: any) {
+            setError(err.message || 'Image upload failed');
+        } finally {
+            setIsUploading(false);
         }
     };
 
@@ -268,15 +303,26 @@ export default function ProductForm({ onSuccess, initialData, onCancel }: Produc
             </div>
 
             <div className={styles.group}>
-                <label>Image URLs (comma separated)</label>
-                <input
-                    name="images"
-                    required
-                    className={styles.input}
-                    placeholder="/images/p1.jpg, /images/p2.jpg"
-                    value={formData.images}
-                    onChange={handleInputChange}
-                />
+                <label>Images</label>
+                <div style={{ display: 'flex', gap: '10px', alignItems: 'flex-start', flexDirection: 'column' }}>
+                    <input 
+                        type="file" 
+                        multiple 
+                        accept="image/*" 
+                        onChange={handleImageUpload} 
+                        disabled={isUploading}
+                        style={{ padding: '8px', border: '1px dashed #ccc', width: '100%', borderRadius: '4px' }}
+                    />
+                    <span style={{ fontSize: '0.8rem', color: '#666' }}>{isUploading ? 'Uploading...' : 'Upload from your computer, or paste URLs below'}</span>
+                    <input
+                        name="images"
+                        required
+                        className={styles.input}
+                        placeholder="/images/p1.jpg, /images/p2.jpg"
+                        value={formData.images}
+                        onChange={handleInputChange}
+                    />
+                </div>
             </div>
 
             <div className={styles.group}>

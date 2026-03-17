@@ -1,13 +1,14 @@
 'use client';
 
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import Image from 'next/image';
 import styles from './StoreGallery.module.css';
 
-export default function StoreGallery() {
+export default function StoreGallery({ initialImages }: { initialImages?: any }) {
     const scrollContainerRef = useRef<HTMLDivElement>(null);
+    const [lightboxImage, setLightboxImage] = useState<string | null>(null);
 
-    const images = [
+    const defaultImages = [
         { src: '/images/shop front.jpeg', alt: 'Shop Front View' },
         { src: '/images/shop main.jpeg', alt: 'Main Shop Area' },
         { src: '/images/shop in.jpeg', alt: 'Inside the Shop' },
@@ -16,6 +17,8 @@ export default function StoreGallery() {
         { src: '/images/raj.png', alt: 'Raj Electronics Logo/Sign' },
         { src: '/images/tg.png', alt: 'Store Feature' },
     ];
+
+    const images = Array.isArray(initialImages) && initialImages.length > 0 ? initialImages : defaultImages;
 
     const scroll = (direction: 'left' | 'right') => {
         if (scrollContainerRef.current) {
@@ -53,7 +56,12 @@ export default function StoreGallery() {
 
                     <div className={styles.scrollContainer} ref={scrollContainerRef}>
                         {images.map((img, index) => (
-                            <div key={index} className={styles.imageCard}>
+                            <div 
+                                key={index} 
+                                className={styles.imageCard}
+                                onClick={() => setLightboxImage(img.src)}
+                                style={{ cursor: 'pointer' }}
+                            >
                                 <div style={{ width: '100%', height: '100%', position: 'relative' }}>
                                     <Image
                                         src={img.src}
@@ -62,6 +70,14 @@ export default function StoreGallery() {
                                         className={styles.image}
                                         sizes="(max-width: 768px) 260px, 300px"
                                     />
+                                    <div className={styles.overlayHint}>
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: "white", margin: "auto", position: "absolute", top: 0, bottom: 0, left: 0, right: 0, opacity: 0.8 }}>
+                                            <circle cx="11" cy="11" r="8"></circle>
+                                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                            <line x1="11" y1="8" x2="11" y2="14"></line>
+                                            <line x1="8" y1="11" x2="14" y2="11"></line>
+                                        </svg>
+                                    </div>
                                 </div>
                             </div>
                         ))}
@@ -78,6 +94,30 @@ export default function StoreGallery() {
                     </button>
                 </div>
             </div>
+
+            {/* LIGHTBOX CODE */}
+            {lightboxImage && (
+                <div 
+                    style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0,0,0,0.9)', zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center', backdropFilter: 'blur(4px)' }}
+                    onClick={() => setLightboxImage(null)}
+                >
+                    <button 
+                        style={{ position: 'absolute', top: '20px', right: '30px', background: 'transparent', border: 'none', color: 'white', fontSize: '40px', cursor: 'pointer', zIndex: 10000 }}
+                        onClick={() => setLightboxImage(null)}
+                    >
+                        &times;
+                    </button>
+                    <div style={{ position: 'relative', width: '90%', height: '90%', maxWidth: '1200px' }} onClick={e => e.stopPropagation()}>
+                        <Image
+                            src={lightboxImage}
+                            alt="Expanded View"
+                            fill
+                            style={{ objectFit: 'contain' }}
+                            sizes="100vw"
+                        />
+                    </div>
+                </div>
+            )}
         </section>
     );
 }

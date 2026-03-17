@@ -97,3 +97,9 @@ model OtpVerification {
   attempts  Int      @default(0) // incremented on wrong guess, max 5
   createdAt DateTime @default(now())
 }
+
+model StoreSetting {
+  key       String   @id
+  value     Json
+  updatedAt DateTime @updatedAt
+}

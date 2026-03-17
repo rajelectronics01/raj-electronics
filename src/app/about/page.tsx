@@ -100,15 +100,31 @@ export default function AboutPage() {
 
                         <div className={styles.storyImageWrapper}>
                             <div className={styles.imageBox}>
-                                {/* Using a high quality Unsplash tech/store placeholder if no store picture exists */}
+                                {/* Using the real store photo instead of Unsplash stock */}
                                 <Image
-                                    src="https://images.unsplash.com/photo-1550214436-b6b2cded4872?q=80&w=2070&auto=format&fit=crop"
-                                    alt="Premium Electronics Store Secunderabad"
+                                    src="/images/shop front.jpeg"
+                                    alt="Raj Electronics Storefront Secunderabad"
                                     fill
                                     className={styles.storyImage}
                                 />
                                 <div className={styles.imageAccent}></div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* Founder / Team Section Placeholder (For Next Quarter) */}
+            <section className={styles.teamSection} style={{ padding: '80px 0', backgroundColor: '#f9fafb' }}>
+                <div className="container">
+                    <div style={{ textAlign: 'center', maxWidth: '800px', margin: '0 auto' }}>
+                        <h2 className={styles.sectionTitle} style={{ color: '#111827', marginBottom: '20px' }}>Meet Our Founder & Team</h2>
+                        <p style={{ color: '#4b5563', fontSize: '1.1rem', lineHeight: 1.6, marginBottom: '40px' }}>
+                            Since 1995, our family has been committed to bringing the best electronics to your home. 
+                            [ Real Founder Story and Team Photos will be embedded here in the upcoming update. ]
+                        </p>
+                        <div style={{ width: '100%', height: '300px', backgroundColor: '#e5e7eb', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                            <span style={{ color: '#9ca3af', fontWeight: 600 }}>[ Team Photo Placeholder ]</span>
                         </div>
                     </div>
                 </div>

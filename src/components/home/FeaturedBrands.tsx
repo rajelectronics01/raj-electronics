@@ -7,7 +7,13 @@ const BRAND_LOGOS: Record<string, string> = {
     "Whirlpool": "/brands/whirlpool.png",
     "Crompton": "/brands/crompton.png",
     "Orient": "/brands/orient.png",
-    "TG Smart": "/brands/tgsmart.png.jpeg"
+    "TG Smart": "/brands/tgsmart.png.jpeg",
+    // New brands self-hosted locally
+    "Samsung": "/brands/samsung.svg",
+    "Daikin": "/brands/daikin.svg",
+    "Carrier": "/brands/carrier.svg",
+    "Bluestar": "/brands/bluestar.svg",
+    "Sansui": "/brands/sansui.svg"
 };
 
 export default function FeaturedBrands() {

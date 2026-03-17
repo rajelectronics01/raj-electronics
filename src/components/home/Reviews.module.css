@@ -4,17 +4,48 @@
     margin-bottom: 10px;
 }
 
+.googleBadgeLink {
+    display: inline-block;
+    text-decoration: none;
+    margin: 0 auto 40px;
+    display: flex;
+    justify-content: center;
+}
+
 .googleBadge {
-    text-align: center;
-    color: var(--text-light);
-    margin-bottom: 40px;
-    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: #fff;
+    padding: 12px 24px;
+    border-radius: 50px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e2e8f0;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.googleBadgeLink:hover .googleBadge {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+}
+
+.gLogo {
+    display: block;
 }
 
 .gScale {
-    color: var(--text-dark);
-    font-weight: 700;
-    font-size: 1.1rem;
+    color: #1a1a1a;
+    font-size: 1rem;
+    line-height: 1.2;
+}
+
+.gVerified {
+    color: #16a34a;
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 4px;
 }
 
 .grid {

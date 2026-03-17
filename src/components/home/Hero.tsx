@@ -8,7 +8,7 @@ import { ChevronLeftIcon, ChevronRightIcon } from '../icons/Icons';
 
 // These represent full-width cinematic banner images like your reference.
 // Simply drop your actual banner graphics into the public/images/hero/ folder and update the paths.
-const SLIDES = [
+const DEFAULT_SLIDES = [
     {
         id: 1,
         image: "/images/hero/Gudi Padwa  Ugadi Offers_Desktop.jpg",
@@ -53,16 +53,18 @@ const SLIDES = [
     }
 ];
 
-export default function Hero() {
+export default function Hero({ initialSlides }: { initialSlides?: any }) {
+    const slides = Array.isArray(initialSlides) && initialSlides.length > 0 ? initialSlides : DEFAULT_SLIDES;
+
     const [currentSlide, setCurrentSlide] = useState(0);
     const [isHovered, setIsHovered] = useState(false);
 
     const nextSlide = useCallback(() => {
-        setCurrentSlide((prev) => (prev === SLIDES.length - 1 ? 0 : prev + 1));
-    }, []);
+        setCurrentSlide((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
+    }, [slides.length]);
 
     const prevSlide = () => {
-        setCurrentSlide((prev) => (prev === 0 ? SLIDES.length - 1 : prev - 1));
+        setCurrentSlide((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
     };
 
     // Auto-advance slides
@@ -104,10 +106,10 @@ export default function Hero() {
                     className={styles.slideTrack}
                     style={{ transform: `translateX(-${currentSlide * 100}%)` }}
                 >
-                    {SLIDES.map((slide, idx) => (
+                    {slides.map((slide, idx) => (
                         <Link
                             href={slide.link}
-                            key={slide.id}
+                            key={slide.id || idx}
                             className={styles.slide}
                             aria-label={`Go to ${slide.alt}`}
                         >
@@ -135,7 +137,7 @@ export default function Hero() {
 
                 {/* Pagination Dots */}
                 <div className={styles.dotsWrapper}>
-                    {SLIDES.map((_, idx) => (
+                    {slides.map((_, idx) => (
                         <button
                             key={idx}
                             className={`${styles.dot} ${currentSlide === idx ? styles.active : ''}`}

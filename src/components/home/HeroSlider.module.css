@@ -1,0 +1,461 @@
+/* ═══════════════════════════════════════════════
+   HERO SLIDER — Cinematic Full-Bleed Theme
+   Integrated UI, Motion, Premium Dark
+   ═══════════════════════════════════════════════ */
+
+/* ─── Container ─── */
+.hero {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    min-height: 600px;
+    overflow: hidden;
+    background: #0A0A0A;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+/* ─── Slides Track ─── */
+.track {
+    display: flex;
+    width: 500%;
+    height: 100%;
+    transition: transform 700ms cubic-bezier(0.25, 1, 0.5, 1);
+    will-change: transform;
+}
+
+.trackNoTransition {
+    transition: none !important;
+}
+
+/* ─── Individual Slide ─── */
+.slide {
+    position: relative;
+    width: 20%;
+    height: 100%;
+    flex-shrink: 0;
+    overflow: hidden;
+}
+
+/* ─── PHOTO PANEL (Background) ─── */
+.photoPanel {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+}
+
+.photoImage {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    /* Subtle pan effect */
+    transform: scale(1.08);
+    transition: transform 6s cubic-bezier(0.25, 1, 0.5, 1);
+    will-change: transform;
+}
+
+.active .photoImage {
+    transform: scale(1);
+}
+
+/* Cinematic Gradient Overlay for text readability */
+.photoPanel::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: 
+        linear-gradient(to right, rgba(0, 5, 20, 0.8) 0%, rgba(0, 5, 20, 0.4) 45%, transparent 100%),
+        linear-gradient(to top, rgba(0, 5, 20, 0.9) 0%, transparent 40%);
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* ─── TEXT PANEL (Overlay) ─── */
+.textPanel {
+    position: absolute;
+    top: 50%;
+    left: 8%;
+    transform: translateY(-50%);
+    z-index: 2;
+    max-width: 650px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: #38bdf8; /* Vibrant light blue */
+    margin-bottom: 24px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 600ms ease 200ms, transform 600ms ease 200ms;
+}
+
+.active .eyebrow {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.headline {
+    font-family: var(--font-playfair), Georgia, serif;
+    font-size: clamp(40px, 6vw, 76px);
+    font-weight: 700;
+    line-height: 1.1;
+    color: #FFFFFF;
+    margin-bottom: 24px;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 600ms cubic-bezier(0.25, 1, 0.5, 1) 300ms, transform 600ms cubic-bezier(0.25, 1, 0.5, 1) 300ms;
+}
+
+.active .headline {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.subline {
+    font-size: 17px;
+    font-weight: 300;
+    color: #cbd5e1;
+    line-height: 1.6;
+    margin-bottom: 40px;
+    max-width: 480px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 600ms ease 400ms, transform 600ms ease 400ms;
+}
+
+.active .subline {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ─── CTAs ─── */
+.ctas {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 600ms ease 500ms, transform 600ms ease 500ms;
+}
+
+.active .ctas {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.ctaPrimary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 16px 36px;
+    border-radius: 99px;
+    background: #FFFFFF;
+    color: #0F172A;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 200ms ease, background 300ms ease;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.ctaPrimary:hover {
+    transform: translateY(-2px);
+    background: #f1f5f9;
+}
+
+.ctaPrimary::before {
+    content: '→';
+    font-size: 18px;
+    transition: transform 300ms ease;
+}
+
+.ctaPrimary:hover::before {
+    transform: translateX(4px);
+}
+
+.ctaSecondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 14px 32px;
+    border-radius: 99px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #FFFFFF;
+    font-size: 15px;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 300ms ease;
+}
+
+.ctaSecondary:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* ─── SLIDE COUNTER ─── */
+.counter {
+    position: absolute;
+    top: 40px;
+    right: 5%;
+    z-index: 10;
+    font-family: var(--font-mono), 'Courier New', monospace;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.6);
+    letter-spacing: 2px;
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+}
+
+.counterCurrent {
+    color: #FFFFFF;
+    font-size: 24px;
+    font-weight: 400;
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    width: 28px;
+    text-align: right;
+}
+
+.counterNumber {
+    display: block;
+    transition: transform 400ms cubic-bezier(0.4, 0, 0.2, 1), opacity 400ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.counterTotal {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 14px;
+}
+
+/* ─── NAV ARROWS ─── */
+.nav {
+    position: absolute;
+    bottom: 50px;
+    right: 5%;
+    z-index: 10;
+    display: flex;
+    gap: 12px;
+}
+
+.navBtn {
+    width: 54px;
+    height: 54px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 50%;
+    background: rgba(10, 15, 30, 0.5);
+    backdrop-filter: blur(12px);
+    color: #FFFFFF;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 300ms ease;
+}
+
+.navBtn:hover {
+    background: rgba(255, 255, 255, 1);
+    color: #0F172A;
+    border-color: #FFFFFF;
+    transform: scale(1.05);
+}
+
+.navBtn:active {
+    transform: scale(0.95);
+}
+
+.navBtn svg {
+    width: 22px;
+    height: 22px;
+}
+
+/* ─── PROGRESS BAR ─── */
+.progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    z-index: 10;
+}
+
+.progressBar {
+    height: 100%;
+    background: #38bdf8; /* Vibrant blue */
+    width: 0%;
+    transition: none;
+    box-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+}
+
+.progressBarAnimating {
+    transition: width 5000ms linear;
+    width: 100%;
+}
+
+/* ─── DOT INDICATORS ─── */
+.dots {
+    position: absolute;
+    bottom: 60px;
+    left: 8%;
+    z-index: 10;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.dot {
+    width: 36px;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.3);
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 300ms ease;
+    padding: 0;
+}
+
+.dotActive {
+    background: #38bdf8;
+    width: 56px;
+    box-shadow: 0 0 8px rgba(56, 189, 248, 0.4);
+}
+
+.dot:hover:not(.dotActive) {
+    background: rgba(255, 255, 255, 0.6);
+}
+
+/* ═══════════════════════════════════════════════
+   REDUCED MOTION
+   ═══════════════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+    .track, .photoImage {
+        transition: none !important;
+        transform: none !important;
+    }
+    .eyebrow, .headline, .subline, .ctas {
+        transition: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+    }
+    .progressBar {
+        transition: none !important;
+    }
+}
+
+/* ═══════════════════════════════════════════════
+   RESPONSIVE — TABLET (768–1023)
+   ═══════════════════════════════════════════════ */
+@media (max-width: 1023px) and (min-width: 768px) {
+    .textPanel {
+        left: 6%;
+        max-width: 80%;
+    }
+
+    .photoPanel::after {
+        background: 
+            linear-gradient(to top, rgba(0, 5, 20, 0.95) 0%, rgba(0, 5, 20, 0.6) 50%, transparent 100%);
+    }
+
+    .textPanel {
+        top: auto;
+        bottom: 120px;
+        transform: none;
+    }
+    
+    .dots {
+        left: 6%;
+        bottom: 50px;
+    }
+}
+
+/* ═══════════════════════════════════════════════
+   RESPONSIVE — MOBILE (< 768px)
+   ═══════════════════════════════════════════════ */
+@media (max-width: 767px) {
+    .hero {
+        min-height: 100vh;
+        min-height: 100dvh;
+    }
+
+    .photoPanel::after {
+        background: 
+            linear-gradient(to top, rgba(0, 5, 20, 1) 0%, rgba(0, 5, 20, 0.7) 45%, transparent 100%);
+    }
+
+    .textPanel {
+        top: auto;
+        bottom: 100px;
+        left: 6%;
+        right: 6%;
+        transform: none;
+        max-width: none;
+    }
+
+    .headline {
+        font-size: clamp(32px, 8vw, 42px);
+        margin-bottom: 16px;
+    }
+
+    .eyebrow {
+        font-size: 10px;
+        margin-bottom: 12px;
+    }
+
+    .subline {
+        font-size: 15px;
+        margin-bottom: 24px;
+        color: rgba(255, 255, 255, 0.85);
+    }
+
+    .ctas {
+        gap: 12px;
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .ctaPrimary, .ctaSecondary {
+        width: 100%;
+        justify-content: center;
+        padding: 14px 24px;
+    }
+
+    .counter {
+        top: 20px;
+        right: 6%;
+    }
+
+    .nav {
+        display: none; /* Hide arrows on mobile, rely on swipe */
+    }
+
+    .dots {
+        left: 6%;
+        bottom: 30px;
+    }
+
+    .dot {
+        width: 24px;
+    }
+    
+    .dotActive {
+        width: 40px;
+    }
+}

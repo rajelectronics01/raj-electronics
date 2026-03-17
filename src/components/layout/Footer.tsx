@@ -25,6 +25,16 @@ export default function Footer() {
                             <PhoneIcon className={styles.icon} />
                             <a href="tel:+919290748866">+91 92907 48866</a>
                         </div>
+                        <div style={{ marginTop: '15px', borderRadius: '8px', overflow: 'hidden', height: '120px' }}>
+                            <iframe
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3806.2766788876!2d78.498!3d17.447!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTfCsDI2JzQ5LjIiTiA3OMKwMjknNTIuOCJF!5e0!3m2!1sen!2sin!4v1625555555555!5m2!1sen!2sin"
+                                width="100%"
+                                height="100%"
+                                style={{ border: 0 }}
+                                allowFullScreen={true}
+                                loading="lazy">
+                            </iframe>
+                        </div>
                     </div>
 
                     {/* Column 2: Quick Links */}

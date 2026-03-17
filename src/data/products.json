@@ -8,7 +8,7 @@
     "price": 34990,
     "originalPrice": 58900,
     "images": [
-      "https://m.media-amazon.com/images/I/51gXp8pAt9L._AC_UY327_FMwebp_QL65_.jpg"
+      "/images/products/daikin-1.5-ton-5-star-inverter-split-ac-0.jpg"
     ],
     "features": [
       "Power Chill Operation",
@@ -26,7 +26,7 @@
     "price": 35989,
     "originalPrice": 69900,
     "images": [
-      "https://m.media-amazon.com/images/I/81z9MIj7zHL._AC_UY327_FMwebp_QL65_.jpg"
+      "/images/products/samsung-55-inch-crystal-4k-uhd-smart-tv-0.jpg"
     ],
     "features": [
       "Crystal Processor 4K",
@@ -44,7 +44,7 @@
     "price": 26490,
     "originalPrice": 33990,
     "images": [
-      "https://m.media-amazon.com/images/I/71PxkYFHoRL._AC_UY327_FMwebp_QL65_.jpg"
+      "/images/products/lg-260l-3-star-smart-inverter-double-door-refrigerator-0.jpg"
     ],
     "features": [
       "Smart Inverter Compressor",
@@ -62,7 +62,7 @@
     "price": 13490,
     "originalPrice": 21350,
     "images": [
-      "https://m.media-amazon.com/images/I/61c03bBJjNL._AC_UY327_FMwebp_QL65_.jpg"
+      "/images/products/whirlpool-7.5-kg-5-star-royal-plus-washing-machine-0.jpg"
     ],
     "features": [
       "Hard Water Wash",
@@ -80,7 +80,7 @@
     "price": 37990,
     "originalPrice": 68990,
     "images": [
-      "https://m.media-amazon.com/images/I/61ImzSFmInL._AC_UY327_FMwebp_QL65_.jpg"
+      "/images/products/voltas-maha-adjustable-1.5-ton-5-star-split-ac-0.jpg"
     ],
     "features": [
       "Adjustable Mode",
@@ -98,7 +98,7 @@
     "price": 6999,
     "originalPrice": 7999,
     "images": [
-      "https://m.media-amazon.com/images/I/51c+0SONouL._AC_UY327_FMwebp_QL65_.jpg"
+      "/images/products/symphony-diet-12t-air-cooler-0.jpg"
     ],
     "features": [
       "honeycomb pad",
@@ -108,14 +108,13 @@
     "isFeatured": true
   },
   {
-    "name": "TG SMART 70L AIR COOLER ",
+    "name": "TG SMART 70L AIR COOLER",
     "brand": "TG Smart",
     "category": "Air Coolers",
     "price": 7490,
     "originalPrice": 13490,
     "images": [
-      "https://m.media-amazon.com/images/I/41Dk7RUbVBL._AC_UF1000",
-      "1000_QL80_.jpg"
+      "/images/products/tg-smart-70l-air-cooler-0.jpg"
     ],
     "features": [
       "SLEEK DESIGN"
@@ -131,7 +130,7 @@
     "price": 29990,
     "originalPrice": 53990,
     "images": [
-      "https://i.ibb.co/ksQ6wtMm/1-5ton.jpg"
+      "/images/products/lloyd-1-5-ton-3-star-inverter-split-ac-0.jpg"
     ],
     "features": [
       "Inverter Technology | 10 Years On Compressor"
@@ -147,7 +146,7 @@
     "price": 8490,
     "originalPrice": 13490,
     "images": [
-      "https://i.ibb.co/GvjJQsQL/7-5.jpg"
+      "/images/products/tg-smart-7-5kg-semi-automatic-washing-machine-0.jpg"
     ],
     "features": [
       "High Quality",
@@ -164,7 +163,7 @@
     "price": 10490,
     "originalPrice": 17200,
     "images": [
-      "https://m.media-amazon.com/images/I/71ddRfhOCIL._AC_UY327_FMwebp_QL65_.jpg"
+      "/images/products/crompton-ozone-75-litres-desert-air-cooler-for-home-large-easy-clean-ice-chamber-4-way-air-deflection-high-density-honeycomb-pads-everlast-pump-auto-fill-0.jpg"
     ],
     "features": [
       "Honeycomb Pads | Everlast Pump | Auto Fill"
@@ -180,9 +179,9 @@
     "price": 8990,
     "originalPrice": 14900,
     "images": [
-      "https://m.media-amazon.com/images/I/61J3cfuf6IL._AC_UY327_FMwebp_QL65_.jpg",
-      "https://m.media-amazon.com/images/I/81T-hlD1xSL._SX679_.jpg",
-      "https://m.media-amazon.com/images/I/81WaTrvDBAL._SL1500_.jpg"
+      "/images/products/orient-electric-tornado-52l-desert-air-cooler-0.jpg",
+      "/images/products/orient-electric-tornado-52l-desert-air-cooler-1.jpg",
+      "/images/products/orient-electric-tornado-52l-desert-air-cooler-2.jpg"
     ],
     "features": [
       "Densenest Honeycomb Pads",
@@ -199,7 +198,7 @@
     "price": 2900,
     "originalPrice": 4900,
     "images": [
-      "https://m.media-amazon.com/images/I/71P-xOC0OmL._AC_UL480_FMwebp_QL65_.jpg"
+      "/images/products/vguard-voltage-stabilizer-for-led-tv-0.jpg"
     ],
     "features": [
       "Smart TV's up to 140cm(55)+",
@@ -211,14 +210,14 @@
     "slug": "vguard-voltage-stabilizer-for-led-tv"
   },
   {
-    "name": "Bluestar Water Dispenser ",
+    "name": "Bluestar Water Dispenser",
     "brand": "Bluestar",
     "category": "Home Appliances",
     "price": 9099,
     "originalPrice": 18900,
     "images": [
-      "https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcQ3ZdM0j2P5QYSthCuWvjmDAAl4BvB6K8oLoCmH8PI3b5iL-Lg_4RfV_y3-NF_8GKPiUAi9cngaTMqD-Nuz8KtpgHkQlLR8_QbFrGhcFrkXEPbsogLRtm4yd7OeBRTYAaFiDfbUbSs&usqp=CAc",
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8TM-C9JnkPKznKi3yAZcNiBMqlja2BZzw8w&s"
+      "/images/products/bluestar-water-dispenser-0.jpg",
+      "/images/products/bluestar-water-dispenser-1.jpg"
     ],
     "features": [
       "Hot Cold &Normal Water Dispenser With Refrigerator"
@@ -234,7 +233,7 @@
     "price": 14600,
     "originalPrice": 21500,
     "images": [
-      "https://m.media-amazon.com/images/I/31CNaTIV+iL._SY300_SX300_QL70_FMwebp_.jpg"
+      "/images/products/crompton-optimus-100-litres-desert-air-cooler-for-home-large-easy-clean-ice-chamber-high-density-honeycomb-pads-auto-fill-drain-everlast-pump-humidity-control-0.jpg"
     ],
     "features": [
       "Product Details: Crompton's high performance portable Desert air cooler with high density honey comb cooling pads and 3-way speed settings for air speed control",
@@ -257,7 +256,7 @@
     "price": 10398,
     "originalPrice": 20990,
     "images": [
-      "https://m.media-amazon.com/images/I/31dEpC8Kp6L._SY300_SX300_QL70_FMwebp_.jpg"
+      "/images/products/crompton-ozone-royale-desert-air-cooler-88l-with-humidity-control-auto-drain-everlast-pump-auto-fill-4-way-air-deflection-and-high-density-honeycomb-pads-0.jpg"
     ],
     "features": [
       "Product Details: Crompton's high performance portable desert air cooler with high density honey comb cooling pads and 3-way speed settings for air speed control",
@@ -280,7 +279,7 @@
     "price": 6888,
     "originalPrice": 12000,
     "images": [
-      "https://m.media-amazon.com/images/I/41xWuceg01L._SY300_SX300_QL70_FMwebp_.jpg"
+      "/images/products/tg-smart-air-cooler-40l-powerful-energy-efficient-air-cooling-solution-large-water-tank-honeycomb-cooling-pads-dark-grey-0.jpg"
     ],
     "features": [
       "Powerful Cooling with Large 40L Tank: Designed for effective cooling",
@@ -313,9 +312,9 @@
     "price": 33000,
     "originalPrice": 53990,
     "images": [
-      "https://vsprod.vijaysales.com/media/catalog/product/2/3/237584_1_.jpg?optimize=medium&fit=bounds&height=500&width=500",
-      "https://vsprod.vijaysales.com/media/catalog/product/2/3/237584_2_.jpg?optimize=medium&fit=bounds&height=500&width=500",
-      "https://vsprod.vijaysales.com/media/catalog/product/2/3/237584_11_.jpg?optimize=medium&fit=bounds&height=500&width=500"
+      "/images/products/lloyd-1-ton-5-star-inverter-split-ac-0.jpg",
+      "/images/products/lloyd-1-ton-5-star-inverter-split-ac-1.jpg",
+      "/images/products/lloyd-1-ton-5-star-inverter-split-ac-2.jpg"
     ],
     "features": [
       "Lloyd 1 Ton 5 Star Inverter Split AC | 5 in 1 Convertible | Smart 4-Way Swing | Wi-Fi Ready | Clean Air Filter | Turbo Cool | Strong Dehumidifier | 100% Copper (GLS12I5FOJGR",
@@ -332,9 +331,9 @@
     "price": 35990,
     "originalPrice": 58500,
     "images": [
-      "https://media.tatacroma.com/Croma%20Assets/Large%20Appliances/Air%20Conditioner/Images/268486_0_tyxjp2.png",
-      "https://media-ik.croma.com/prod/https://media.tatacroma.com/Croma%20Assets/Large%20Appliances/Air%20Conditioner/Images/268486_1_cmzceq.png?tr=w-640",
-      "https://media-ik.croma.com/prod/https://media.tatacroma.com/Croma%20Assets/Large%20Appliances/Air%20Conditioner/Images/268486_10_pToTlXRgB.png?updatedAt=1769597935742?tr=w-640"
+      "/images/products/buy-blue-star-5-in-1-convertible-1-5-ton-3-star-inverter-split-ac-with-4-0.png",
+      "/images/products/buy-blue-star-5-in-1-convertible-1-5-ton-3-star-inverter-split-ac-with-4-1.png",
+      "/images/products/buy-blue-star-5-in-1-convertible-1-5-ton-3-star-inverter-split-ac-with-4-2.png"
     ],
     "features": [
       "Blue Star M Series 5 in 1 Convertible 1.5 Ton 3 Star",

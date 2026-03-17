@@ -7,6 +7,7 @@ import Script from "next/script";
 import { UserProvider } from "@/context/UserContext";
 import { CartProvider } from "@/context/CartContext";
 import CartDrawer from "@/components/ui/CartDrawer";
+import WhatsAppButton from "@/components/ui/WhatsAppButton";
 
 const inter = Inter({ subsets: ["latin"], display: "swap" });
 const dmSans = DM_Sans({ subsets: ["latin"], display: "swap", variable: '--font-dm' });
@@ -56,6 +57,7 @@ const jsonLd = [
     "@context": "https://schema.org",
     "@type": "WebSite",
     "name": "Raj Electronics",
+    "alternateName": "Raj Electronics Secunderabad",
     "url": "https://rajelectronics.co/"
   },
   {
@@ -140,6 +142,7 @@ export default function RootLayout({
             <main style={{ minHeight: 'calc(100vh - 300px)' }}>
               {children}
             </main>
+            <WhatsAppButton />
             <Footer />
           </CartProvider>
         </UserProvider>
