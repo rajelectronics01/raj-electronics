@@ -535,11 +535,11 @@
 
     .mobileBrandTitle {
         font-size: 1.35rem;
-        font-weight: 900;
+        font-weight: 800;
         color: #0f172a;
         margin: 0;
         letter-spacing: -0.5px;
-        font-style: italic; /* Inspired by reference brand */
+        line-height: 1.1;
     }
 
     .mobileRightActions {
