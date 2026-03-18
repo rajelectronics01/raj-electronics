@@ -115,20 +115,20 @@ export default function Hero({ initialSlides }: { initialSlides?: any }) {
                         >
                             <Image
                                 src={slide.image}
-                                alt={`Desktop: ${slide.alt}`}
+                                alt={slide.alt}
                                 fill
-                                className={`${styles.slideImage} ${styles.desktopImage}`}
-                                priority={idx === 0} // Prioritize loading the very first image for LCP
-                                sizes="(min-width: 768px) 100vw, 1px"
+                                className={`${styles.slideImage} ${slide.mobileImage ? styles.desktopImage : ''}`}
+                                priority={idx === 0}
+                                sizes="100vw"
                             />
                             {slide.mobileImage && (
                                 <Image
                                     src={slide.mobileImage}
-                                    alt={`Mobile: ${slide.alt}`}
+                                    alt={slide.alt}
                                     fill
                                     className={`${styles.slideImage} ${styles.mobileImage}`}
                                     priority={idx === 0} 
-                                    sizes="(max-width: 767px) 100vw, 1px"
+                                    sizes="100vw"
                                 />
                             )}
                         </Link>

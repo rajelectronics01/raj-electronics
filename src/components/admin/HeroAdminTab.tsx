@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Button from '@/components/ui/Button';
+import styles from './HeroAdminTab.module.css';
 
 // Default initial state matching current simple Hero Banner
 const defaultSlides = [
@@ -127,6 +128,10 @@ export default function HeroAdminTab() {
                 link: '/category/all'
             }
         ]);
+        // Scroll to the new slide
+        setTimeout(() => {
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        }, 100);
     };
 
     const updateSlide = (idx: number, field: string, value: any) => {
@@ -136,7 +141,9 @@ export default function HeroAdminTab() {
     }
 
     const removeSlide = (idx: number) => {
-        setSlides(slides.filter((_, i) => i !== idx));
+        if (confirm('Are you sure you want to delete this banner?')) {
+            setSlides(slides.filter((_, i) => i !== idx));
+        }
     };
 
     const moveSlide = (idx: number, dir: -1 | 1) => {
@@ -150,62 +157,59 @@ export default function HeroAdminTab() {
 
     if (loading) return <div>Loading...</div>;
 
-    const inputStyle = { width: '100%', padding: '8px', border: '1px solid #ccc', borderRadius: '4px', marginBottom: '8px' };
-    const labelStyle = { display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '4px', color: '#475569' };
-
     return (
-        <div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-                <h2 style={{ fontSize: '1.5rem', fontWeight: 600 }}>Manage Hero Banners</h2>
-                <div style={{ display: 'flex', gap: '10px' }}>
+        <div className={styles.container}>
+            <div className={styles.header}>
+                <h2 className={styles.title}>Manage Hero Banners</h2>
+                <div className={styles.actions}>
                     <Button onClick={addSlide} variant="outline">Add Banner</Button>
                     <Button onClick={handleSave} disabled={saving}>{saving ? 'Saving...' : 'Save Changes'}</Button>
                 </div>
             </div>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+            <div className={styles.bannerList}>
                 {slides.map((slide, idx) => (
-                    <div key={slide.id || idx} style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: '8px', padding: '20px', boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px', borderBottom: '1px solid #f1f5f9', paddingBottom: '10px' }}>
-                            <h4 style={{ fontWeight: 700 }}>Banner #{idx + 1}</h4>
-                            <div style={{ display: 'flex', gap: '5px' }}>
-                                <button onClick={() => moveSlide(idx, -1)} disabled={idx === 0} style={{ padding: '4px 8px', cursor: 'pointer' }}>↑</button>
-                                <button onClick={() => moveSlide(idx, 1)} disabled={idx === slides.length - 1} style={{ padding: '4px 8px', cursor: 'pointer' }}>↓</button>
-                                <button onClick={() => removeSlide(idx)} style={{ padding: '4px 8px', cursor: 'pointer', color: 'red', marginLeft: '10px' }}>Delete</button>
+                    <div key={slide.id || idx} className={styles.bannerItem}>
+                        <div className={styles.itemHeader}>
+                            <h4 className={styles.itemTitle}>Banner #{idx + 1}</h4>
+                            <div className={styles.itemActions}>
+                                <button onClick={() => moveSlide(idx, -1)} disabled={idx === 0} style={{ padding: '8px', cursor: 'pointer', opacity: idx === 0 ? 0.3 : 1 }}>↑</button>
+                                <button onClick={() => moveSlide(idx, 1)} disabled={idx === slides.length - 1} style={{ padding: '8px', cursor: 'pointer', opacity: idx === slides.length - 1 ? 0.3 : 1 }}>↓</button>
+                                <button onClick={() => removeSlide(idx)} style={{ padding: '8px', cursor: 'pointer', color: 'red', marginLeft: '10px' }}>❌</button>
                             </div>
                         </div>
 
-                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+                        <div className={styles.itemGrid}>
                             {/* Link & Alt Settings */}
-                            <div>
-                                <label style={labelStyle}>Click Destination Link</label>
-                                <input style={inputStyle} value={slide.link} onChange={e => updateSlide(idx, 'link', e.target.value)} placeholder="/category/air-conditioners" />
+                            <div className={styles.settingsSection}>
+                                <label className={styles.label}>Click Destination Link</label>
+                                <input className={styles.input} value={slide.link} onChange={e => updateSlide(idx, 'link', e.target.value)} placeholder="/category/air-conditioners" />
 
-                                <label style={labelStyle}>Description (Image Alt Text)</label>
-                                <input style={inputStyle} value={slide.alt} onChange={e => updateSlide(idx, 'alt', e.target.value)} placeholder="Summer AC Offers" />
+                                <label className={styles.label}>Description (Image Alt Text)</label>
+                                <input className={styles.input} value={slide.alt} onChange={e => updateSlide(idx, 'alt', e.target.value)} placeholder="Summer AC Offers" />
                             </div>
 
                             {/* Image Settings */}
-                           <div style={{ background: '#f8fafc', padding: '15px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
-                                <label style={labelStyle}>Desktop Image Banner</label>
-                                <div style={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
-                                    <input style={{ ...inputStyle, marginBottom: 0 }} value={slide.image || ''} onChange={e => updateSlide(idx, 'image', e.target.value)} placeholder="/images/..." />
-                                    <label style={{ cursor: 'pointer', background: '#e2e8f0', padding: '8px 12px', borderRadius: '4px', fontWeight: 600, fontSize: '0.85rem', whiteSpace: 'nowrap' }}>
+                           <div className={styles.imageSection}>
+                                <label className={styles.label}>Desktop Image Banner</label>
+                                <div className={styles.uploadRow}>
+                                    <input className={styles.input} style={{ marginBottom: 0 }} value={slide.image || ''} onChange={e => updateSlide(idx, 'image', e.target.value)} placeholder="/images/..." />
+                                    <label className={styles.uploadLabel}>
                                         {uploadingIdx?.idx === idx && uploadingIdx.field === 'image' ? '...' : 'Upload'}
                                         <input type="file" accept="image/*" style={{ display: 'none' }} onChange={e => handleImageUpload(e, idx, 'image')} />
                                     </label>
                                 </div>
-                                {slide.image && <img src={slide.image} style={{ width: '100%', height: '100px', objectFit: 'cover', borderRadius: '4px', marginBottom: '20px', border: '1px solid #ccc' }} />}
+                                {slide.image && <img src={slide.image} className={styles.previewDesktop} alt="Desktop Preview" />}
 
-                                <label style={labelStyle}>Mobile Image Banner (Optional)</label>
-                                <div style={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
-                                    <input style={{ ...inputStyle, marginBottom: 0 }} value={slide.mobileImage || ''} onChange={e => updateSlide(idx, 'mobileImage', e.target.value)} placeholder="Will use desktop if omitted" />
-                                    <label style={{ cursor: 'pointer', background: '#e2e8f0', padding: '8px 12px', borderRadius: '4px', fontWeight: 600, fontSize: '0.85rem', whiteSpace: 'nowrap' }}>
+                                <label className={styles.label}>Mobile Image Banner (Optional)</label>
+                                <div className={styles.uploadRow}>
+                                    <input className={styles.input} style={{ marginBottom: 0 }} value={slide.mobileImage || ''} onChange={e => updateSlide(idx, 'mobileImage', e.target.value)} placeholder="Will use desktop if omitted" />
+                                    <label className={styles.uploadLabel}>
                                         {uploadingIdx?.idx === idx && uploadingIdx.field === 'mobileImage' ? '...' : 'Upload'}
                                         <input type="file" accept="image/*" style={{ display: 'none' }} onChange={e => handleImageUpload(e, idx, 'mobileImage')} />
                                     </label>
                                 </div>
-                                {slide.mobileImage && <img src={slide.mobileImage} style={{ width: '80px', height: '140px', objectFit: 'cover', borderRadius: '4px', border: '1px solid #ccc' }} />}
+                                {slide.mobileImage && <img src={slide.mobileImage} className={styles.previewMobile} alt="Mobile Preview" />}
                             </div>
                         </div>
                     </div>

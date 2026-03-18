@@ -38,45 +38,61 @@ export default function AdminPage() {
     return (
         <div style={{ background: '#f5f5f5', minHeight: '100vh', padding: '24px 0' }}>
             <div className="container">
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
-                    <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginBottom: '24px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', flexWrap: 'wrap', gap: '12px' }}>
+                        <h1 style={{ fontSize: '1.25rem', fontWeight: 700, margin: 0 }}>Raj Electronics Admin</h1>
+                        <button
+                            onClick={handleLogout}
+                            style={{ padding: '8px 16px', backgroundColor: '#ef4444', color: 'white', border: 'none', borderRadius: '6px', cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem' }}
+                        >
+                            Log Out
+                        </button>
+                    </div>
+                    
+                    <div style={{ 
+                        display: 'flex', 
+                        gap: '8px', 
+                        alignItems: 'center', 
+                        overflowX: 'auto', 
+                        paddingBottom: '8px',
+                        msOverflowStyle: 'none',  /* IE and Edge */
+                        scrollbarWidth: 'none',   /* Firefox */
+                        WebkitOverflowScrolling: 'touch'
+                    }}>
+                        <style dangerouslySetInnerHTML={{ __html: `
+                            div::-webkit-scrollbar { display: none; }
+                        ` }} />
                         <button
                             onClick={() => setActiveTab('overview')}
-                            style={{ padding: '10px 18px', borderRadius: '8px', fontSize: '0.9rem', border: '1px solid ' + (activeTab === 'overview' ? '#002366' : '#e2e8f0'), fontWeight: 600, cursor: 'pointer', backgroundColor: activeTab === 'overview' ? '#002366' : '#fff', color: activeTab === 'overview' ? '#fff' : '#475569' }}
+                            style={{ padding: '10px 18px', borderRadius: '8px', fontSize: '0.9rem', border: '1px solid ' + (activeTab === 'overview' ? '#002366' : '#e2e8f0'), fontWeight: 600, cursor: 'pointer', backgroundColor: activeTab === 'overview' ? '#002366' : '#fff', color: activeTab === 'overview' ? '#fff' : '#475569', whiteSpace: 'nowrap' }}
                         >
                             🏠 Dashboard
                         </button>
                         <button
                             onClick={() => setActiveTab('orders')}
-                            style={{ padding: '10px 18px', borderRadius: '8px', fontSize: '0.9rem', border: '1px solid ' + (activeTab === 'orders' ? '#002366' : '#e2e8f0'), fontWeight: 600, cursor: 'pointer', backgroundColor: activeTab === 'orders' ? '#002366' : '#fff', color: activeTab === 'orders' ? '#fff' : '#475569' }}
+                            style={{ padding: '10px 18px', borderRadius: '8px', fontSize: '0.9rem', border: '1px solid ' + (activeTab === 'orders' ? '#002366' : '#e2e8f0'), fontWeight: 600, cursor: 'pointer', backgroundColor: activeTab === 'orders' ? '#002366' : '#fff', color: activeTab === 'orders' ? '#fff' : '#475569', whiteSpace: 'nowrap' }}
                         >
                             📦 Orders
                         </button>
                         <button
                             onClick={() => setActiveTab('products')}
-                            style={{ padding: '10px 18px', borderRadius: '8px', fontSize: '0.9rem', border: '1px solid ' + (activeTab === 'products' ? '#002366' : '#e2e8f0'), fontWeight: 600, cursor: 'pointer', backgroundColor: activeTab === 'products' ? '#002366' : '#fff', color: activeTab === 'products' ? '#fff' : '#475569' }}
+                            style={{ padding: '10px 18px', borderRadius: '8px', fontSize: '0.9rem', border: '1px solid ' + (activeTab === 'products' ? '#002366' : '#e2e8f0'), fontWeight: 600, cursor: 'pointer', backgroundColor: activeTab === 'products' ? '#002366' : '#fff', color: activeTab === 'products' ? '#fff' : '#475569', whiteSpace: 'nowrap' }}
                         >
                             🛒 Products
                         </button>
                         <button
                             onClick={() => setActiveTab('hero')}
-                            style={{ padding: '10px 18px', borderRadius: '8px', fontSize: '0.9rem', border: '1px solid ' + (activeTab === 'hero' ? '#002366' : '#e2e8f0'), fontWeight: 600, cursor: 'pointer', backgroundColor: activeTab === 'hero' ? '#002366' : '#fff', color: activeTab === 'hero' ? '#fff' : '#475569' }}
+                            style={{ padding: '10px 18px', borderRadius: '8px', fontSize: '0.9rem', border: '1px solid ' + (activeTab === 'hero' ? '#002366' : '#e2e8f0'), fontWeight: 600, cursor: 'pointer', backgroundColor: activeTab === 'hero' ? '#002366' : '#fff', color: activeTab === 'hero' ? '#fff' : '#475569', whiteSpace: 'nowrap' }}
                         >
                             🖼️ Banners
                         </button>
                         <button
                             onClick={() => setActiveTab('gallery')}
-                            style={{ padding: '10px 18px', borderRadius: '8px', fontSize: '0.9rem', border: '1px solid ' + (activeTab === 'gallery' ? '#002366' : '#e2e8f0'), fontWeight: 600, cursor: 'pointer', backgroundColor: activeTab === 'gallery' ? '#002366' : '#fff', color: activeTab === 'gallery' ? '#fff' : '#475569' }}
+                            style={{ padding: '10px 18px', borderRadius: '8px', fontSize: '0.9rem', border: '1px solid ' + (activeTab === 'gallery' ? '#002366' : '#e2e8f0'), fontWeight: 600, cursor: 'pointer', backgroundColor: activeTab === 'gallery' ? '#002366' : '#fff', color: activeTab === 'gallery' ? '#fff' : '#475569', whiteSpace: 'nowrap' }}
                         >
                             📸 Gallery
                         </button>
                     </div>
-                    <button
-                        onClick={handleLogout}
-                        style={{ padding: '8px 16px', backgroundColor: '#ef4444', color: 'white', border: 'none', borderRadius: '6px', cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem' }}
-                    >
-                        Log Out
-                    </button>
                 </div>
                 
                 {activeTab === 'overview' && (

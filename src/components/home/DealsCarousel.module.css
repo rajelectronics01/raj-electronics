@@ -157,7 +157,14 @@
 
 /* speed variants — set via inline style --duration */
 .track {
-    animation-duration: var(--duration, 30s);
+    --mobile-multiplier: 1;
+    animation-duration: calc(var(--duration, 30s) * var(--mobile-multiplier));
+}
+
+@media (max-width: 768px) {
+    .track {
+        --mobile-multiplier: 1.5; /* 50% slower on mobile */
+    }
 }
 
 /* ---- Product Card in Carousel ---- */
