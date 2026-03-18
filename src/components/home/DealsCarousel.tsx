@@ -12,13 +12,14 @@ const CATEGORY_CONFIG: {
     match: string; // exact category string stored in DB
     duration: string; // marquee speed (slower = fewer products)
 }[] = [
-    { label: 'Air Coolers',     slug: 'air-coolers',      match: 'Air Coolers',      duration: '32s' },
-    { label: 'Air Conditioners',slug: 'air-conditioners', match: 'Air Conditioners', duration: '38s' },
-    { label: 'Smart TVs',       slug: 'televisions',      match: 'Televisions',      duration: '36s' },
-    { label: 'Refrigerators',   slug: 'refrigerators',    match: 'Refrigerators',    duration: '34s' },
-    { label: 'Washing Machines',slug: 'washing-machines', match: 'Washing Machines', duration: '34s' },
-    { label: 'Home Appliances', slug: 'home-appliances',  match: 'Home Appliances',  duration: '32s' },
-    { label: 'Chest Freezers',  slug: 'chest-freezers',   match: 'Chest Freezers',   duration: '30s' },
+    { label: 'Mobile Phones',    slug: 'mobile-phones',    match: 'Mobile Phones',    duration: '28s' },
+    { label: 'Air Coolers',      slug: 'air-coolers',      match: 'Air Coolers',      duration: '32s' },
+    { label: 'Air Conditioners', slug: 'air-conditioners', match: 'Air Conditioners', duration: '38s' },
+    { label: 'Smart TVs',        slug: 'televisions',      match: 'Televisions',      duration: '36s' },
+    { label: 'Refrigerators',    slug: 'refrigerators',    match: 'Refrigerators',    duration: '34s' },
+    { label: 'Washing Machines', slug: 'washing-machines', match: 'Washing Machines', duration: '34s' },
+    { label: 'Home Appliances',  slug: 'home-appliances',  match: 'Home Appliances',  duration: '32s' },
+    { label: 'Chest Freezers',   slug: 'chest-freezers',   match: 'Chest Freezers',   duration: '30s' },
 ];
 
 function calcDiscount(price: number, originalPrice?: number) {
