@@ -144,10 +144,10 @@
 .track {
     display: flex;
     gap: 20px;
-    /* We duplicate items so the loop looks seamless */
     width: max-content;
-    animation: marquee 30s linear infinite;
+    animation: marquee var(--duration, 80s) linear infinite;
     will-change: transform;
+    /* Ensure the track is doubled in the component JSX */
 }
 
 .track:hover,
@@ -286,29 +286,57 @@
 /* ---- Responsive ---- */
 @media (max-width: 768px) {
     .section {
-        padding: 40px 0 60px;
+        padding: 30px 0 40px;
     }
 
     .header {
-        margin-bottom: 32px;
+        margin-bottom: 24px;
     }
 
     .title {
-        font-size: 1.4rem;
+        font-size: 1.25rem;
+    }
+
+    .rows {
+        gap: 24px;
+    }
+
+    .rowHeader {
+        margin-bottom: 12px;
+    }
+
+    .rowTitle {
+        font-size: 0.95rem;
     }
 
     .card {
-        flex: 0 0 170px;
+        flex: 0 0 160px;
+    }
+
+    .cardBody {
+        padding: 8px 10px 10px;
+    }
+
+    .cardName {
+        font-size: 0.75rem;
+    }
+
+    .cardPrice {
+        font-size: 0.85rem;
     }
 
     .trackWrapper::before,
     .trackWrapper::after {
-        width: 40px;
+        width: 30px;
     }
 }
 
 @media (max-width: 480px) {
     .card {
-        flex: 0 0 148px;
+        flex: 0 0 140px;
+    }
+    
+    .cardImageWrapper {
+        aspect-ratio: 1.1 / 1;
     }
 }
