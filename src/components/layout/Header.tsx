@@ -71,9 +71,10 @@ export default function Header() {
         {
             title: 'COOLING',
             links: [
-                { name: 'Air Conditioners', href: '/category/air-conditioners' },
-                { name: 'Air Coolers', href: '/category/air-coolers' },
-                { name: 'Fans', href: '/category/fans' }
+                { name: 'Split AC', href: '/category/split-ac' },
+                { name: 'Window AC', href: '/category/window-ac' },
+                { name: 'Tower AC', href: '/category/tower-ac' },
+                { name: 'Air Coolers', href: '/category/air-coolers' }
             ]
         },
         {

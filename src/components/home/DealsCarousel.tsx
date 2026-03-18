@@ -13,13 +13,14 @@ const CATEGORY_CONFIG: {
     duration: string; // marquee speed (slower = fewer products)
 }[] = [
     { label: 'Mobile Phones',    slug: 'mobile-phones',    match: 'Mobile Phones',    duration: '80s' },
+    { label: 'Split AC',         slug: 'split-ac',         match: 'Split AC',         duration: '90s' },
+    { label: 'Window AC',        slug: 'window-ac',        match: 'Window AC',        duration: '85s' },
+    { label: 'Tower AC',         slug: 'tower-ac',         match: 'Tower AC',         duration: '80s' },
     { label: 'Air Coolers',      slug: 'air-coolers',      match: 'Air Coolers',      duration: '95s' },
-    { label: 'Air Conditioners', slug: 'air-conditioners', match: 'Air Conditioners', duration: '110s' },
     { label: 'Smart TVs',        slug: 'televisions',      match: 'Televisions',      duration: '100s' },
     { label: 'Refrigerators',    slug: 'refrigerators',    match: 'Refrigerators',    duration: '90s' },
     { label: 'Washing Machines', slug: 'washing-machines', match: 'Washing Machines', duration: '90s' },
     { label: 'Home Appliances',  slug: 'home-appliances',  match: 'Home Appliances',  duration: '85s' },
-    { label: 'Chest Freezers',   slug: 'chest-freezers',   match: 'Chest Freezers',   duration: '80s' },
 ];
 
 function calcDiscount(price: number, originalPrice?: number) {

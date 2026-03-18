@@ -82,23 +82,33 @@ export default function ProductForm({ onSuccess, initialData, onCancel }: Produc
             let category = formData.category;
             if (data.category) {
                 const scrapedCat = data.category.toLowerCase();
-                if (scrapedCat.includes('conditioner') || scrapedCat.includes('ac')) category = 'Air Conditioners';
+                if (scrapedCat.includes('conditioner') || scrapedCat.includes('ac')) {
+                    if (scrapedCat.includes('window')) category = 'Window AC';
+                    else if (scrapedCat.includes('tower') || scrapedCat.includes('vertical')) category = 'Tower AC';
+                    else category = 'Split AC';
+                }
                 else if (scrapedCat.includes('cool')) category = 'Air Coolers';
                 else if (scrapedCat.includes('tv') || scrapedCat.includes('television')) category = 'Televisions';
                 else if (scrapedCat.includes('fridge') || scrapedCat.includes('refrigerator')) category = 'Refrigerators';
                 else if (scrapedCat.includes('wash') || scrapedCat.includes('machine')) category = 'Washing Machines';
                 else if (scrapedCat.includes('dispenser') || scrapedCat.includes('water')) category = 'Water Dispensers';
                 else if (scrapedCat.includes('freezer') || scrapedCat.includes('chest')) category = 'Chest Freezers';
+                else if (scrapedCat.includes('phone') || scrapedCat.includes('mobile')) category = 'Mobile Phones';
             } else if (data.name) {
                 // Try from name
                 const name = data.name.toLowerCase();
-                if (name.includes('air conditioner') || name.includes('split ac') || name.includes('window ac')) category = 'Air Conditioners';
+                if (name.includes('air conditioner') || name.includes('ac')) {
+                    if (name.includes('window')) category = 'Window AC';
+                    else if (name.includes('tower') || name.includes('vertical')) category = 'Tower AC';
+                    else category = 'Split AC';
+                }
                 else if (name.includes('cooler')) category = 'Air Coolers';
                 else if (name.includes('tv') || name.includes('television') || name.includes('led')) category = 'Televisions';
                 else if (name.includes('fridge') || name.includes('refrigerator')) category = 'Refrigerators';
                 else if (name.includes('wash')) category = 'Washing Machines';
                 else if (name.includes('dispenser') || name.includes('water purifier')) category = 'Water Dispensers';
                 else if (name.includes('freezer') || name.includes('deep freezer')) category = 'Chest Freezers';
+                else if (name.includes('phone') || name.includes('smartphone')) category = 'Mobile Phones';
             }
 
             // Populate form fields directly via state
@@ -266,7 +276,11 @@ export default function ProductForm({ onSuccess, initialData, onCancel }: Produc
                         value={formData.category}
                         onChange={handleInputChange}
                     >
-                        <option value="Air Conditioners">Air Conditioners</option>
+                        <option value="Split AC">Split AC</option>
+                        <option value="Window AC">Window AC</option>
+                        <option value="Tower AC">Tower AC</option>
+                        <option value="Air Conditioners">All Air Conditioners</option>
+                        <option value="Mobile Phones">Mobile Phones</option>
                         <option value="Air Coolers">Air Coolers</option>
                         <option value="Televisions">Televisions</option>
                         <option value="Refrigerators">Refrigerators</option>
