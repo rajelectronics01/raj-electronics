@@ -149,17 +149,17 @@ export default function ProductForm({ onSuccess, initialData, onCancel }: Produc
                 body: form
             });
 
-            if (!res.ok) throw new Error('Failed to upload images');
-
-            const data = await res.json();
-            
-            // Append urls to existing or overwrite if empty
-            const currentImages = formData.images ? formData.images.split(',').map(i => i.trim()).filter(Boolean) : [];
-            const newImages = [...currentImages, ...data.urls].join(', ');
-
-            setFormData(prev => ({ ...prev, images: newImages }));
+            if (res.ok) {
+                const data = await res.json();
+                const currentImages = formData.images ? formData.images.split(',').map(i => i.trim()).filter(Boolean) : [];
+                const newImages = [...currentImages, ...data.urls].join(', ');
+                setFormData(prev => ({ ...prev, images: newImages }));
+            } else {
+                const errData = await res.json();
+                setError(`Upload failed: ${errData.error || 'Server error'}`);
+            }
         } catch (err: any) {
-            setError(err.message || 'Image upload failed');
+            setError(`Upload error: ${err.message}`);
         } finally {
             setIsUploading(false);
         }

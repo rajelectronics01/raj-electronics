@@ -106,12 +106,14 @@ export default function HeroAdminTab() {
             if (res.ok) {
                 const data = await res.json();
                 const url = data.urls[0];
-                const newArr = [...slides];
-                newArr[idx][field] = url;
+                const newArr = slides.map((s, i) => i === idx ? { ...s, [field]: url } : s);
                 setSlides(newArr);
+            } else {
+                const errData = await res.json();
+                alert(`Upload failed: ${errData.error || 'Server error'}`);
             }
-        } catch (e) {
-            alert('Upload failed.');
+        } catch (e: any) {
+            alert(`Upload error: ${e.message}`);
         } finally {
             setUploadingIdx(null);
         }

@@ -66,9 +66,12 @@ export default function GalleryAdminTab() {
                 const data = await res.json();
                 const newImgs = data.urls.map((url: string) => ({ src: url, alt: 'Store Gallery Image' }));
                 setImages((prev) => [...prev, ...newImgs]);
+            } else {
+                const errData = await res.json();
+                alert(`Upload failed: ${errData.error || 'Server error'}`);
             }
-        } catch (e) {
-            alert('Upload failed.');
+        } catch (e: any) {
+            alert(`Upload error: ${e.message}`);
         } finally {
             setIsUploading(false);
         }

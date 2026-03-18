@@ -36,7 +36,16 @@ export async function POST(request: Request) {
 
         return NextResponse.json({ urls: uploadedUrls });
     } catch (error: any) {
-        console.error('File upload failed:', error);
-        return NextResponse.json({ error: 'File upload failed' }, { status: 500 });
+        console.error('File upload failed detail:', error);
+        
+        // Check for specific Vercel/Read-only errors
+        const errorMessage = error.code === 'EROFS' 
+            ? 'Server storage is read-only. Please use a cloud storage provider like Cloudinary or Supabase Storage for live deployments.'
+            : error.message || 'File upload failed';
+
+        return NextResponse.json({ 
+            error: errorMessage,
+            details: error.code
+        }, { status: 500 });
     }
 }
