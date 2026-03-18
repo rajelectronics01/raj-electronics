@@ -100,6 +100,13 @@ export default function Header() {
                 { name: 'Washing Machines', href: '/category/washing-machines' },
                 { name: 'Geysers', href: '/category/geysers' }
             ]
+        },
+        {
+            title: 'GADGETS & MOBILES',
+            links: [
+                { name: 'Mobile Phones', href: '/category/mobile-phones' },
+                { name: 'Smartphones', href: '/category/mobile-phones' },
+            ]
         }
     ];
 

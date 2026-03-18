@@ -23,12 +23,12 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://rajelectronics.co'),
-  title: "Raj Electronics - Best Electronics Store in Secunderabad | Authorized Dealer for AC, TV & More",
-  description: "Raj Electronics is the most trusted electronics shop on RP Road, Secunderabad. We offer the best prices on Split ACs, Smart TVs, Refrigerators, and Washing Machines from top brands like Sony, Samsung, Voltas, and Blue Star. Affordable EMI options available.",
-  keywords: "Best electronics shop Secunderabad, authorized AC dealer Secunderabad, affordable air coolers RP Road, TV shop near Secunderabad station, washing machine dealer Hyderabad, Raj Electronics RP Road",
+  title: "Raj Electronics - Best Electronics Store in Secunderabad | Authorized Dealer for AC, TV, Cooler & More",
+  description: "Raj Electronics on RP Road, Secunderabad — your trusted dealer for Split ACs, Smart TVs, Air Coolers, Refrigerators, Washing Machines, Mobile Phones & Home Appliances. Authorized dealer for LG, Voltas, Samsung, Daikin, Lloyd, Carrier, Hitachi, O-General & more. Lowest price guaranteed with easy EMI options. Visit us near Secunderabad Railway Station, Hyderabad.",
+  keywords: "Raj Electronics Secunderabad, electronics shop RP Road Secunderabad, AC dealer Secunderabad, air conditioner price Secunderabad, Voltas AC dealer Hyderabad, LG AC dealer Secunderabad, Samsung TV dealer Secunderabad, split AC Hyderabad, best air cooler price Secunderabad, air cooler dealer Secunderabad, refrigerator showroom Secunderabad, washing machine dealer Hyderabad, home appliances store near me Secunderabad, LED TV shop Secunderabad, mobile phone shop Secunderabad, authorized electronics dealer Hyderabad, O-General AC Secunderabad, Daikin AC dealer Hyderabad, Hitachi AC Secunderabad, Mitsubishi AC dealer, Carrier AC dealer Secunderabad, Bluestar AC dealer, chest freezer dealer Hyderabad, water dispenser shop Secunderabad, Lloyd AC dealer Secunderabad, inverter AC price Hyderabad, 1.5 ton AC best price Secunderabad, electronics on EMI Secunderabad, cheap electronics Secunderabad, electronics near railway station Secunderabad",
   openGraph: {
-    title: "Raj Electronics - Best Electronics Store in Secunderabad | Authorized Dealer",
-    description: "Shop for premium ACs, TVs,Air Coolers, and home appliances at Raj Electronics, Secunderabad. Best local prices & EMI.",
+    title: "Raj Electronics - Best Electronics Dealer in Secunderabad | AC, TV, Coolers & Appliances",
+    description: "Shop ACs, Smart TVs, Air Coolers, Refrigerators, Washing Machines & Mobile Phones at Raj Electronics, RP Road Secunderabad. Authorized dealer for LG, Voltas, Samsung, Daikin, Hitachi & more. Best price + EMI available.",
     locale: "en_IN",
     type: "website",
     siteName: "Raj Electronics",
@@ -57,18 +57,26 @@ const jsonLd = [
     "@context": "https://schema.org",
     "@type": "WebSite",
     "name": "Raj Electronics",
-    "alternateName": "Raj Electronics Secunderabad",
-    "url": "https://rajelectronics.co/"
+    "alternateName": ["Raj Electronics Secunderabad", "Raj Electronics RP Road", "Best AC Dealer Secunderabad"],
+    "url": "https://rajelectronics.co/",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://rajelectronics.co/search?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
   },
   {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
     "name": "Raj Electronics",
+    "description": "Raj Electronics is Secunderabad's most trusted electronics dealer on RP Road, offering Air Conditioners, Smart TVs, Air Coolers, Refrigerators, Washing Machines, Mobile Phones and Home Appliances at the lowest prices with easy EMI. Authorized dealer for LG, Voltas, Samsung, Daikin, Lloyd, Carrier, O-General, Hitachi, Mitsubishi, Bluestar and more.",
     "image": "https://rajelectronics.co/logo.png",
     "@id": "https://rajelectronics.co",
     "url": "https://rajelectronics.co",
     "telephone": "+919290748866",
     "priceRange": "₹₹",
+    "hasMap": "https://maps.google.com/?q=Raj+Electronics+RP+Road+Secunderabad",
+    "servesCuisine": null,
     "address": {
       "@type": "PostalAddress",
       "streetAddress": "RP Road",
@@ -84,18 +92,13 @@ const jsonLd = [
     },
     "openingHoursSpecification": {
       "@type": "OpeningHoursSpecification",
-      "dayOfWeek": [
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday",
-        "Sunday"
-      ],
+      "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
       "opens": "10:30",
       "closes": "21:30"
-    }
+    },
+    "sameAs": [
+      "https://rajelectronics.co"
+    ]
   }
 ];
 

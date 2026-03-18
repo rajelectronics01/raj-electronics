@@ -23,16 +23,29 @@ export async function GET(req: Request, props: { params: Promise<{ transactionId
     const isSuccess = response.data.success && response.data.code === 'PAYMENT_SUCCESS';
 
     if (isSuccess) {
-      // Update order status and fetch invoiceNo
+      // Update order status and fetch order ID for redirect
       const order = await prisma.order.update({
         where: { transactionId },
         data: { 
           paymentStatus: 'PAID',
           orderStatus: 'CONFIRMED'
         },
-        select: { invoiceNo: true }
+        include: {
+          address: true,
+          items: true,
+          user: true
+        }
       });
-      return NextResponse.redirect(`${process.env.NEXT_PUBLIC_BASE_URL}/order/success?t=${transactionId}&inv=${order.invoiceNo}`);
+
+      // Trigger Notifications
+      try {
+        const { notifyNewOrder } = await import('@/lib/notifications');
+        await notifyNewOrder(order);
+      } catch (err) {
+        console.error('Notification Error:', err);
+      }
+
+      return NextResponse.redirect(`${process.env.NEXT_PUBLIC_BASE_URL}/order/${order.id}`);
     } else {
       await prisma.order.update({
         where: { transactionId },

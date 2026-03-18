@@ -12,9 +12,11 @@ export interface Product {
     description?: string;
 }
 
-export type Category = "Air Conditioners" | "Air Coolers" | "Televisions" | "Refrigerators" | "Washing Machines" | "Home Appliances" | "Water Dispensers" | "Chest Freezers";
+export type Category = "Air Conditioners" | "Air Coolers" | "Televisions" | "Refrigerators" | "Washing Machines" | "Home Appliances" | "Water Dispensers" | "Chest Freezers" | "Mobile Phones";
 
 export const BRANDS = [
-    "Lloyd", "Whirlpool", "Crompton", "Orient", "TG Smart", 
-    "Samsung", "Daikin", "Carrier", "Bluestar", "Sansui"
+    "Lloyd", "Whirlpool", "Crompton", "Orient", "TG Smart",
+    "Samsung", "Daikin", "Carrier", "Bluestar", "Sansui",
+    "LG", "Voltas", "Mitsubishi", "O-General", "Hitachi",
+    "Panasonic", "Godrej", "Haier", "Videocon"
 ];

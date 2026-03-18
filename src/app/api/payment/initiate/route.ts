@@ -1,36 +1,24 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import { generateChecksum, PHONEPE_CONFIG } from '@/lib/phonepe';
+import { findOrCreateUser, createOrGetAddress } from '@/lib/orders';
 import axios from 'axios';
 
 export async function POST(req: Request) {
   try {
     const { productId, phone, address, qty, totalAmount } = await req.json();
 
-    // 1. Create Order in Pending state
+    // 1. Find or create user and address (Unified Logic)
+    const user = await findOrCreateUser(phone, address.name);
+    const orderAddress = await createOrGetAddress(user.id, address);
+
+    // 2. Create Order in Pending state
     const transactionId = `T${Date.now()}`;
     
-    // We reuse existing logic to find/create user and address
-    let user = await prisma.user.findUnique({ where: { phone } });
-    if (!user) {
-      user = await prisma.user.create({ data: { phone, name: address.name } });
-    }
-
-    const newAddress = await prisma.address.create({
-      data: {
-        userId: user.id,
-        name: address.name,
-        phone: address.phone,
-        street: address.street,
-        area: address.area,
-        pin: address.pin,
-      }
-    });
-
     const order = await prisma.order.create({
       data: {
         userId: user.id,
-        addressId: newAddress.id,
+        addressId: orderAddress.id,
         totalAmount,
         paymentMethod: 'PHONEPE',
         paymentStatus: 'PENDING',
@@ -46,7 +34,7 @@ export async function POST(req: Request) {
       }
     });
 
-    // 2. Prepare PhonePe Payload
+    // 3. Prepare PhonePe Payload
     const payload = {
       merchantId: PHONEPE_CONFIG.MERCHANT_ID,
       merchantTransactionId: transactionId,
@@ -65,7 +53,7 @@ export async function POST(req: Request) {
     const endpoint = '/pg/v1/pay';
     const checksum = generateChecksum(base64Payload, endpoint);
 
-    // 3. Call PhonePe to get Payment URL
+    // 4. Call PhonePe to get Payment URL
     const response = await axios.post(
       `${PHONEPE_CONFIG.HOST}${endpoint}`,
       { request: base64Payload },

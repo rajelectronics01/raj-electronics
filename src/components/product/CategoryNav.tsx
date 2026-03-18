@@ -12,14 +12,16 @@ interface Category {
 }
 
 const CATEGORIES: Category[] = [
-    { name: 'All Products', slug: 'all', icon: '🛍️' },
+    { name: 'All Products',     slug: 'all',              icon: '🛍️' },
     { name: 'Air Conditioners', slug: 'air-conditioners', icon: '❄️' },
-    { name: 'Smart TVs', slug: 'televisions', icon: '📺' },
-    { name: 'Refrigerators', slug: 'refrigerators', icon: '🧊' },
+    { name: 'Smart TVs',        slug: 'televisions',      icon: '📺' },
+    { name: 'Air Coolers',      slug: 'air-coolers',      icon: '💨' },
+    { name: 'Refrigerators',    slug: 'refrigerators',    icon: '🧊' },
     { name: 'Washing Machines', slug: 'washing-machines', icon: '🌀' },
-    { name: 'Home Appliances', slug: 'home-appliances', icon: '🔌' },
+    { name: 'Mobile Phones',    slug: 'mobile-phones',    icon: '📱' },
+    { name: 'Home Appliances',  slug: 'home-appliances',  icon: '🔌' },
     { name: 'Water Dispensers', slug: 'water-dispensers', icon: '🚰' },
-    { name: 'Chest Freezers', slug: 'chest-freezers', icon: '🍦' },
+    { name: 'Chest Freezers',   slug: 'chest-freezers',   icon: '🍦' },
 ];
 
 export default function CategoryNav() {

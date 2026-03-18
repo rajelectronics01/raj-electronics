@@ -8,7 +8,7 @@ import { useUser } from '@/context/UserContext';
 export default function CheckoutFlow({ product }: { product: any }) {
   const router = useRouter();
   const { user, refreshUser, loading: userLoading } = useUser();
-  const [step, setStep] = useState<'login' | 'order' | 'payment' | 'confirm'>('login');
+  const [step, setStep] = useState<'login' | 'order' | 'payment'>('login');
   
   // Set initial step based on auth
   useEffect(() => {
@@ -31,26 +31,13 @@ export default function CheckoutFlow({ product }: { product: any }) {
   // Payment State
   const [payMethod, setPayMethod] = useState('UPI');
   const [upiApp, setUpiApp] = useState('Google Pay');
-  const [emiOpt, setEmiOpt] = useState('3 Months');
   const [processing, setProcessing] = useState(false);
-  const [procMsg, setProcMsg] = useState('Connecting to Razorpay...');
-  
-  // Final Order Response
-  const [orderFinal, setOrderFinal] = useState<any>(null);
+  const [procMsg, setProcMsg] = useState('Connecting to payment gateway...');
   const [payErr, setPayErr] = useState('');
   
   const BASE_PRICE = product.price;
   const t = BASE_PRICE * qty;
   
-  // Timer for OTP (Removed as OTP flow is removed)
-  // useEffect(() => {
-  //   let tId: any;
-  //   if (showOtp && timer > 0) {
-  //     tId = setInterval(() => setTimer(t => Math.max(0, t - 1)), 1000);
-  //   }
-  //   return () => clearInterval(tId);
-  // }, [showOtp, timer]);
-
   const handleQuickLogin = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
     if (!/^\d{10}$/.test(phone)) {
@@ -115,14 +102,12 @@ export default function CheckoutFlow({ product }: { product: any }) {
         });
         const data = await res.json();
         if (data.success) {
-          setOrderFinal(data.order);
-          setStep('confirm');
+          router.push(`/order/${data.orderId}`);
         } else throw new Error(data.error);
-        setProcessing(false);
         return;
       }
 
-      // PhonePe flow
+      // Digital Payment flow (PhonePe)
       const res = await fetch('/api/payment/initiate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -138,7 +123,7 @@ export default function CheckoutFlow({ product }: { product: any }) {
       
       if (data.success && data.url) {
         setProcMsg('Redirecting to PhonePe...');
-        window.location.href = data.url; // Redirect to PhonePe
+        window.location.href = data.url; 
       } else {
         throw new Error(data.message || 'Payment initiation failed');
       }
@@ -146,28 +131,6 @@ export default function CheckoutFlow({ product }: { product: any }) {
       setProcessing(false);
       setPayErr(e.message || 'Something went wrong. Please try again.');
       window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-  };
-
-  const downloadPrint = async () => {
-    try {
-      const el = document.getElementById('invoiceArea');
-      if (el) {
-        const html2canvasLib = (await import('html2canvas')).default;
-        const jsPDFLib = (await import('jspdf')).jsPDF || (await import('jspdf')).default;
-        const canvas = await html2canvasLib(el, { scale: 2 });
-        const imgData = canvas.toDataURL('image/png');
-        const pdf = new jsPDFLib('p', 'mm', 'a4');
-        const pdfWidth = pdf.internal.pageSize.getWidth();
-        const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-        pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-        pdf.save(`Invoice_RAJ_${orderFinal?.invoiceNo || 'Order'}.pdf`);
-      } else {
-        window.print();
-      }
-    } catch(e) {
-      console.error(e);
-      window.print(); 
     }
   };
 
@@ -180,10 +143,6 @@ export default function CheckoutFlow({ product }: { product: any }) {
         <p>{procMsg}</p>
       </div>
 
-      <div style={{display: 'none'}} id="debug-step-info">
-        CURRENT STEP IS: {step}
-      </div>
-
       {step === 'login' && (
         <div id="step-one-login" className="wz-panel" style={{ animation: 'fadeIn 0.22s ease' }}>
           <div className="top-banner">🔒 Secure Login · Raj Electronics</div>
@@ -193,7 +152,6 @@ export default function CheckoutFlow({ product }: { product: any }) {
           </div></nav>
           <div className="login-wrap"><div className="login-box">
             <div className="login-logo"><div className="logo-icon">R</div><h1>Sign in to Order</h1><p>We'll verify your number via OTP</p></div>
-            {/* DIRECT PHONE LOGIN (NO OTP) */}
             <div className="card">
               <p style={{fontSize:'13.5px', color:'var(--g700)', marginBottom:'14px', textAlign:'center'}}>Enter phone to proceed. We will call to confirm.</p>
               <div className="fg">
@@ -284,24 +242,21 @@ export default function CheckoutFlow({ product }: { product: any }) {
                 {payErr && <div className="err" style={{background:'#fff5f5', color:'#e53e3e', padding:'12px', borderRadius:'8px', marginBottom:'16px', border:'1px solid #fed7d7', fontSize:'14px', fontWeight:500}}>⚠️ {payErr}</div>}
                 <div style={{fontSize:'15px', fontWeight:700, color:'var(--g900)', marginBottom:'14px'}}>Choose Method</div>
                 <div className="mod3-tabs">
-                  {['UPI', 'Card', 'Net Banking', 'EMI', 'COD'].map(m => (
+                  {['UPI', 'COD'].map(m => (
                     <button key={m} className={`mod3-tab ${payMethod===m?'active':''}`} onClick={() => setPayMethod(m)}>
-                      {m==='UPI'?'📱 ':m==='Card'?'💳 ':m==='Net Banking'?'🏦 ':m==='EMI'?'📅 ':'💵 '}<span>{m==='Net Banking'?'NetBank':m}</span>
+                      {m==='UPI'?'📱 ':'💵 '}<span>{m}</span>
                     </button>
                   ))}
                 </div>
                 
                 {payMethod === 'UPI' && (
-                  <div className="u-apps">
-                    {[{icon:'📱',lbl:'Google Pay'},{icon:'💜',lbl:'PhonePe'},{icon:'🔵',lbl:'Paytm'}].map(u => (
-                      <div key={u.lbl} className={`u-app ${upiApp===u.lbl?'sel':''}`} onClick={()=>setUpiApp(u.lbl)}>
-                        <div className="icon">{u.icon}</div><div className="label">{u.lbl}</div>
-                      </div>
-                    ))}
+                  <div className="u-apps" style={{marginTop: '15px'}}>
+                    <div className="u-app sel">
+                      <div className="icon">💜</div><div className="label">PhonePe / GPay / Any UPI</div>
+                    </div>
                   </div>
                 )}
-                {payMethod === 'Card' && <div className="fg"><label>Card inputs ...</label><input type="text" placeholder="1234..." /></div>}
-                {payMethod === 'COD' && <div className="c-box"><p>Cash on delivery. (Demo mode)</p></div>}
+                {payMethod === 'COD' && <div className="c-box" style={{marginTop: '15px'}}><p>Cash on delivery. Our team will verify your address via call.</p></div>}
                 
                 <div className="sec-note" style={{marginTop:'14px'}}><span className="sec-bdg" style={{background:'#072654',color:'#fff',padding:'3px 8px',borderRadius:'4px',fontSize:'10px',fontWeight:700}}>SECURE</span> 256-bit encrypted</div>
               </div>
@@ -316,108 +271,9 @@ export default function CheckoutFlow({ product }: { product: any }) {
                   <div className="litem"><span>Item Total</span><span>₹{t.toLocaleString('en-IN')}</span></div>
                   <div className="litem total"><span>Amount Due</span><span style={{color:'var(--blue)'}}>₹{t.toLocaleString('en-IN')}</span></div>
                 </div>
-                <button className="btn btn-green" style={{width:'100%', marginTop: '10px'}} onClick={handlePay}>🔒 Complete ₹{t.toLocaleString('en-IN')}</button>
-                <div className="snote" style={{marginTop:'8px', textAlign: 'center', fontSize: '11px', color: 'var(--g400)'}}>🔒 100% secure</div>
+                <button className="btn btn-green" style={{width:'100%', marginTop: '10px'}} onClick={handlePay}>🔒 Complete Order ₹{t.toLocaleString('en-IN')}</button>
+                <div className="snote" style={{marginTop:'8px', textAlign: 'center', fontSize: '11px', color: 'var(--g400)'}}>🔒 100% secure processing</div>
               </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {step === 'confirm' && orderFinal && (
-        <div id="step-four-confirm" className="wz-panel" style={{ animation: 'fadeIn 0.22s ease' }}>
-          <nav><div className="nav-inner">
-            <div className="nav-brand" onClick={() => router.push(`/product/${product.slug}`)}><div className="nav-logo">R</div><div className="nav-name">Raj Electronics<small>Order Confirmed</small></div></div>
-            <div className="nav-right"><button className="nbtn" onClick={() => router.push(`/category/all`)}>Continue Shopping</button></div>
-          </div></nav>
-          <div className="clayout">
-            <div className="card" style={{marginBottom:'18px'}}>
-              <div className="chero">
-                <div className="cicon">✅</div>
-                <div className="ctitle">Order Placed Successfully!</div>
-                <div className="oid">RAJ#{orderFinal.invoiceNo}</div>
-              </div>
-              <div className="notif-strip"><span>📲</span><div>Confirmation sent via SMS and WhatsApp. Our team will call shortly.</div></div>
-            </div>
-            
-            <div className="invoice" id="invoiceArea" style={{ background: '#fff', color: '#1a1a1a', padding: '30px', borderRadius: '8px' }}>
-              <div className="inv-hdr" style={{ borderBottom: '2px solid #002366', paddingBottom: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                <div style={{ display: 'flex', gap: '15px', alignItems: 'center' }}>
-                  <img src="/logo.png" alt="Raj Electronics" style={{ height: '50px', width: 'auto' }} />
-                  <div>
-                    <div className="inv-brand" style={{ fontSize: '20px', fontWeight: 800, color: '#002366' }}>Raj Electronics</div>
-                    <div style={{ fontSize: '11px', opacity: 0.8, lineHeight: 1.4 }}>
-                      7-1-949, Rashtrapati Rd, Secunderabad, Telangana – 500003<br />
-                      <strong>GSTIN: 36AGHPK5794N1ZL</strong> | Ph: +91 9290748866
-                    </div>
-                  </div>
-                </div>
-                <div className="inv-meta" style={{ textAlign: 'right' }}>
-                  <div style={{ fontSize: '14px', fontWeight: 800, textTransform: 'uppercase', color: '#002366' }}>Tax Invoice</div>
-                  <div style={{ fontSize: '12px', fontWeight: 600 }}>RAJ#{orderFinal.invoiceNo}</div>
-                  <div style={{ fontSize: '11px', opacity: 0.6 }}>Date: {new Date().toLocaleDateString('en-IN')}</div>
-                </div>
-              </div>
-              <div className="inv-body" style={{ marginTop: '20px' }}>
-                <div className="inv-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '30px', marginBottom: '20px', textAlign: 'left' }}>
-                  <div className="inv-sec">
-                    <h4 style={{ fontSize: '11px', textTransform: 'uppercase', color: '#666', marginBottom: '5px', margin: 0 }}>Bill To</h4>
-                    <p style={{ margin: 0, fontSize: '14px' }}><strong>{orderFinal.address.name}</strong></p>
-                    <p style={{ margin: 0, fontSize: '13px' }}>{orderFinal.address.phone}</p>
-                    <p style={{ margin: 0, fontSize: '12px', color: '#444' }}>{orderFinal.address.street}, {orderFinal.address.area}, {orderFinal.address.pin}</p>
-                  </div>
-                  <div className="inv-sec" style={{ textAlign: 'right' }}>
-                    <h4 style={{ fontSize: '11px', textTransform: 'uppercase', color: '#666', marginBottom: '5px', margin: 0 }}>Order Details</h4>
-                    <p style={{ margin: 0, fontSize: '13px' }}>Payment Mode: <strong>{orderFinal.paymentMethod}</strong></p>
-                  </div>
-                </div>
-                <table className="inv-tbl" style={{ width: '100%', borderCollapse: 'collapse', marginBottom: '20px' }}>
-                  <thead>
-                    <tr style={{ background: '#f8f9fa', borderBottom: '1px solid #eee' }}>
-                      <th style={{ textAlign: 'left', padding: '10px', fontSize: '12px' }}>Product Description</th>
-                      <th style={{ textAlign: 'center', padding: '10px', fontSize: '12px' }}>Qty</th>
-                      <th style={{ textAlign: 'right', padding: '10px', fontSize: '12px' }}>Rate</th>
-                      <th style={{ textAlign: 'right', padding: '10px', fontSize: '12px' }}>Taxable Amt</th>
-                      <th style={{ textAlign: 'right', padding: '10px', fontSize: '12px' }}>GST (18%)</th>
-                      <th style={{ textAlign: 'right', padding: '10px', fontSize: '12px' }}>Total</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr style={{ borderBottom: '1px solid #eee' }}>
-                      <td style={{ padding: '12px 10px', textAlign: 'left' }}>
-                        <div style={{ fontWeight: 600, fontSize: '14px' }}>{product.name}</div>
-                        <div style={{ fontSize: '11px', color: '#666' }}>SKU: {product.slug.toUpperCase()}</div>
-                      </td>
-                      <td style={{ textAlign: 'center', padding: '12px 10px', fontSize: '13px' }}>{qty}</td>
-                      <td style={{ textAlign: 'right', padding: '12px 10px', fontSize: '13px' }}>₹{product.price.toLocaleString('en-IN')}</td>
-                      <td style={{ textAlign: 'right', padding: '12px 10px', fontSize: '13px' }}>₹{Math.round((product.price * qty) / 1.18).toLocaleString('en-IN')}</td>
-                      <td style={{ textAlign: 'right', padding: '12px 10px', fontSize: '13px' }}>₹{Math.round((product.price * qty) * 0.18 / 1.18).toLocaleString('en-IN')}</td>
-                      <td style={{ textAlign: 'right', padding: '12px 10px', fontSize: '14px', fontWeight: 700 }}>₹{(product.price * qty).toLocaleString('en-IN')}</td>
-                    </tr>
-                  </tbody>
-                </table>
-                <div className="inv-tots" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '5px' }}>
-                  <div style={{ fontSize: '13px' }}>Sub-Total: ₹{Math.round((product.price * qty) / 1.18).toLocaleString('en-IN')}</div>
-                  <div style={{ fontSize: '13px' }}>CGST (9%): ₹{Math.round((product.price * qty) * 0.09 / 1.18).toLocaleString('en-IN')}</div>
-                  <div style={{ fontSize: '13px' }}>SGST (9%): ₹{Math.round((product.price * qty) * 0.09 / 1.18).toLocaleString('en-IN')}</div>
-                  <div className="itr grand" style={{ padding: '10px 0', borderTop: '1px solid #002366', marginTop: '5px', width: '200px', textAlign: 'right' }}>
-                    <span style={{ fontSize: '12px', fontWeight: 600 }}>Total Amount:</span>
-                    <span style={{ color: '#002366', fontSize: '18px', fontWeight: 800, marginLeft: '10px' }}>₹{(product.price * qty).toLocaleString('en-IN')}</span>
-                  </div>
-                  <div style={{ fontSize: '10px', opacity: 0.6, marginTop: '20px', fontStyle: 'italic', textAlign: 'center', width: '100%' }}>* This is a computer generated invoice and does not require a physical signature.</div>
-                </div>
-              </div>
-            </div>
-            <div className="arow">
-              <button className="btn btn-outline" onClick={downloadPrint}>🖨️ Print / Download Invoice</button>
-              <button 
-                className="btn" 
-                style={{ background: '#25D366', color: '#fff' }} 
-                onClick={() => window.open(`https://wa.me/919290748866?text=Hi, I just placed an order RAJ%23${orderFinal.invoiceNo} for ${product.name}. Please confirm.`, '_blank')}
-              >
-                💬 WhatsApp for Support
-              </button>
-              <button className="btn btn-primary" onClick={() => router.push(`/product/${product.slug}`)}>🛒 Continue Shopping</button>
             </div>
           </div>
         </div>

@@ -1,6 +1,6 @@
 import Hero from "@/components/home/Hero";
 import FeaturedBrands from "@/components/home/FeaturedBrands";
-import FeaturedProducts from "@/components/home/FeaturedProducts";
+import DealsCarousel from "@/components/home/DealsCarousel";
 import StoreGallery from "@/components/home/StoreGallery";
 import Reviews from "@/components/home/Reviews";
 import ShopByCategory from "@/components/home/ShopByCategory";
@@ -23,7 +23,7 @@ export default async function Home() {
     <main>
       <Hero initialSlides={initialHeroSlides} />
       <ShopByCategory />
-      <FeaturedProducts />
+      <DealsCarousel />
       <FeaturedBrands />
       <StoreGallery initialImages={initialGalleryImages} />
       <WhyChooseUs />

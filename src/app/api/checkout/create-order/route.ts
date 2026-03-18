@@ -1,40 +1,35 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
+import { findOrCreateUser, createOrGetAddress } from '@/lib/orders';
+import { notifyNewOrder } from '@/lib/notifications';
 
 export async function POST(req: Request) {
   try {
     const { productId, phone, address, qty, payMethod } = await req.json();
 
-    const product = await prisma.product.findUnique({ where: { id: productId } });
-    if (!product) { return NextResponse.json({ success: false, error: 'Product not found' }, { status: 404 }); }
-
-    let user = await prisma.user.findUnique({ where: { phone } });
-    if (!user) {
-      user = await prisma.user.create({ data: { phone, name: address.name } });
+    if (!productId || !phone || !address || !qty) {
+      return NextResponse.json({ success: false, error: 'Missing required fields' }, { status: 400 });
     }
 
-    // Save Address
-    const newAddress = await prisma.address.create({
-      data: {
-        userId: user.id,
-        name: address.name,
-        phone: address.phone,
-        street: address.street,
-        area: address.area,
-        pin: address.pin,
-      }
-    });
+    const product = await prisma.product.findUnique({ where: { id: productId } });
+    if (!product) { 
+      return NextResponse.json({ success: false, error: 'Product not found' }, { status: 404 }); 
+    }
+
+    // 1. Unified User/Address Logic
+    const user = await findOrCreateUser(phone, address.name);
+    const orderAddress = await createOrGetAddress(user.id, address);
 
     const totalAmount = product.price * qty;
 
-    // Create Order
+    // 2. Create Order
     const order = await prisma.order.create({
       data: {
         userId: user.id,
-        addressId: newAddress.id,
+        addressId: orderAddress.id,
         totalAmount,
         paymentMethod: payMethod,
-        paymentStatus: payMethod === 'COD' ? 'PENDING' : 'PAID', // In real life, verify via razorpay webhook
+        paymentStatus: payMethod === 'COD' ? 'PENDING' : 'PAID',
         orderStatus: 'CONFIRMED', 
         items: {
           create: [{
@@ -51,20 +46,19 @@ export async function POST(req: Request) {
       }
     });
 
-    // --- REAL-TIME NOTIFICATIONS ---
-    // In production, you would trigger a WhatsApp/SMS alert here
-    // Example using Twilio or a similar webhook:
-    /*
-    await fetch('https://api.whatsapp-provider.com/send', {
-      method: 'POST',
-      body: JSON.stringify({
-        to: '+919290748866', // Shop Owner
-        message: `New Order! \nID: ${order.id}\nCustomer: ${address.name}\nProduct: ${product.name}\nAmount: ₹${totalAmount}`
-      })
-    });
-    */
+    // 3. Real-time Notifications (WhatsApp/SMS)
+    try {
+      await notifyNewOrder(order);
+    } catch (err) {
+      console.error('Notification Error:', err);
+      // Don't fail the order if notification fails
+    }
 
-    return NextResponse.json({ success: true, order });
+    return NextResponse.json({ 
+      success: true, 
+      orderId: order.id, 
+      invoiceNo: order.invoiceNo 
+    });
 
   } catch (error: any) {
     console.error('Create Order Error:', error);
