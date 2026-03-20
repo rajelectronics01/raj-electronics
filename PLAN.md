@@ -1,22 +1,40 @@
-# MASTER LEDGER: Raj Electronics
+# 🛡️ RAJ ELECTRONICS: THE MASTERPIECE LAUNCH PLAN
 
-## 🗺 Master Roadmap
-1. [x] Initial website setup (Next.js App Router)
-2. [x] Hero Section Implementation
-3. [x] Category Section with Interactive Cards
-4. [ ] Product Detail Pages
-5. [ ] Search & Filtering
-6. [ ] Checkout / Inquiry Flow
+## 💎 Completed Milestones
+- [x] **Premium UI Redesign**: High-aesthetic Dark/Glassmorphism checkout & login.
+- [x] **Unified Firebase OTP**: 6-digit grid verification across the whole site.
+- [x] **Database Link**: Successfully capturing Name, Phone, and Email for the store.
+- [x] **Notification Bridge**: Tested & Working email alerts (Resend).
+- [x] **Payment Security**: PhonePe callback & X-Verify signatures implemented.
 
-## 🎯 Milestones
-- **Phase 1: Visual Identity**: Modern, premium UI with landing page complete.
-- **Phase 2: Product Catalog**: Integration of JSON-based product data and category browsing.
-- **Phase 3: Engagement**: Interactive motions and smooth transitions.
+---
 
-## 🚀 Current Trajectory
-**Step**: Initializing Squad Framework and established Global Rules.
+## 🚀 Phase 10: The Production Hardening (GO-LIVE)
 
-## 👥 Squad Status
+### 1. 📬 Email Authority (Resend Domain)
+- [ ] Log into [Resend Domains](https://resend.com/domains).
+- [ ] Add `rajelectronics.co` and copy the DKIM/SPF records to your DNS (GoDaddy/Hostinger).
+- [ ] **I will update the code** to use `orders@rajelectronics.co` once you finish this! (No more spam folder).
+
+### 2. 🔐 Firebase Production Sync
+- [ ] Add `rajelectronics.co` to Firebase **Authorized Domains**.
+- [ ] Switch Firebase to **Blaze Plan** (Free for 10k/month, but required for live +91 SMS).
+- [ ] **I will disable "Testing Mode"** in the code so real people get real random SMS!
+
+### 3. 💳 PhonePe Live Key Swap
+- [ ] Once we deploy, we must swap the **Sandbox Keys** to your **Live Production Keys** in the `.env` file. 🛡️📜
+- [ ] I'll check that the `CALLBACK_URL` is pointing to the real `.co` domain instead of localhost.
+
+### 4. 🤴🏻 Final Boss Audit
+- [ ] **Checkout Logic**: Final verify that no one can place an order without a phone match.
+- [ ] **Mobile Premium**: Audit the new login/checkout on a real iPhone/Android screen.
+- [ ] **Admin Dashboard**: confirm new orders appear correctly with the Customer Email.
+
+---
+
+## 🏹 Squad Status: THE FINAL STRETCH
 | Agent | Task | Status |
 | :--- | :--- | :--- |
-| Antigravity | Configure "House Ways" & Initialize PLAN.md | ✅ Completed |
+| **Antigravity** | Security Hardening | **ACTIVE** 🛡️ |
+| **Antigravity** | Domain Re-Link | **READY** 🚀 |
+| **USER** | DNS Verification | **PENDING** ⏳ |

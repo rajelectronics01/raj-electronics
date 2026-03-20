@@ -16,6 +16,7 @@ export async function GET() {
 
     const formattedOrders = orders.map((o: any) => ({
       id: o.id,
+      invoiceNo: o.invoiceNo,
       customer: o.address?.name || o.user.name || 'Customer',
       phone: o.user.phone,
       product: o.items[0]?.product.name || 'Unknown',
@@ -23,7 +24,7 @@ export async function GET() {
       payment: o.paymentMethod,
       status: o.orderStatus,
       time: o.createdAt,
-      addr: `${o.address?.street}, ${o.address?.area}`
+      addr: `${o.address?.street}, ${o.address?.area} (${o.address?.pin || ''})`
     }));
 
     return NextResponse.json({ success: true, orders: formattedOrders });

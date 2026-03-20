@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
-import { verifyChecksum } from '@/lib/phonepe';
+import { verifyCallback } from '@/lib/phonepe';
 
 export async function POST(req: Request) {
   try {
@@ -10,7 +10,7 @@ export async function POST(req: Request) {
     // Body is base64 encoded by PhonePe
     const base64Body = body.response;
     
-    if (!verifyChecksum(base64Body, xVerify)) {
+    if (!verifyCallback(xVerify, base64Body)) {
        return NextResponse.json({ success: false, message: 'Invalid Checksum' }, { status: 400 });
     }
 

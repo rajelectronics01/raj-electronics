@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
-import { generateChecksum, PHONEPE_CONFIG } from '@/lib/phonepe';
+import { generateXVerify, PHONEPE_CONFIG } from '@/lib/phonepe';
 import { findOrCreateUser, createOrGetAddress } from '@/lib/orders';
 import axios from 'axios';
 
@@ -51,7 +51,7 @@ export async function POST(req: Request) {
 
     const base64Payload = Buffer.from(JSON.stringify(payload)).toString('base64');
     const endpoint = '/pg/v1/pay';
-    const checksum = generateChecksum(base64Payload, endpoint);
+    const checksum = generateXVerify(base64Payload, endpoint);
 
     // 4. Call PhonePe to get Payment URL
     const response = await axios.post(

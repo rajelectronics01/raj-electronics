@@ -5,6 +5,8 @@ import "../../app/checkout/checkout.css"; // Reuse the extracted css styles
 
 export default function OrdersTab() {
   const [orders, setOrders] = useState<any[]>([]);
+  // Search state
+  const [searchQuery, setSearchQuery] = useState("");
   const [filter, setFilter] = useState("all");
   const [loading, setLoading] = useState(true);
 
@@ -35,13 +37,24 @@ export default function OrdersTab() {
     fetchOrders();
   };
 
-  const filteredOrders = filter === "all" ? orders : orders.filter(o => o.status.toLowerCase() === filter);
+  // Improved filtering with Search
+  const baseFiltered = filter === "all" ? orders : orders.filter(o => o.status.toLowerCase() === filter);
+  const filteredOrders = baseFiltered.filter(o => {
+    const query = searchQuery.toLowerCase();
+    const invoiceString = `RAJ#${o.invoiceNo}`.toLowerCase();
+    return (
+      o.customer.toLowerCase().includes(query) ||
+      o.phone.includes(query) ||
+      invoiceString.includes(query) ||
+      o.id.includes(query)
+    );
+  });
 
   // Statistics
   const today = new Date().toISOString().split("T")[0];
   const todayOrders = orders.filter(o => o.time?.startsWith(today) || (new Date(o.time)).toISOString().split("T")[0] === today);
   const todaysRevenue = todayOrders.reduce((acc, curr) => acc + curr.amount, 0);
-  const pendingOrders = orders.filter(o => o.status === "PENDING").length;
+  const pendingOrders = orders.filter(o => o.status === "PENDING" || o.status === "CONFIRMED").length;
   
   const formatter = new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 });
 
@@ -52,9 +65,25 @@ export default function OrdersTab() {
           <div>
             <h1 style={{ fontSize: "20px", fontWeight: 700 }}>Orders Overview</h1>
           </div>
-          <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
-            <span className="badge b-green">● Live</span>
-            <button className="btn btn-primary btn-sm" onClick={fetchOrders}>
+          <div style={{ display: "flex", gap: "10px", alignItems: "center", flexWrap: "wrap" }}>
+            <div style={{ position: "relative" }}>
+              <input 
+                type="text" 
+                placeholder="Search orders..." 
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                style={{ 
+                  padding: "8px 12px 8px 32px", 
+                  borderRadius: "8px", 
+                  border: "1px solid #e2e8f0", 
+                  fontSize: "0.9rem",
+                  width: "200px",
+                  background: "#fff"
+                }} 
+              />
+              <span style={{ position: "absolute", left: "10px", top: "50%", transform: "translateY(-50%)", color: "#94a3b8" }}>🔍</span>
+            </div>
+            <button className="btn btn-primary btn-sm" onClick={fetchOrders} style={{ whiteSpace: "nowrap" }}>
               🔄 Refresh
             </button>
           </div>
@@ -107,7 +136,7 @@ export default function OrdersTab() {
                   {filteredOrders.map(o => (
                     <tr key={o.id}>
                       <td>
-                        <span style={{ fontWeight: 700, color: "var(--blue)" }}>#{o.id.slice(0, 8)}</span>
+                        <span style={{ fontWeight: 700, color: "var(--blue)" }}>RAJ#{o.invoiceNo || o.id.slice(0, 8)}</span>
                         <div style={{ fontSize: "11px", color: "var(--g400)" }}>{new Date(o.time).toLocaleString('en-IN')}</div>
                       </td>
                       <td>
@@ -125,7 +154,7 @@ export default function OrdersTab() {
                       <td>
                         <div className="abtns">
                           <button className="abtn vw" onClick={() => setSelectedOrder(o)}>View</button>
-                          <button className="abtn wa" onClick={() => window.open(`https://wa.me/91${o.phone}?text=Hello! Your order #${o.id} is confirmed.`, '_blank')}>WhatsApp</button>
+                          <button className="abtn wa" onClick={() => window.open(`https://wa.me/91${o.phone}?text=Hello! Your order RAJ#${o.invoiceNo || o.id.slice(0,8)} is confirmed.`, '_blank')}>WhatsApp</button>
                         </div>
                       </td>
                     </tr>
@@ -144,7 +173,7 @@ export default function OrdersTab() {
                   <div className="nrow">
                     <div className="ndot"></div>
                     <div>
-                      <div className="ntitle">New Order #{o.id.slice(0,8)}</div>
+                      <div className="ntitle">New Order RAJ#{o.invoiceNo || o.id.slice(0,8)}</div>
                       <div className="nsub">{o.product} — {formatter.format(o.amount)}</div>
                       <div className="ntime">{new Date(o.time).toLocaleTimeString('en-IN')}</div>
                     </div>
@@ -161,7 +190,7 @@ export default function OrdersTab() {
           <div className="mbox">
             <button className="mclose" onClick={() => setSelectedOrder(null)}>✕</button>
             <div style={{ marginBottom: "14px" }}>
-              <div style={{ fontSize: "17px", fontWeight: 700, color: "var(--g900)" }}>Order #{selectedOrder.id}</div>
+              <div style={{ fontSize: "17px", fontWeight: 700, color: "var(--g900)" }}>Order RAJ#{selectedOrder.invoiceNo || selectedOrder.id.slice(0, 8)}</div>
             </div>
             <div className="divider"></div>
             <div style={{ display: "grid", gap: "9px", fontSize: "13.5px", lineHeight: 1.7 }}>

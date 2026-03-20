@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
-import { generateChecksum, PHONEPE_CONFIG } from '@/lib/phonepe';
+import { generateXVerify, PHONEPE_CONFIG } from '@/lib/phonepe';
 import axios from 'axios';
 
 export async function GET(req: Request, props: { params: Promise<{ transactionId: string }> }) {
@@ -9,7 +9,7 @@ export async function GET(req: Request, props: { params: Promise<{ transactionId
 
   try {
     const endpoint = `/pg/v1/status/${PHONEPE_CONFIG.MERCHANT_ID}/${transactionId}`;
-    const checksum = generateChecksum('', endpoint); // empty body for GET status
+    const checksum = generateXVerify('', endpoint); // empty body for GET status
 
     const response = await axios.get(`${PHONEPE_CONFIG.HOST}${endpoint}`, {
       headers: {

@@ -1,283 +1,501 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import '../checkout.css'; // Global-ish CSS for checkout flow
+import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { useUser } from '@/context/UserContext';
+import { auth } from '@/lib/firebase';
+import { RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth';
+import { 
+  ShieldCheck, Loader2, CreditCard, 
+  MapPin, ShoppingBag, ArrowRight, 
+  CheckCircle2, Mail, Phone, AlertCircle 
+} from 'lucide-react';
 
-export default function CheckoutFlow({ product }: { product: any }) {
+export default function CheckoutPage({ product }: { product: any }) {
   const router = useRouter();
   const { user, refreshUser, loading: userLoading } = useUser();
-  const [step, setStep] = useState<'login' | 'order' | 'payment'>('login');
+  const [step, setStep] = useState<1 | 2 | 3>(1); // 1: Auth, 2: Address, 3: Payment
   
-  // Set initial step based on auth
+  // FORM STATES
+  const [phone, setPhone] = useState('');
+  const [otp, setOtp] = useState(['', '', '', '', '', '']);
+  const [email, setEmail] = useState('');
+  const [fullName, setFullName] = useState('');
+  const [address, setAddress] = useState({ street: '', area: '', pin: '' });
+  
+  // LOGIC STATES
+  const [confirmationResult, setConfirmationResult] = useState<any>(null);
+  const [isVerifying, setIsVerifying] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [error, setError] = useState('');
+  const otpInputs = useRef<(HTMLInputElement | null)[]>([]);
+
+  const totalPrice = product.price;
+
+  // Initialize data but NEVER auto-skip the auth for this flow
   useEffect(() => {
     if (!userLoading && user) {
-      setStep('order');
-      setPhone(user.phone);
-      setAddress(a => ({ ...a, phone: user.phone, name: user.name || '' }));
+      setPhone(user.phone || '');
+      setFullName(user.name || '');
     }
   }, [user, userLoading]);
 
-  // Login State
-  const [phone, setPhone] = useState('');
-  const [phoneErr, setPhoneErr] = useState('');
-  
-  // Order State
-  const [qty, setQty] = useState(1);
-  const [address, setAddress] = useState({ name: '', phone: '', street: '', area: '', pin: '' });
-  const [addrErr, setAddrErr] = useState('');
-
-  // Payment State
-  const [payMethod, setPayMethod] = useState('UPI');
-  const [upiApp, setUpiApp] = useState('Google Pay');
-  const [processing, setProcessing] = useState(false);
-  const [procMsg, setProcMsg] = useState('Connecting to payment gateway...');
-  const [payErr, setPayErr] = useState('');
-  
-  const BASE_PRICE = product.price;
-  const t = BASE_PRICE * qty;
-  
-  const handleQuickLogin = async (e?: React.FormEvent) => {
-    if (e) e.preventDefault();
-    if (!/^\d{10}$/.test(phone)) {
-      setPhoneErr('Enter a valid 10-digit number');
-      return;
-    }
-    setPhoneErr('');
-    setProcessing(true);
-    setProcMsg('Verifying...');
-    
+  // --- FIREBASE AUTH ---
+  const handleSendOtp = async () => {
+    if (!/^\d{10}$/.test(phone)) return setError('Please enter a valid 10-digit number');
+    setIsVerifying(true);
+    setError('');
     try {
-      const res = await fetch('/api/user/quick-login', {
+      if (!(window as any).recaptchaVerifier) {
+        (window as any).recaptchaVerifier = new RecaptchaVerifier(auth, 'captcha-box', { size: 'invisible' });
+      }
+      const result = await signInWithPhoneNumber(auth, `+91${phone}`, (window as any).recaptchaVerifier);
+      setConfirmationResult(result);
+    } catch (err: any) {
+      setError('OTP limit exceeded or connection error. Try again.');
+      console.error(err);
+      // Critical Fix: Clear poisoned reCAPTCHA widget
+      if ((window as any).recaptchaVerifier) {
+        try { (window as any).recaptchaVerifier.clear(); } catch(e){}
+        (window as any).recaptchaVerifier = null;
+        const box = document.getElementById('captcha-box');
+        if (box) box.innerHTML = '';
+      }
+    } finally {
+      setIsVerifying(false);
+    }
+  };
+
+  const handleVerifyOtp = async () => {
+    const otpCode = otp.join('');
+    if (otpCode.length < 6) return setError('Enter 6-digit code');
+    setIsVerifying(true);
+    try {
+      const result = await confirmationResult.confirm(otpCode);
+      const idToken = await result.user.getIdToken();
+      
+      const res = await fetch('/api/auth/verify-otp', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ phone })
+        body: JSON.stringify({ idToken })
       });
-      const data = await res.json();
-
-      if (data.success) {
+      if (res.ok) {
         await refreshUser();
-        setStep('order');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      } else {
-        setPhoneErr(data.message || 'Login failed');
+        setStep(2); // Proceed to Address
       }
-    } catch (error: any) {
-      console.error("Quick Login Error:", error);
-      setPhoneErr("Failed to verify. Please try again.");
+    } catch (err) {
+      setError('Invalid OTP code. Try again.');
     } finally {
-      setProcessing(false);
+      setIsVerifying(false);
     }
   };
 
-  const proceedToPay = () => {
-    if (!address.name || !address.phone || !address.street || !address.area || !address.pin) {
-      setAddrErr('Please fill all address fields');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      return;
-    }
-    setAddrErr('');
-    setStep('payment');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const handlePay = async () => {
-    setPayErr('');
-    setProcessing(true);
-    setProcMsg('Initiating secure payment...');
-    
+  // --- ORDER FINALIZATION ---
+  const handleOrder = async (payMethod: 'ONLINE' | 'COD') => {
+    if (!email || !fullName || !address.pin) return setError('Missing required fields (Email/Name/Pin)');
+    setIsProcessing(true);
     try {
-      if (payMethod === 'COD') {
-        const res = await fetch('/api/checkout/create-order', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            productId: product.id,
-            phone,
-            address,
-            qty,
-            payMethod: 'COD',
-          })
-        });
-        const data = await res.json();
-        if (data.success) {
-          router.push(`/order/${data.orderId}`);
-        } else throw new Error(data.error);
-        return;
-      }
-
-      // Digital Payment flow (PhonePe)
-      const res = await fetch('/api/payment/initiate', {
+      const res = await fetch('/api/checkout/create-order', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           productId: product.id,
           phone,
-          address,
-          qty,
-          totalAmount: t,
+          address: { ...address, name: fullName, email, phone },
+          qty: 1,
+          payMethod
         })
       });
       const data = await res.json();
-      
-      if (data.success && data.url) {
-        setProcMsg('Redirecting to PhonePe...');
-        window.location.href = data.url; 
-      } else {
-        throw new Error(data.message || 'Payment initiation failed');
-      }
-    } catch (e: any) {
-      setProcessing(false);
-      setPayErr(e.message || 'Something went wrong. Please try again.');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      if (data.success) {
+        if (data.paymentUrl) window.location.href = data.paymentUrl;
+        else router.push(`/order/${data.orderId}`);
+      } else throw new Error(data.error);
+    } catch (err: any) {
+      setError(err.message);
+      setIsProcessing(false);
     }
   };
 
   return (
-    <div className="wz-flow" style={{ minHeight: '100vh', background: '#f5f5f5' }}>
+    <div className="pre-wrap">
+      <div id="captcha-box"></div>
       
-      {/* PROCESSING MODAL */}
-      <div className={`proc ${processing ? 'show' : ''}`}>
-        <div className="spin"></div>
-        <p>{procMsg}</p>
-      </div>
+      {/* Background Orbs */}
+      <div className="bg-orb orb-1"></div>
+      <div className="bg-orb orb-2"></div>
 
-      {step === 'login' && (
-        <div id="step-one-login" className="wz-panel" style={{ animation: 'fadeIn 0.22s ease' }}>
-          <div className="top-banner">🔒 Secure Login · Raj Electronics</div>
-          <nav><div className="nav-inner">
-            <div className="nav-brand" onClick={() => router.push(`/product/${product.slug}`)}><div className="nav-logo">R</div><div className="nav-name">Raj Electronics<small>Legacy Since 1995</small></div></div>
-            <div className="nav-right"><button className="nbtn" onClick={() => router.push(`/product/${product.slug}`)}>← Back to Product</button></div>
-          </div></nav>
-          <div className="login-wrap"><div className="login-box">
-            <div className="login-logo"><div className="logo-icon">R</div><h1>Sign in to Order</h1><p>We'll verify your number via OTP</p></div>
-            <div className="card">
-              <p style={{fontSize:'13.5px', color:'var(--g700)', marginBottom:'14px', textAlign:'center'}}>Enter phone to proceed. We will call to confirm.</p>
-              <div className="fg">
-                <label>Mobile Number</label>
-                <div className="phone-input-wrap">
-                  <span className="prefix">+91</span>
-                  <input type="tel" maxLength={10} value={phone} 
-                    onChange={e => setPhone(e.target.value.replace(/\D/g,''))} 
-                    placeholder="98765 43210" autoFocus />
-                </div>
-              </div>
-              {phoneErr && <div className="err" style={{marginTop:'8px', fontSize: '12px'}}>{phoneErr}</div>}
-              <button className="btn btn-primary" style={{marginTop:'14px', width: '100%'}} onClick={() => handleQuickLogin()}>Continue to Order Details →</button>
-              <div className="sec-note" style={{marginTop:'16px', opacity: 0.6}}><span className="sec-bdg" style={{background:'#072654',color:'#fff',padding:'2px 6px',borderRadius:'4px',fontSize:'9px',fontWeight:700}}>TRUSTED</span> Identity verified by call</div>
-            </div>
-          </div></div>
-        </div>
-      )}
-
-      {step === 'order' && (
-        <div id="step-two-order" className="wz-panel" style={{ animation: 'fadeIn 0.22s ease' }}>
-          <div className="top-banner">🏆 Best Prices in Secunderabad. Authorized Dealer.</div>
-          <nav><div className="nav-inner">
-            <div className="nav-brand" onClick={() => router.push(`/product/${product.slug}`)}><div className="nav-logo">R</div><div className="nav-name">Raj Electronics<small>Legacy Since 1995</small></div></div>
-            <div className="nav-right"><div className="nav-user"><div className="avatar">{(phone||'XX').slice(-2)}</div><span>+91 {phone}</span></div></div>
-          </div></nav>
-          <div className="olayout">
-            <div style={{fontSize:'12.5px', color:'var(--g400)', marginBottom:'18px', display:'flex', gap:'6px', flexWrap:'wrap'}}>
-              <span onClick={() => router.push(`/product/${product.slug}`)} style={{cursor:'pointer', color:'var(--g500)'}}>Product</span><span>›</span><span style={{color:'var(--blue)', fontWeight:600}}>Order Details</span><span>›</span><span>Payment</span><span>›</span><span>Confirm</span>
-            </div>
-            <div className="ogrid">
-              <div>
-                <div className="card" style={{marginBottom:'18px'}}>
-                  <div className="pthumb"><img src={product.images[0]} alt={product.name} /></div>
-                  <div style={{fontSize:'11px', fontWeight:700, textTransform:'uppercase', letterSpacing:'.06em', color:'var(--blue)'}}>{product.brand}</div>
-                  <h2 style={{fontSize:'18px', fontWeight:700, color:'var(--g900)', margin:'5px 0 4px'}}>{product.name}</h2>
-                  <div style={{display:'flex', alignItems:'baseline', gap:'10px', margin:'12px 0'}}>
-                    <div style={{fontSize:'26px', fontWeight:700, color:'var(--g900)'}}>₹{product.price.toLocaleString('en-IN')}</div>
-                    {product.originalPrice && <div style={{fontSize:'14px', color:'var(--g400)', textDecoration:'line-through'}}>₹{product.originalPrice.toLocaleString('en-IN')}</div>}
-                  </div>
-                  <div className="qty-row"><span style={{fontSize:'13px', fontWeight:600, color:'var(--g700)'}}>Quantity:</span><div className="qty-ctrl"><button className="qty-btn" onClick={() => setQty(Math.max(1, qty-1))}>−</button><div className="qty-val">{qty}</div><button className="qty-btn" onClick={() => setQty(Math.min(5, qty+1))}>+</button></div></div>
-                </div>
-                <div className="card">
-                  <h3 style={{fontSize:'15px', fontWeight:700, color:'var(--g900)', marginBottom:'14px'}}>📍 Delivery Address</h3>
-                  <div className="fgrid">
-                    <div className="fg"><label>Full Name</label><input type="text" value={address.name} onChange={e=>setAddress({...address, name:e.target.value})} placeholder="Your full name" /></div>
-                    <div className="fg"><label>Phone</label><input type="tel" value={address.phone} onChange={e=>setAddress({...address, phone:e.target.value})} placeholder="10-digit number" /></div>
-                    <div className="fg fspan"><label>Flat / House No &amp; Street</label><input type="text" value={address.street} onChange={e=>setAddress({...address, street:e.target.value})} placeholder="Flat 4B, Rose Apartments, MG Road" /></div>
-                    <div className="fg"><label>Area / Locality</label><input type="text" value={address.area} onChange={e=>setAddress({...address, area:e.target.value})} placeholder="Secunderabad" /></div>
-                    <div className="fg"><label>Pincode</label><input type="text" value={address.pin} onChange={e=>setAddress({...address, pin:e.target.value})} placeholder="500003" maxLength={6} /></div>
-                  </div>
-                  {addrErr && <div className="err" style={{fontSize: '14px', marginTop: '10px'}}>{addrErr}</div>}
-                </div>
-              </div>
-              <div className="sticky-sum">
-                <div className="card">
-                  <div className="sum-title">Order Summary</div>
-                  <div className="sum-prod"><div className="simg"><img src={product.images[0]} /></div><div><div style={{fontSize:'13px', fontWeight:600, color:'var(--g900)'}}>{product.name}</div><div style={{fontSize:'12px', color:'var(--g400)'}}>Qty: {qty}</div></div></div>
-                  <div className="litems"><div className="litem"><span>Price</span><span>₹{(product.price*qty).toLocaleString('en-IN')}</span></div><div className="litem total"><span>Total</span><span>₹{(product.price*qty).toLocaleString('en-IN')}</span></div></div>
-                  <button className="btn btn-primary" style={{width:'100%'}} onClick={proceedToPay}>Proceed to Checkout →</button>
-                  <div className="snote">🔒 Secured</div>
-                </div>
-              </div>
-            </div>
+      <div className="pre-container">
+        {/* HEADER */}
+        <header className="pre-header">
+          <div className="brand">
+            <div className="brand-logo">R</div>
+            <h2>Raj Electronics <span>Checkout</span></h2>
           </div>
-        </div>
-      )}
+          <div className="steps-ind">
+            <div className={`ind-dot ${step >= 1 ? 'active' : ''}`}></div>
+            <div className={`ind-dot ${step >= 2 ? 'active' : ''}`}></div>
+            <div className={`ind-dot ${step >= 3 ? 'active' : ''}`}></div>
+          </div>
+        </header>
 
-      {step === 'payment' && (
-        <div id="step-three-secure" className="wz-panel">
-          <div className="top-banner" style={{background: '#1a1a1a', color: '#fff', textAlign: 'center', fontSize: '12.5px', padding: '8px 16px'}}>🔒 Secure Processing Portal</div>
-          <nav><div className="nav-inner">
-            <div className="nav-brand" onClick={() => router.push(`/product/${product.slug}`)}>
-              <div className="nav-logo">R</div><div className="nav-name">Raj Electronics<small>Final Step</small></div>
-            </div>
-            <div className="nav-right"><button className="nbtn" onClick={() => setStep('order')}>← Back</button></div>
-          </div></nav>
-          
-          <div className="mod3-layout">
-            <div style={{fontSize:'12.5px', color:'var(--g400)', marginBottom:'18px', display:'flex', gap:'6px', flexWrap:'wrap'}}>
-              <span onClick={() => router.push(`/product/${product.slug}`)} style={{cursor:'pointer', color:'var(--g500)'}}>Product</span><span>›</span>
-              <span onClick={() => setStep('order')} style={{cursor:'pointer', color:'var(--g500)'}}>Order Details</span><span>›</span>
-              <span style={{color:'var(--blue)', fontWeight:600}}>Settlement</span><span>›</span><span>Confirm</span>
-            </div>
-            
-            <div className="mod3-grid2">
-              <div className="card">
-                {payErr && <div className="err" style={{background:'#fff5f5', color:'#e53e3e', padding:'12px', borderRadius:'8px', marginBottom:'16px', border:'1px solid #fed7d7', fontSize:'14px', fontWeight:500}}>⚠️ {payErr}</div>}
-                <div style={{fontSize:'15px', fontWeight:700, color:'var(--g900)', marginBottom:'14px'}}>Choose Method</div>
-                <div className="mod3-tabs">
-                  {['UPI', 'COD'].map(m => (
-                    <button key={m} className={`mod3-tab ${payMethod===m?'active':''}`} onClick={() => setPayMethod(m)}>
-                      {m==='UPI'?'📱 ':'💵 '}<span>{m}</span>
-                    </button>
-                  ))}
+        <div className="pre-grid">
+          <div className="col-main">
+            {/* STEP 1: AUTH */}
+            {step === 1 && (
+              <div className="glass-card zoom-in">
+                <div className="card-head">
+                  <ShieldCheck size={32} color="#3b82f6" />
+                  <h1>Secure Verification</h1>
+                  <p>Enter your number to process this transaction.</p>
                 </div>
-                
-                {payMethod === 'UPI' && (
-                  <div className="u-apps" style={{marginTop: '15px'}}>
-                    <div className="u-app sel">
-                      <div className="icon">💜</div><div className="label">PhonePe / GPay / Any UPI</div>
+
+                {!confirmationResult ? (
+                  <div className="auth-form">
+                    <label>Mobile Number</label>
+                    <div className="inp-group">
+                      <span>+91</span>
+                      <input 
+                        type="tel" maxLength={10} value={phone} 
+                        onChange={e => setPhone(e.target.value.replace(/\D/g, ''))} 
+                        placeholder="98765 43210" autoFocus 
+                      />
+                      <Phone size={20} color="#64748b" />
                     </div>
+                    {error && <div className="err-msg"><AlertCircle size={16}/> {error}</div>}
+                    <button onClick={handleSendOtp} disabled={isVerifying} className="btn-primary">
+                      {isVerifying ? <Loader2 className="spin" size={24}/> : <>Send Secure OTP <ArrowRight size={20}/></>}
+                    </button>
+                  </div>
+                ) : (
+                  <div className="auth-form">
+                    <div className="verify-tag">
+                      <span>Verifying <strong>+91 {phone}</strong></span>
+                      <button onClick={() => setConfirmationResult(null)}>Edit</button>
+                    </div>
+                    <div className="otp-boxes">
+                      {otp.map((d, i) => (
+                        <input 
+                          key={i} ref={el => { otpInputs.current[i] = el; }} 
+                          type="tel" maxLength={1} value={d} 
+                          onKeyDown={e => e.key === 'Backspace' && !otp[i] && otpInputs.current[i-1]?.focus()} 
+                          onChange={e => {
+                            const n = [...otp]; n[i] = e.target.value.slice(-1); setOtp(n);
+                            if (e.target.value && i < 5) otpInputs.current[i+1]?.focus();
+                          }} 
+                          className="otp-box-ui" 
+                        />
+                      ))}
+                    </div>
+                    {error && <div className="err-msg"><AlertCircle size={16}/> {error}</div>}
+                    <button onClick={handleVerifyOtp} disabled={isVerifying} className="btn-primary">
+                      {isVerifying ? <Loader2 className="spin" size={24}/> : 'Confirm Identity'}
+                    </button>
                   </div>
                 )}
-                {payMethod === 'COD' && <div className="c-box" style={{marginTop: '15px'}}><p>Cash on delivery. Our team will verify your address via call.</p></div>}
-                
-                <div className="sec-note" style={{marginTop:'14px'}}><span className="sec-bdg" style={{background:'#072654',color:'#fff',padding:'3px 8px',borderRadius:'4px',fontSize:'10px',fontWeight:700}}>SECURE</span> 256-bit encrypted</div>
               </div>
-              
-              <div className="card sticky-sum">
-                <div className="sum-title">Summary</div>
-                <div className="sum-prod">
-                  <div className="simg"><img src={product.images[0]}/></div>
-                  <div><div style={{fontSize:'13px', fontWeight:600}}>{product.name}</div><div style={{fontSize:'12px', color:'var(--g400)'}}>Qty: {qty}</div></div>
+            )}
+
+            {/* STEP 2: ADDRESS & EMAIL */}
+            {step === 2 && (
+              <div className="glass-card zoom-in">
+                <div className="card-head">
+                  <MapPin size={32} color="#3b82f6" />
+                  <h1>Delivery Details</h1>
+                  <p>Where should we deliver your {product.brand}?</p>
                 </div>
-                <div className="litems">
-                  <div className="litem"><span>Item Total</span><span>₹{t.toLocaleString('en-IN')}</span></div>
-                  <div className="litem total"><span>Amount Due</span><span style={{color:'var(--blue)'}}>₹{t.toLocaleString('en-IN')}</span></div>
+
+                <div className="form-grid">
+                  <div className="fg fg-full">
+                    <label>Full Name</label>
+                    <input type="text" value={fullName} onChange={e => setFullName(e.target.value)} placeholder="Ex: Rahul Sharma" />
+                  </div>
+                  <div className="fg fg-full">
+                    <label>Email Address (For Invoice)</label>
+                    <div className="inp-icon">
+                      <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="rahul@example.com" />
+                      <Mail size={20} color="#64748b" />
+                    </div>
+                  </div>
+                  <div className="fg fg-full">
+                    <label>Street & House No.</label>
+                    <input type="text" value={address.street} onChange={e => setAddress({...address, street: e.target.value})} placeholder="Flat 4B, MG Road" />
+                  </div>
+                  <div className="fg">
+                    <label>Area / City</label>
+                    <input type="text" value={address.area} onChange={e => setAddress({...address, area: e.target.value})} placeholder="Secunderabad" />
+                  </div>
+                  <div className="fg">
+                    <label>Pincode</label>
+                    <input type="text" maxLength={6} value={address.pin} onChange={e => setAddress({...address, pin: e.target.value})} placeholder="500003" />
+                  </div>
                 </div>
-                <button className="btn btn-green" style={{width:'100%', marginTop: '10px'}} onClick={handlePay}>🔒 Complete Order ₹{t.toLocaleString('en-IN')}</button>
-                <div className="snote" style={{marginTop:'8px', textAlign: 'center', fontSize: '11px', color: 'var(--g400)'}}>🔒 100% secure processing</div>
+                {error && <div className="err-msg" style={{marginTop:'15px'}}><AlertCircle size={16}/> {error}</div>}
+                <button onClick={() => setStep(3)} className="btn-primary" style={{marginTop:'25px'}}>
+                  Continue to Payment <ArrowRight size={20}/>
+                </button>
+              </div>
+            )}
+
+            {/* STEP 3: PAYMENT */}
+            {step === 3 && (
+              <div className="glass-card zoom-in">
+                <div className="card-head">
+                  <CreditCard size={32} color="#3b82f6" />
+                  <h1>Secure Settlement</h1>
+                  <p>Choose your preferred way to pay.</p>
+                </div>
+                {error && <div className="err-msg" style={{marginBottom:'15px'}}><AlertCircle size={16}/> {error}</div>}
+
+                <div className="pay-methods">
+                  <div className="pay-opt" onClick={() => handleOrder('ONLINE')}>
+                    <div className="pay-icon"><CreditCard size={24} color="#3b82f6"/></div>
+                    <div className="pay-info">
+                      <h4>PhonePe / UPI / Cards</h4>
+                      <p>Secure 256-bit encrypted processing</p>
+                    </div>
+                    <ArrowRight size={20} color="#475569" className="arro" />
+                  </div>
+
+                  <div className="pay-opt cod" onClick={() => handleOrder('COD')}>
+                    <div className="pay-icon cod-icon"><ShoppingBag size={24} color="#10b981"/></div>
+                    <div className="pay-info">
+                      <h4>Cash on Delivery (COD)</h4>
+                      <p>Subject to telephone verification</p>
+                    </div>
+                    <ArrowRight size={20} color="#475569" className="arro" />
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* SIDEBAR */}
+          <div className="col-side">
+            <div className="summary-glass">
+              <div className="sum-prod">
+                <img src={product.images[0]} alt={product.name} />
+                <div>
+                  <span className="brand-tag">{product.brand}</span>
+                  <h3>{product.name}</h3>
+                </div>
+              </div>
+              <div className="sum-lines">
+                <div className="sum-line"><span>Item Price</span><span>₹{product.price.toLocaleString('en-IN')}</span></div>
+                <div className="sum-line"><span>Shipping</span><span style={{color: '#10b981'}}>FREE</span></div>
+                <div className="sum-total"><span>Payable</span><span>₹{totalPrice.toLocaleString('en-IN')}</span></div>
+              </div>
+              <div className="trust-badges">
+                <div className="bdg"><CheckCircle2 size={16} color="#10b981"/> Authorized Dealer</div>
+                <div className="bdg"><ShieldCheck size={16} color="#3b82f6"/> 100% Secure</div>
               </div>
             </div>
           </div>
         </div>
+      </div>
+
+      {isProcessing && (
+        <div className="overlay-load">
+          <Loader2 className="spin" size={48} color="#3b82f6" />
+          <h2>Securing your Order...</h2>
+          <p>Redirecting to Gateway</p>
+        </div>
       )}
+
+      {/* VANILLA STYLES */}
+      <style jsx>{`
+        * { box-sizing: border-box; }
+        .pre-wrap {
+          background-color: #020617;
+          min-height: 100vh;
+          font-family: 'DM Sans', system-ui, sans-serif;
+          color: #ffffff !important;
+          position: relative;
+          overflow: hidden;
+        }
+        .pre-wrap h1, .pre-wrap h2, .pre-wrap h3, .pre-wrap h4, .pre-wrap p, .pre-wrap span, .pre-wrap div, .pre-wrap label {
+          color: inherit;
+        }
+        .bg-orb {
+          position: absolute;
+          border-radius: 50%;
+          filter: blur(140px);
+          opacity: 0.4;
+          z-index: 0;
+        }
+        .orb-1 { width: 40vw; height: 40vw; background: #2563eb; top: -10%; left: -10%; }
+        .orb-2 { width: 50vw; height: 50vw; background: #4f46e5; bottom: -20%; right: -10%; }
+        
+        .pre-container {
+          max-width: 1100px;
+          margin: 0 auto;
+          padding: 40px 24px;
+          position: relative;
+          z-index: 10;
+        }
+        .pre-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 50px;
+        }
+        .brand {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+        }
+        .brand-logo {
+          width: 42px; height: 42px;
+          background: #2563eb;
+          border-radius: 12px;
+          display: flex; align-items: center; justify-content: center;
+          font-weight: 800; font-size: 20px;
+        }
+        .brand h2 {
+          font-size: 22px; font-weight: 800; margin: 0;
+        }
+        .brand span { color: #60a5fa; font-weight: 600; }
+        
+        .steps-ind { display: flex; gap: 8px; }
+        .ind-dot { width: 40px; height: 6px; border-radius: 10px; background: rgba(255,255,255,0.1); transition: 0.4s; }
+        .ind-dot.active { background: #3b82f6; }
+
+        .pre-grid {
+          display: grid;
+          grid-template-columns: 1fr 380px;
+          gap: 40px;
+          align-items: flex-start;
+        }
+        @media (max-width: 900px) {
+          .pre-grid { grid-template-columns: 1fr; }
+        }
+
+        .glass-card {
+          background: rgba(15, 23, 42, 0.7);
+          backdrop-filter: blur(25px);
+          -webkit-backdrop-filter: blur(25px);
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          border-radius: 32px;
+          padding: 40px;
+          box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+        }
+        .zoom-in { animation: zoomIn 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        @keyframes zoomIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        .card-head { margin-bottom: 30px; }
+        .card-head h1 { font-size: 32px; font-weight: 800; margin: 15px 0 5px; line-height: 1.2; color: #ffffff !important; }
+        .card-head p { color: #94a3b8 !important; font-size: 15px; margin: 0; }
+
+        .auth-form label, .fg label {
+          display: block; font-size: 12px; font-weight: 700;
+          text-transform: uppercase; letter-spacing: 0.1em;
+          color: #94a3b8 !important; margin-bottom: 8px;
+        }
+        .inp-group, .inp-icon, .fg input {
+          width: 100%;
+          background: rgba(30, 41, 59, 0.5);
+          border: 2px solid rgba(51, 65, 85, 0.8);
+          border-radius: 16px;
+          padding: 18px 20px;
+          font-size: 18px; color: #ffffff !important;
+          outline: none; transition: 0.2s;
+        }
+        .inp-group { display: flex; align-items: center; padding: 0; overflow: hidden; }
+        .inp-group span { padding-left: 20px; color: #cbd5e1 !important; font-weight: 700; }
+        .inp-group input { 
+          background: transparent; border: none; padding: 18px 15px; width: 100%; 
+          font-size: 18px; font-weight: 600; outline: none; color: #ffffff !important;
+        }
+        .inp-group:focus-within, .inp-icon:focus-within, .fg input:focus {
+          border-color: #3b82f6; background: rgba(30, 41, 59, 0.9);
+        }
+        
+        .inp-icon { display: flex; align-items: center; padding: 0; }
+        .inp-icon input { background: transparent; border: none; padding: 18px 20px; width: 100%; outline: none; color: #ffffff !important; font-size:16px;}
+        .inp-icon svg { margin-right: 15px; }
+
+        .btn-primary {
+          width: 100%; margin-top: 25px;
+          background: #2563eb; color: #ffffff !important;
+          border: none; border-radius: 16px;
+          padding: 20px; font-size: 18px; font-weight: 800;
+          cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 10px;
+          transition: 0.3s;
+        }
+        .btn-primary:hover:not(:disabled) {
+          background: #3b82f6; transform: translateY(-2px);
+          box-shadow: 0 10px 25px rgba(37, 99, 235, 0.4);
+        }
+        .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
+
+        .verify-tag { display: flex; justify-content: space-between; background: rgba(30,41,59,0.8); padding: 15px 20px; border-radius: 12px; margin-bottom: 25px; border: 1px solid rgba(255,255,255,0.05); }
+        .verify-tag span { color: #cbd5e1 !important; font-size: 14px; }
+        .verify-tag strong { color: #ffffff !important; }
+        .verify-tag button { background: none; border: none; color: #60a5fa !important; font-weight: 700; cursor: pointer; }
+        
+        .otp-boxes { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; margin-bottom: 25px; }
+        .otp-box-ui {
+          aspect-ratio: 1; width: 100%;
+          background: rgba(30,41,59,0.8); border: 2px solid rgba(51,65,85,0.8);
+          border-radius: 16px; text-align: center; font-size: 28px; font-weight: 800; color: #ffffff !important;
+          outline: none; transition: 0.2s;
+        }
+        .otp-box-ui:focus { border-color: #3b82f6; background: #0f172a; transform: translateY(-3px); }
+
+        .err-msg { background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); color: #f87171 !important; padding: 15px; border-radius: 12px; display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 600; margin-top: 20px; }
+        
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .fg-full { grid-column: 1 / -1; }
+        .fg input { padding: 18px 20px; font-size: 15px; font-weight: 500; }
+
+        .pay-methods { display: flex; flex-direction: column; gap: 15px; }
+        .pay-opt {
+          display: flex; align-items: center; gap: 20px;
+          background: rgba(30,41,59,0.5); border: 2px solid rgba(51,65,85,0.8);
+          border-radius: 20px; padding: 25px; cursor: pointer; transition: 0.3s;
+        }
+        .pay-opt:hover { border-color: #3b82f6; background: rgba(37,99,235,0.1); }
+        .pay-opt.cod:hover { border-color: #10b981; background: rgba(16,185,129,0.1); }
+        .pay-icon { width: 50px; height: 50px; background: rgba(59,130,246,0.2); border-radius: 14px; display: flex; align-items: center; justify-content: center; }
+        .cod-icon { background: rgba(16,185,129,0.2); }
+        .pay-info h4 { margin: 0 0 5px; font-size: 18px; font-weight: 700; color: #ffffff !important; }
+        .pay-info p { margin: 0; font-size: 13px; color: #94a3b8 !important; }
+        .arro { margin-left: auto; transition: 0.3s; color: #94a3b8 !important; }
+        .pay-opt:hover .arro { transform: translateX(5px); color: #60a5fa !important; }
+        .pay-opt.cod:hover .arro { color: #34d399 !important; }
+
+        /* SUMMARY */
+        .summary-glass {
+          background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
+          border: 1px solid rgba(255,255,255,0.08); border-radius: 32px; padding: 35px;
+          position: sticky; top: 40px;
+        }
+        .sum-prod { display: flex; gap: 20px; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 30px; margin-bottom: 30px; }
+        .sum-prod img { width: 90px; height: 90px; object-fit: cover; border-radius: 16px; border: 1px solid rgba(255,255,255,0.1); }
+        .brand-tag { font-size: 11px; font-weight: 800; color: #60a5fa !important; letter-spacing: 0.1em; text-transform: uppercase; }
+        .sum-prod h3 { font-size: 18px; font-weight: 700; margin: 5px 0 0; line-height: 1.3; color: #ffffff !important; }
+        
+        .sum-lines { display: flex; flex-direction: column; gap: 15px; margin-bottom: 30px; }
+        .sum-line { display: flex; justify-content: space-between; color: #cbd5e1 !important; font-size: 15px; font-weight: 500; }
+        .sum-line span:first-child { color: #94a3b8 !important; }
+        .sum-total { display: flex; justify-content: space-between; font-size: 24px; font-weight: 800; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); color: #ffffff !important; }
+        .sum-total span:last-child { color: #60a5fa !important; }
+
+        .trust-badges { background: rgba(30,41,59,0.5); border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 15px; }
+        .bdg { display: flex; align-items: center; gap: 12px; font-size: 14px; color: #cbd5e1 !important; font-weight: 600; }
+
+
+        .overlay-load {
+          position: fixed; inset: 0; background: rgba(2,6,23,0.9);
+          backdrop-filter: blur(10px); z-index: 1000;
+          display: flex; flex-direction: column; align-items: center; justify-content: center;
+        }
+        .overlay-load h2 { font-size: 28px; font-weight: 800; margin: 20px 0 5px; }
+        .overlay-load p { color: #94a3b8; font-size: 16px; }
+        
+        .spin { animation: spinner 1s linear infinite; }
+        @keyframes spinner { to { transform: rotate(360deg); } }
+      `}</style>
     </div>
   );
 }

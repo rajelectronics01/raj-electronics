@@ -2,62 +2,73 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { jwtVerify } from 'jose';
 
-// Secret key for JWT verification
-const getJwtSecretKey = () => {
-    const secret = process.env.JWT_SECRET;
-    if (!secret || secret.length === 0) {
-        throw new Error('The environment variable JWT_SECRET is not set.');
-    }
-    return secret;
-};
+/**
+ * RAJ ELECTRONICS: GLOBAL SECURITY GATEKEEPER
+ * Verifies both Admin (admin-token) and Customer (user-token) sessions.
+ * Matches: /admin, /api/admin, /api/user/me, /api/checkout/orders
+ */
+
+const getJwtSecretKey = () => new TextEncoder().encode(process.env.JWT_SECRET!);
 
 export async function middleware(request: NextRequest) {
-    const { pathname } = request.nextUrl;
+  const { pathname } = request.nextUrl;
 
-    // We want to protect all /admin routes EXCEPT the login page
-    const isAdminRoute = pathname.startsWith('/admin') && pathname !== '/admin/login';
+  // 1. ADMIN PROTECTION
+  const isAdminRoute = pathname.startsWith('/admin') && pathname !== '/admin/login';
+  const isAdminApi = pathname.startsWith('/api/admin');
+  const isScraperApi = pathname.startsWith('/api/scrape-product');
 
-    // We want to protect mutation APIs from public access
-    const isProtectedApi = pathname.startsWith('/api/products') && ['POST', 'PUT', 'DELETE'].includes(request.method);
-    const isScraperApi = pathname.startsWith('/api/scrape-product');
+  if (isAdminRoute || isAdminApi || isScraperApi) {
+    const token = request.cookies.get('admin-token')?.value;
+    if (!token) return handleUnauthorized(request, '/admin/login');
 
-    if (isAdminRoute || isProtectedApi || isScraperApi) {
-        const token = request.cookies.get('admin-token')?.value;
-
-        if (!token) {
-            return redirectToLogin(request);
-        }
-
-        try {
-            // Verify the JWT token using 'jose' (Edge compatible)
-            const secret = new TextEncoder().encode(getJwtSecretKey());
-            await jwtVerify(token, secret);
-
-            // Authentication successful, user can proceed
-            return NextResponse.next();
-        } catch (error) {
-            // Token is invalid or expired
-            return redirectToLogin(request);
-        }
+    try {
+      await jwtVerify(token, getJwtSecretKey());
+      return NextResponse.next();
+    } catch (e) {
+      return handleUnauthorized(request, '/admin/login');
     }
+  }
 
-    return NextResponse.next();
+  // 2. CUSTOMER PROTECTION (Private Data)
+  const isPrivateUserData = pathname.startsWith('/api/user/me') || 
+                            pathname.startsWith('/api/user/update-name') ||
+                            pathname.startsWith('/api/order/get'); // Potential future route
+
+  if (isPrivateUserData) {
+    const userToken = request.cookies.get('user-token')?.value;
+    if (!userToken) return handleUnauthorized(request, '/login');
+
+    try {
+      await jwtVerify(userToken, getJwtSecretKey());
+      return NextResponse.next();
+    } catch (e) {
+      return handleUnauthorized(request, '/login');
+    }
+  }
+
+  return NextResponse.next();
 }
 
-function redirectToLogin(request: NextRequest) {
-    const { pathname } = request.nextUrl;
-
-    // For API requests, return a generic 401 Unauthorized instead of HTML redirect
-    if (pathname.startsWith('/api/')) {
-        return NextResponse.json({ error: 'Unauthorized Access' }, { status: 401 });
-    }
-
-    // For browser pages, redirect securely to the login portal
-    const loginUrl = new URL('/admin/login', request.url);
-    return NextResponse.redirect(loginUrl);
+/**
+ * HELPER: Redirect or Deny
+ */
+function handleUnauthorized(request: NextRequest, redirectPath: string) {
+  const { pathname } = request.nextUrl;
+  
+  if (pathname.startsWith('/api/')) {
+    return NextResponse.json({ error: 'Unauthorized Access' }, { status: 401 });
+  }
+  
+  const redirectUrl = new URL(redirectPath, request.url);
+  return NextResponse.redirect(redirectUrl);
 }
 
-// Config specifies which routes this middleware strictly runs on matches
 export const config = {
-    matcher: ['/admin/:path*', '/api/products/:path*', '/api/scrape-product/:path*'],
+  matcher: [
+    '/admin/:path*', 
+    '/api/admin/:path*', 
+    '/api/user/:path*', 
+    '/api/scrape-product/:path*'
+  ],
 };

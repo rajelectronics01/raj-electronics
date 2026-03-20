@@ -17,4 +17,11 @@ const app: FirebaseApp =
   getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
 
 export const auth: Auth = getAuth(app);
+
+// Critical Fix: Bypass strict reCAPTCHA / IP Blocks entirely during Localhost dev.
+// This allows test numbers (like your Dad's and yours) to connect instantly without throttling.
+if (typeof window !== 'undefined' && window.location.hostname === 'localhost') {
+  auth.settings.appVerificationDisabledForTesting = true;
+}
+
 export default app;

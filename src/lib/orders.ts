@@ -1,17 +1,23 @@
 import prisma from './prisma';
 
-export async function findOrCreateUser(phone: string, name?: string) {
+export async function findOrCreateUser(phone: string, name?: string, email?: string) {
   let user = await prisma.user.findUnique({ where: { phone } });
   if (!user) {
     user = await prisma.user.create({ 
-      data: { phone, name } 
+      data: { phone, name, email } 
     });
-  } else if (name && !user.name) {
-    // Update name if it wasn't set before
-    user = await prisma.user.update({
-      where: { id: user.id },
-      data: { name }
-    });
+  } else {
+    // Update name and email if they weren't set before
+    const dataToUpdate: any = {};
+    if (name && !user.name) dataToUpdate.name = name;
+    if (email && !user.email) dataToUpdate.email = email;
+    
+    if (Object.keys(dataToUpdate).length > 0) {
+      user = await prisma.user.update({
+        where: { id: user.id },
+        data: dataToUpdate
+      });
+    }
   }
   return user;
 }
@@ -23,7 +29,8 @@ export async function createOrGetAddress(userId: string, addressData: any) {
       userId,
       street: addressData.street,
       area: addressData.area,
-      pin: addressData.pin
+      pin: addressData.pin,
+      email: addressData.email
     }
   });
 
@@ -34,6 +41,7 @@ export async function createOrGetAddress(userId: string, addressData: any) {
       userId,
       name: addressData.name,
       phone: addressData.phone,
+      email: addressData.email,
       street: addressData.street,
       area: addressData.area,
       pin: addressData.pin

@@ -1,33 +1,37 @@
 import crypto from 'crypto';
 
-const MERCHANT_ID = process.env.PHONEPE_MERCHANT_ID;
-const SALT_KEY = process.env.PHONEPE_SALT_KEY;
-const SALT_INDEX = process.env.PHONEPE_SALT_INDEX;
-const HOST = process.env.PHONEPE_HOST;
+/**
+ * RAJ ELECTRONICS: PHONEPE SECURITY CORE
+ * Handles HMAC-SHA256 signature generation for V1/V2 APIs.
+ */
+
+const SALT_KEY = process.env.PHONEPE_SALT_KEY!;
+const SALT_INDEX = process.env.PHONEPE_SALT_INDEX || '1';
+const MERCHANT_ID = process.env.PHONEPE_MERCHANT_ID!;
+const PHONEPE_HOST = process.env.PHONEPE_HOST || 'https://api-preprod.phonepe.com/apis/pg-sandbox';
 
 /**
- * Generates the X-VERIFY header for PhonePe API calls
- * Format: SHA256(base64Body + endpoint + saltKey) + "###" + saltIndex
+ * Generate X-VERIFY header for PhonePe requests
+ * (Base64 Body + Endpoint + Salt Key) -> SHA256 -> ### + Salt Index
  */
-export function generateChecksum(payload: string, endpoint: string): string {
-  const dataToHash = payload + endpoint + SALT_KEY;
-  const hash = crypto.createHash('sha256').update(dataToHash).digest('hex');
-  return `${hash}###${SALT_INDEX}`;
+export function generateXVerify(base64Payload: string, endpoint: string): string {
+  const stringToSign = base64Payload + endpoint + SALT_KEY;
+  const sha256 = crypto.createHash('sha256').update(stringToSign).digest('hex');
+  return `${sha256}###${SALT_INDEX}`;
 }
 
 /**
- * Verifies the checksum received from PhonePe in the callback
+ * Verify incoming webhook signature from PhonePe
  */
-export function verifyChecksum(payload: string, xVerify: string): boolean {
-  const dataToHash = payload + SALT_KEY;
-  const hash = crypto.createHash('sha256').update(dataToHash).digest('hex');
-  const expectedVerify = `${hash}###${SALT_INDEX}`;
-  return expectedVerify === xVerify;
+export function verifyCallback(xVerify: string, base64Payload: string): boolean {
+  const sha256 = crypto.createHash('sha256').update(base64Payload + SALT_KEY).digest('hex');
+  const expected = `${sha256}###${SALT_INDEX}`;
+  return xVerify === expected;
 }
 
 export const PHONEPE_CONFIG = {
   MERCHANT_ID,
-  HOST,
-  CALLBACK_URL: `${process.env.NEXT_PUBLIC_BASE_URL}/api/payment/callback`,
-  REDIRECT_URL: `${process.env.NEXT_PUBLIC_BASE_URL}/api/payment/status`,
+  HOST: PHONEPE_HOST,
+  CALLBACK_URL: `${process.env.NEXT_PUBLIC_BASE_URL}/api/checkout/webhook`,
+  REDIRECT_URL: `${process.env.NEXT_PUBLIC_BASE_URL}/order/confirmation`,
 };

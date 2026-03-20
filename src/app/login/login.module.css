@@ -8,55 +8,51 @@
 }
 
 .card {
-  background: #ffffff;
-  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
   box-shadow:
-    0 0 0 1px rgba(0, 0, 0, 0.05),
-    0 20px 60px -15px rgba(0, 0, 0, 0.15);
+    0 0 0 1px rgba(0, 0, 0, 0.04),
+    0 25px 50px -12px rgba(0, 0, 0, 0.15);
   width: 100%;
-  max-width: 440px;
+  max-width: 420px;
   overflow: hidden;
-  animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  position: relative;
 }
 
-@keyframes slideUp {
-  from { opacity: 0; transform: translateY(24px); }
-  to   { opacity: 1; transform: translateY(0); }
+.card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.05) 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
 }
 
 .logoWrap {
   display: flex;
   align-items: center;
   gap: 14px;
-  padding: 28px 32px 24px;
-  border-bottom: 1px solid #f1f5f9;
-  background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%);
+  padding: 32px 32px 28px;
+  background: linear-gradient(135deg, #020617 0%, #0f172a 100%);
 }
 
 .logo {
-  border-radius: 10px;
-  object-fit: contain;
-}
-
-.logoTitle {
-  font-size: 1.25rem;
-  font-weight: 800;
-  color: #ffffff;
-  letter-spacing: -0.3px;
-}
-
-.logoSub {
-  font-size: 0.7rem;
-  color: #93c5fd;
-  font-weight: 600;
-  letter-spacing: 0.8px;
-  text-transform: uppercase;
-  margin-top: 2px;
+  border-radius: 12px;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.3));
 }
 
 .cardBody {
-  padding: 32px;
+  padding: 40px 32px;
 }
+
 
 .form {
   display: flex;
@@ -158,38 +154,39 @@
 /* OTP Boxes */
 .otpRow {
   display: flex;
-  gap: 10px;
+  gap: 8px;
   justify-content: center;
+  margin: 10px 0;
 }
 
 .otpBox {
-  width: 52px;
-  height: 60px;
-  border: 2px solid #e2e8f0;
-  border-radius: 14px;
+  width: 46px;
+  height: 56px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 12px;
   text-align: center;
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   font-weight: 700;
   color: #0f172a;
   background: #f8fafc;
   outline: none;
-  transition: all 0.15s ease;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   font-family: inherit;
-  caret-color: #0284c7;
 }
 
 .otpBox:focus {
   border-color: #0284c7;
-  box-shadow: 0 0 0 4px rgba(2, 132, 199, 0.12);
+  box-shadow: 0 0 0 4px rgba(2, 132, 199, 0.1);
   background: #fff;
-  transform: scale(1.05);
+  transform: translateY(-2px);
 }
 
 .otpBox.otpFilled {
-  border-color: #10b981;
-  background: #f0fdf4;
-  color: #059669;
+  border-color: #0284c7;
+  background: #f0f9ff;
+  color: #0369a1;
 }
+
 
 /* Buttons */
 .btnPrimary {
