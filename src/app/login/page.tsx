@@ -1,14 +1,20 @@
 'use client';
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useUser } from '@/context/UserContext';
 import { auth } from '@/lib/firebase';
-import { RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth';
+import {
+  RecaptchaVerifier,
+  signInWithPhoneNumber,
+  ConfirmationResult
+} from 'firebase/auth';
 import { ShieldCheck, Loader2, Phone, ArrowRight, AlertCircle } from 'lucide-react';
 import Link from 'next/link';
+import styles from './login.module.css';
 
-export default function LoginPage() {
+// Separate component for the login logic using searchParams
+function LoginContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirect = searchParams.get('redirect') || '/';
@@ -16,7 +22,7 @@ export default function LoginPage() {
 
   const [phoneNumber, setPhoneNumber] = useState('');
   const [otp, setOtp] = useState(['', '', '', '', '', '']);
-  const [confirmationResult, setConfirmationResult] = useState<any>(null);
+  const [confirmationResult, setConfirmationResult] = useState<ConfirmationResult | null>(null);
   const [showOtp, setShowOtp] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
@@ -55,6 +61,8 @@ export default function LoginPage() {
 
   const handleVerifyOtp = async () => {
     if (otp.join('').length < 6) return setError('Enter 6-digit code');
+    if (!confirmationResult) return setError('Session expired. Send OTP again.');
+    
     setIsLoading(true);
     try {
       const result = await confirmationResult.confirm(otp.join(''));
@@ -267,5 +275,18 @@ export default function LoginPage() {
         @keyframes spinner { to { transform: rotate(360deg); } }
       `}</style>
     </div>
+  );
+}
+
+// THE WRAPPER (This fixes the Vercel Build Error)
+export default function LoginPage() {
+  return (
+    <Suspense fallback={
+      <div style={{ background: '#020617', height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <Loader2 className="spin" size={40} color="#2563eb" />
+      </div>
+    }>
+      <LoginContent />
+    </Suspense>
   );
 }
