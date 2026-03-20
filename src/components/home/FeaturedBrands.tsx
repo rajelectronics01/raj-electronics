@@ -2,6 +2,7 @@
 
 import styles from './FeaturedBrands.module.css';
 import { BRANDS } from '@/types';
+import Link from 'next/link';
 
 const BRAND_LOGOS: Record<string, string> = {
     "Lloyd":      "/brands/lloyd.png",
@@ -13,7 +14,14 @@ const BRAND_LOGOS: Record<string, string> = {
     "Daikin":     "/brands/daikin.svg",
     "Carrier":    "/brands/carrier.svg",
     "Bluestar":   "/brands/bluestar.svg",
-    "Sansui":     "/brands/sansui.svg",
+    "Sansui":     "/brands/sansui.png",
+    "LG":         "/brands/lg.png",
+    "Voltas":     "/brands/voltas.svg",
+    "Mitsubishi": "/brands/mitsubishi.png",
+    "O-General":  "/brands/o-general.svg",
+    "Hitachi":    "/brands/hitachi.svg",
+    "Godrej":     "/brands/godrej.png",
+    "Haier":      "/brands/haier.png",
 };
 
 export default function FeaturedBrands() {
@@ -24,7 +32,11 @@ export default function FeaturedBrands() {
                 <p className={styles.subtitle}>We stock products from India's most trusted electronics manufacturers</p>
                 <div className={styles.grid}>
                     {BRANDS.map(brand => (
-                        <div key={brand} className={styles.brandCard}>
+                        <Link 
+                            key={brand} 
+                            href={`/search?q=${encodeURIComponent(brand)}`}
+                            className={styles.brandCard}
+                        >
                             {BRAND_LOGOS[brand] ? (
                                 <img
                                     src={BRAND_LOGOS[brand]}
@@ -34,10 +46,11 @@ export default function FeaturedBrands() {
                             ) : (
                                 <span className={styles.brandName}>{brand}</span>
                             )}
-                        </div>
+                        </Link>
                     ))}
                 </div>
             </div>
         </section>
     );
 }
+

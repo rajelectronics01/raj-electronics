@@ -1,0 +1,7 @@
+<svg width="200" height="80" viewBox="0 0 200 80" xmlns="http://www.w3.org/2000/svg">
+    <path d="M40 15 L55 35 L40 55 L25 35 Z" fill="#EE1C23"/>
+    <path d="M55 35 L70 55 L40 55 Z" fill="white" stroke="none"/>
+    <path d="M60 40 L75 60 L60 80 L45 60 Z" fill="#EE1C23" transform="translate(10,-5)"/>
+    <path d="M20 40 L35 60 L20 80 L5 60 Z" fill="#EE1C23" transform="translate(-10,-5)"/>
+    <text x="75" y="52" font-family="'Times New Roman', serif" font-weight="bold" font-size="28" fill="#EE1C23">MITSUBISHI</text>
+</svg>

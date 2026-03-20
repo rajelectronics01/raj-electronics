@@ -30,5 +30,5 @@ export const BRANDS = [
     "Lloyd", "Whirlpool", "Crompton", "Orient", "TG Smart",
     "Samsung", "Daikin", "Carrier", "Bluestar", "Sansui",
     "LG", "Voltas", "Mitsubishi", "O-General", "Hitachi",
-    "Panasonic", "Godrej", "Haier", "Videocon"
+    "Godrej", "Haier"
 ];
