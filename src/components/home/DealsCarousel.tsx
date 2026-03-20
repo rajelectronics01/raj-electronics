@@ -12,15 +12,15 @@ const CATEGORY_CONFIG: {
     match: string; // exact category string stored in DB
     duration: string; // marquee speed (slower = fewer products)
 }[] = [
-    { label: 'Mobile Phones',    slug: 'mobile-phones',    match: 'Mobile Phones',    duration: '80s' },
-    { label: 'Split AC',         slug: 'split-ac',         match: 'Split AC',         duration: '90s' },
-    { label: 'Window AC',        slug: 'window-ac',        match: 'Window AC',        duration: '85s' },
-    { label: 'Tower AC',         slug: 'tower-ac',         match: 'Tower AC',         duration: '80s' },
-    { label: 'Air Coolers',      slug: 'air-coolers',      match: 'Air Coolers',      duration: '95s' },
-    { label: 'Smart TVs',        slug: 'televisions',      match: 'Televisions',      duration: '100s' },
-    { label: 'Refrigerators',    slug: 'refrigerators',    match: 'Refrigerators',    duration: '90s' },
-    { label: 'Washing Machines', slug: 'washing-machines', match: 'Washing Machines', duration: '90s' },
-    { label: 'Home Appliances',  slug: 'home-appliances',  match: 'Home Appliances',  duration: '85s' },
+    { label: 'Mobile Phones',    slug: 'mobile-phones',    match: 'Mobile Phones',    duration: '112s' },
+    { label: 'Split AC',         slug: 'split-ac',         match: 'Split AC',         duration: '126s' },
+    { label: 'Window AC',        slug: 'window-ac',        match: 'Window AC',        duration: '119s' },
+    { label: 'Tower AC',         slug: 'tower-ac',         match: 'Tower AC',         duration: '112s' },
+    { label: 'Air Coolers',      slug: 'air-coolers',      match: 'Air Coolers',      duration: '133s' },
+    { label: 'Smart TVs',        slug: 'televisions',      match: 'Televisions',      duration: '140s' },
+    { label: 'Refrigerators',    slug: 'refrigerators',    match: 'Refrigerators',    duration: '126s' },
+    { label: 'Washing Machines', slug: 'washing-machines', match: 'Washing Machines', duration: '126s' },
+    { label: 'Home Appliances',  slug: 'home-appliances',  match: 'Home Appliances',  duration: '119s' },
 ];
 
 function calcDiscount(price: number, originalPrice?: number) {

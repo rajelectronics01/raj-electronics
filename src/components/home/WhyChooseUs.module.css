@@ -56,6 +56,23 @@
 
 @media (max-width: 640px) {
     .grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+    .card {
+        padding: 20px 10px;
+        border-radius: 12px;
+    }
+    .icon {
+        font-size: 2.2rem;
+        margin-bottom: 12px;
+    }
+    .cardTitle {
+        font-size: 1rem;
+        margin-bottom: 5px;
+    }
+    .cardDesc {
+        font-size: 0.8rem;
+        line-height: 1.4;
     }
 }
