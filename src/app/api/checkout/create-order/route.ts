@@ -95,7 +95,8 @@ export async function POST(req: Request) {
     }
 
   } catch (error: any) {
-    console.error('Create Order Error:', error?.response?.data || error.message);
-    return NextResponse.json({ success: false, error: 'Payment initialization failed. Please try again.' }, { status: 500 });
+    const errorMsg = error?.response?.data?.message || error?.message || 'Unknown error';
+    console.error('Create Order Error:', errorMsg);
+    return NextResponse.json({ success: false, error: `Order Error: ${errorMsg}` }, { status: 500 });
   }
 }
