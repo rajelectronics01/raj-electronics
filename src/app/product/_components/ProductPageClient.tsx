@@ -54,7 +54,7 @@ export default function ProductPageClient({ product, relatedProducts }: ProductP
               {discount > 0 && <div className={styles.discountTag}>{discount}% OFF</div>}
               <Image 
                 src={activeImg} 
-                alt={product.name} 
+                alt={`${product.brand} ${product.name} - Buy in Secunderabad Hyderabad`} 
                 width={500} 
                 height={500} 
                 className={styles.mainImage}
@@ -68,7 +68,7 @@ export default function ProductPageClient({ product, relatedProducts }: ProductP
                   className={`${styles.thumb} ${activeImg === img ? styles.active : ""}`}
                   onClick={() => setActiveImg(img)}
                 >
-                  <Image src={img} alt={""} width={80} height={80} style={{ objectFit: 'contain' }} />
+                  <Image src={img} alt={`${product.brand} ${product.name} - Buy in Secunderabad Hyderabad`} width={80} height={80} style={{ objectFit: 'contain' }} />
                 </div>
               ))}
             </div>
@@ -206,7 +206,8 @@ export default function ProductPageClient({ product, relatedProducts }: ProductP
         <div className={styles.container}>
           <div className={styles.stickyInner}>
             <div className={styles.stickyProd}>
-              <img src={product.images[0]} alt="" />
+              <img src={product.images[0]} alt={`${product.brand} ${product.name} - Buy in Secunderabad Hyderabad`} />
+
               <div>
                 <div className={styles.stickyTitle}>{product.name}</div>
                 <div style={{fontSize: '12px', color: 'var(--green)', fontWeight: 700}}>Authorized Dealer • In Stock</div>

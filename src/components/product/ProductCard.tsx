@@ -28,7 +28,7 @@ export default function ProductCard({ product, priority }: ProductCardProps) {
                         {product.images?.[0] ? (
                             <ImageScrubber 
                                 images={product.images}
-                                alt={`${product.brand} ${product.name} - best price at Raj Electronics`}
+                                alt={`${product.brand} ${product.name} - Buy in Secunderabad Hyderabad`}
                                 priority={priority}
                             />
                         ) : (

@@ -23,12 +23,12 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://rajelectronics.co'),
-  title: "Raj Electronics - Best Electronics Store in Secunderabad | Authorized Dealer for AC, TV, Cooler & More",
-  description: "Raj Electronics on RP Road, Secunderabad — your trusted dealer for Split ACs, Smart TVs, Air Coolers, Refrigerators, Washing Machines, Mobile Phones & Home Appliances. Authorized dealer for LG, Voltas, Samsung, Daikin, Lloyd, Carrier, Hitachi, O-General & more. Lowest price guaranteed with easy EMI options. Visit us near Secunderabad Railway Station, Hyderabad.",
-  keywords: "Raj Electronics Secunderabad, electronics shop RP Road Secunderabad, AC dealer Secunderabad, air conditioner price Secunderabad, Voltas AC dealer Hyderabad, LG AC dealer Secunderabad, Samsung TV dealer Secunderabad, split AC Hyderabad, best air cooler price Secunderabad, air cooler dealer Secunderabad, refrigerator showroom Secunderabad, washing machine dealer Hyderabad, home appliances store near me Secunderabad, LED TV shop Secunderabad, mobile phone shop Secunderabad, authorized electronics dealer Hyderabad, O-General AC Secunderabad, Daikin AC dealer Hyderabad, Hitachi AC Secunderabad, Mitsubishi AC dealer, Carrier AC dealer Secunderabad, Bluestar AC dealer, chest freezer dealer Hyderabad, water dispenser shop Secunderabad, Lloyd AC dealer Secunderabad, inverter AC price Hyderabad, 1.5 ton AC best price Secunderabad, electronics on EMI Secunderabad, cheap electronics Secunderabad, electronics near railway station Secunderabad",
+  title: "Raj Electronics Secunderabad | Best AC, TV & Appliance Dealer | Bulk & Institutional Orders Accepted",
+  description: "Raj Electronics — Secunderabad's trusted electronics dealer since 1995. Shop ACs, Smart TVs, Refrigerators, Washing Machines & more. Bulk orders, institutional supply & corporate procurement welcome. Call +91 92907 48866.",
+  keywords: "Raj Electronics Secunderabad, bulk AC purchase Hyderabad, institutional electronics supplier Secunderabad, corporate appliance procurement Telangana, wholesale electronics dealer Hyderabad, bulk TV purchase for office, school AC supplier Hyderabad, hospital appliances supplier, bulk order electronics GST billing India, electronics shop Secunderabad, electronics dealer Hyderabad, authorized AC dealer Secunderabad, best electronics store Hyderabad, buy AC Secunderabad, split AC dealer Hyderabad, inverter AC best price Secunderabad, Samsung TV dealer Hyderabad, LG refrigerator dealer Secunderabad, washing machine shop Hyderabad, air cooler bulk purchase Hyderabad, Daikin AC dealer Hyderabad, electronics shop near Secunderabad, home appliances Trimulgherry, electronics dealer Marredpally, appliances store Bowenpally, AC shop Secundarabad",
   openGraph: {
-    title: "Raj Electronics - Best Electronics Dealer in Secunderabad | AC, TV, Coolers & Appliances",
-    description: "Shop ACs, Smart TVs, Air Coolers, Refrigerators, Washing Machines & Mobile Phones at Raj Electronics, RP Road Secunderabad. Authorized dealer for LG, Voltas, Samsung, Daikin, Hitachi & more. Best price + EMI available.",
+    title: "Raj Electronics Secunderabad | Best AC, TV & Appliance Dealer | Bulk & Institutional Orders Accepted",
+    description: "Raj Electronics — Secunderabad's trusted electronics dealer since 1995. Shop ACs, Smart TVs, Refrigerators, Washing Machines & more. Bulk/Institutional supply welcome.",
     locale: "en_IN",
     type: "website",
     siteName: "Raj Electronics",
@@ -69,36 +69,19 @@ const jsonLd = [
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
     "name": "Raj Electronics",
-    "description": "Raj Electronics is Secunderabad's most trusted electronics dealer on RP Road, offering Air Conditioners, Smart TVs, Air Coolers, Refrigerators, Washing Machines, Mobile Phones and Home Appliances at the lowest prices with easy EMI. Authorized dealer for LG, Voltas, Samsung, Daikin, Lloyd, Carrier, O-General, Hitachi, Mitsubishi, Bluestar and more.",
+    "description": "Secunderabad's trusted electronics dealer since 1995. Authorized AC dealer, leading institutional electronics supplier, and wholesale provider for corporate orders.",
     "image": "https://rajelectronics.co/logo.png",
     "@id": "https://rajelectronics.co",
     "url": "https://rajelectronics.co",
     "telephone": "+919290748866",
     "priceRange": "₹₹",
-    "hasMap": "https://maps.google.com/?q=Raj+Electronics+RP+Road+Secunderabad",
-    "servesCuisine": null,
     "address": {
       "@type": "PostalAddress",
-      "streetAddress": "RP Road",
       "addressLocality": "Secunderabad",
       "addressRegion": "Telangana",
-      "postalCode": "500003",
-      "addressCountry": "IN"
+      "addressCountry": "India"
     },
-    "geo": {
-      "@type": "GeoCoordinates",
-      "latitude": 17.447,
-      "longitude": 78.498
-    },
-    "openingHoursSpecification": {
-      "@type": "OpeningHoursSpecification",
-      "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
-      "opens": "10:30",
-      "closes": "21:30"
-    },
-    "sameAs": [
-      "https://rajelectronics.co"
-    ]
+    "openingHours": "Mo-Su 10:30-21:30"
   }
 ];
 

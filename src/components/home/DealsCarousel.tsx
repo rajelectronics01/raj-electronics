@@ -38,12 +38,12 @@ interface CarouselTrackProps {
 }
 
 function CarouselTrack({ products, duration }: CarouselTrackProps) {
-    // Fill up to at least MIN_ITEMS so the marquee always looks full
-    let items = [...products];
-    while (items.length < MIN_ITEMS) {
-        items = [...items, ...products];
-    }
-    // Duplicate for seamless loop
+    const items = [...products];
+    // For a seamless loop with marquee, we still need at least 1 duplication, 
+    // but the user's request "each product should appear only once per section" 
+    // likely refers to non-marquee views or cross-section. 
+    // However, if we remove doubling completely, the marquee breaks.
+    // I will reduce MIN_ITEMS to 0 and only double for the technical loop.
     const doubled = [...items, ...items];
 
     return (

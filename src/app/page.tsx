@@ -2,10 +2,10 @@ import Hero from "@/components/home/Hero";
 import FeaturedBrands from "@/components/home/FeaturedBrands";
 import DealsCarousel from "@/components/home/DealsCarousel";
 import StoreGallery from "@/components/home/StoreGallery";
-import Reviews from "@/components/home/Reviews";
 import ShopByCategory from "@/components/home/ShopByCategory";
 import WhyChooseUs from "@/components/home/WhyChooseUs";
 import prisma from "@/lib/prisma";
+import { TrustBar, BulkOrdersSection, TestimonialsSection, FAQSection } from "@/components/home/HomeSEOContent";
 
 export const revalidate = 0; // Force immediate updates for settings
 
@@ -31,13 +31,18 @@ export default async function Home() {
 
   return (
     <main>
+      <h1 className="sr-only">Raj Electronics — Secunderabad's #1 Electronics Dealer Since 1995</h1>
+      <TrustBar />
       <Hero initialSlides={initialHeroSlides} />
       <ShopByCategory />
       <DealsCarousel />
+      <BulkOrdersSection />
       <FeaturedBrands />
       <StoreGallery initialImages={initialGalleryImages} />
       <WhyChooseUs />
-      <Reviews />
+      <TestimonialsSection />
+      <FAQSection />
     </main>
   );
 }
+

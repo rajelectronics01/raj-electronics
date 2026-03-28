@@ -1,7 +1,6 @@
 .section {
-    padding: 80px 0;
-    background-color: #fafbfd;
-    /* Very subtle blue-white for contrast against white boxes */
+    padding: 100px 0;
+    background-color: var(--secondary); /* Powder blue light background */
 }
 
 .container {
@@ -21,7 +20,7 @@
 .grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 30px;
+    gap: 40px;
 }
 
 .card {
@@ -50,8 +49,8 @@
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    background-color: #e0f2fe;
-    /* light blue fallback */
+    background-color: #ffffff;
+    /* light blue fallback removed */
 }
 
 .gradientBg {
@@ -135,10 +134,10 @@
 .exploreLink {
     display: flex;
     align-items: center;
-    color: #3b82f6;
-    /* Modern bright blue */
+    color: var(--primary);
+    /* Professional Navy */
     font-size: 1rem;
-    font-weight: 600;
+    font-weight: 700;
     gap: 4px;
 }
 
@@ -155,21 +154,34 @@
 
 @media (max-width: 1024px) {
     .grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(3, 1fr);
         gap: 24px;
     }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 768px) {
     .grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr); /* Two in one row requested */
+        gap: 16px;
+    }
+
+    .container {
+        padding: 0 16px;
     }
 
     .name {
-        font-size: 1.25rem;
+        font-size: 1.15rem;
     }
 
     .desc {
-        font-size: 0.9rem;
+        display: none; /* Hide description on mobile for cleaner 2-column grid */
+    }
+
+    .imageWrapper {
+        aspect-ratio: 1 / 1; /* More boxy on mobile */
+    }
+
+    .image {
+        padding: 20px;
     }
 }

@@ -53,5 +53,37 @@ export default async function ProductPage(props: Props) {
         .filter(p => p.id !== product.id)
         .slice(0, 4);
 
-    return <ProductPageClient product={product} relatedProducts={relatedProducts} />;
+    const jsonLd = {
+        "@context": "https://schema.org",
+        "@type": "Product",
+        "name": product.name,
+        "image": product.images || [],
+        "description": `Buy ${product.brand} ${product.name} at Raj Electronics Secunderabad.`,
+        "sku": product.id,
+        "brand": {
+            "@type": "Brand",
+            "name": product.brand
+        },
+        "offers": {
+            "@type": "Offer",
+            "url": `https://rajelectronics.co/product/${product.slug}`,
+            "priceCurrency": "INR",
+            "price": product.price,
+            "availability": "https://schema.org/InStock",
+            "seller": {
+                "@type": "LocalBusiness",
+                "name": "Raj Electronics"
+            }
+        }
+    };
+
+    return (
+        <>
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+            />
+            <ProductPageClient product={product} relatedProducts={relatedProducts} />
+        </>
+    );
 }

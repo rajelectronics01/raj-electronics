@@ -126,11 +126,12 @@
 .emiBadge {
     font-size: 0.75rem;
     color: var(--primary);
-    background-color: #e0f2fe;
+    background-color: var(--secondary);
     display: inline-block;
-    padding: 2px 6px;
+    padding: 2px 8px;
     border-radius: 4px;
-    border: 1px solid #bae6fd;
+    border: 1px solid var(--border);
+    font-weight: 700;
     margin-bottom: 15px;
     align-self: flex-start;
 }

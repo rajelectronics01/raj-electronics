@@ -9,6 +9,9 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  turbopack: {
+    root: "C:/Users/parsh/OneDrive/Desktop/code/raj-electronics",
+  },
   async headers() {
     return [
       {
