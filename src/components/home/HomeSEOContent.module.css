@@ -140,9 +140,41 @@
 @media (max-width: 768px) {
     .sectionTitle {
         font-size: 1.5rem;
+        margin-bottom: 25px;
+    }
+    .testimonials {
+        padding: 40px 0;
+    }
+    .faq {
+        padding: 40px 0;
+    }
+    .bulkSection {
+        padding: 40px 0;
+    }
+    .testimonialGrid {
+        display: flex;
+        overflow-x: auto;
+        padding-bottom: 20px;
+        gap: 15px;
+        scroll-snap-type: x mandatory;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        margin-left: -5%;
+        margin-right: -5%;
+        padding-left: 5%;
+        padding-right: 5%;
+    }
+    .testimonialGrid::-webkit-scrollbar {
+        display: none;
+    }
+    .testimonialCard {
+        flex: 0 0 82%;
+        scroll-snap-align: center;
+        padding: 20px;
     }
     .faqGrid {
         grid-template-columns: 1fr;
+        gap: 20px;
     }
     .bulkCard {
         padding: 20px;
