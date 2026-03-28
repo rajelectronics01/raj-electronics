@@ -7,12 +7,13 @@ import OrdersTab from '@/components/admin/OrdersTab';
 import HeroAdminTab from '@/components/admin/HeroAdminTab';
 import GalleryAdminTab from '@/components/admin/GalleryAdminTab';
 import DashboardOverview from '@/components/admin/DashboardOverview';
+import BulkInquiriesTab from '@/components/admin/BulkInquiriesTab';
 import styles from './page.module.css';
 
 export default function AdminPage() {
     const [refreshTrigger, setRefreshTrigger] = useState(0);
     const [selectedProduct, setSelectedProduct] = useState<any>(null);
-    const [activeTab, setActiveTab] = useState<'overview' | 'products' | 'orders' | 'hero' | 'gallery'>('overview');
+    const [activeTab, setActiveTab] = useState<'overview' | 'products' | 'orders' | 'hero' | 'gallery' | 'bulk'>('overview');
 
     const handleSuccess = () => {
         setRefreshTrigger(prev => prev + 1);
@@ -92,7 +93,14 @@ export default function AdminPage() {
                         >
                             📸 Gallery
                         </button>
+                        <button
+                            onClick={() => setActiveTab('bulk')}
+                            style={{ padding: '10px 18px', borderRadius: '8px', fontSize: '0.9rem', border: '1px solid ' + (activeTab === 'bulk' ? '#002366' : '#e2e8f0'), fontWeight: 600, cursor: 'pointer', backgroundColor: activeTab === 'bulk' ? '#002366' : '#fff', color: activeTab === 'bulk' ? '#fff' : '#475569', whiteSpace: 'nowrap' }}
+                        >
+                            🏢 Bulk Inquiries
+                        </button>
                     </div>
+
                 </div>
                 
                 {activeTab === 'overview' && (
@@ -125,7 +133,14 @@ export default function AdminPage() {
                         <GalleryAdminTab />
                     </div>
                 )}
+                {activeTab === 'bulk' && (
+                    <div style={{ background: '#fff', borderRadius: '12px', padding: '20px', boxShadow: '0 4px 12px rgba(0,0,0,0.05)' }}>
+                        <BulkInquiriesTab />
+                    </div>
+                )}
+
             </div>
+
         </div>
     );
 }
