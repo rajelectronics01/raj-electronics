@@ -7,7 +7,7 @@ export interface Product {
     price: number;
     originalPrice?: number;
     images: string[];
-    features: string[];
+    features?: string[] | any;
     isFeatured?: boolean;
     description?: string;
 }
