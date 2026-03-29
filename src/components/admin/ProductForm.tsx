@@ -288,7 +288,7 @@ export default function ProductForm({ onSuccess, initialData, onCancel }: Produc
 
             if (res.ok) {
                 const data = await res.json();
-                const currentImages = formData.images ? formData.images.split(',').map(i => i.trim()).filter(Boolean) : [];
+                const currentImages = formData.images ? formData.images.split(',').map((i: string) => i.trim()).filter(Boolean) : [];
                 const newImages = [...currentImages, ...data.urls].join(', ');
                 setFormData(prev => ({ ...prev, images: newImages }));
             } else {
@@ -313,8 +313,8 @@ export default function ProductForm({ onSuccess, initialData, onCancel }: Produc
             category: formData.category,
             price: Number(formData.price),
             originalPrice: formData.originalPrice ? Number(formData.originalPrice) : null,
-            images: formData.images.split(',').map(i => i.trim()).filter(i => i.length > 0),
-            features: formData.features.split(',').map(f => f.trim()).filter(f => f.length > 0),
+            images: (formData.images || '').split(',').map((i: string) => i.trim()).filter((i: string) => i.length > 0),
+            features: (formData.features || '').split(',').map((f: string) => f.trim()).filter((f: string) => f.length > 0),
             seoKeywords: formData.seoKeywords,
             isFeatured: formData.isFeatured,
         };
