@@ -15,29 +15,42 @@
     font-weight: 600;
 }
 
-.checkboxGroup {
+.pillGroup {
     display: flex;
-    flex-direction: column;
-    gap: 10px;
+    flex-wrap: wrap;
+    gap: 8px;
 }
 
-.checkboxLabel {
-    display: flex;
+.hiddenCheckbox {
+    display: none;
+}
+
+.brandPill {
+    display: inline-flex;
     align-items: center;
-    gap: 10px;
-    font-size: 0.95rem;
+    justify-content: center;
+    padding: 8px 16px;
+    background: #f3f4f6;
+    border: 1px solid #e5e7eb;
+    border-radius: 9999px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #4b5563;
     cursor: pointer;
-    color: var(--text-medium);
+    transition: all 0.2s ease;
+    user-select: none;
 }
 
-.checkboxLabel:hover {
-    color: var(--primary);
+.brandPill:hover {
+    background: #e5e7eb;
+    color: #111827;
 }
 
-.checkbox {
-    accent-color: var(--primary);
-    width: 16px;
-    height: 16px;
+.activePill {
+    background: #2563eb;
+    color: #ffffff;
+    border-color: #2563eb;
+    box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);
 }
 
 .priceForm {

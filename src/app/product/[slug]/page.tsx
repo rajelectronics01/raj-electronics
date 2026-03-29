@@ -25,13 +25,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const priceText = `₹${product.price.toLocaleString('en-IN')}`;
 
     return {
-        title: `${product.brand} ${product.name} Price in Secunderabad ${discountText} | Raj Electronics`,
-        description: `Buy ${product.brand} ${product.name} at ${priceText} from Raj Electronics, authorized dealer on RP Road, Secunderabad. ${discount > 0 ? `Save ${discount}% — was ₹${product.originalPrice?.toLocaleString('en-IN')}.` : ''} Best price in Hyderabad with easy EMI, fast delivery & installation. Call +91 9290748866.`,
+        title: `${product.name} — Buy in Secunderabad | Raj Electronics`,
+        description: `Buy ${product.name} at best price from Raj Electronics, Secunderabad's authorized dealer since 1995. GST invoice. Bulk orders accepted. Call for price: +91 92907 48866.`,
         keywords: `${product.brand} ${product.name}, ${product.brand} ${product.category} price Secunderabad, buy ${product.brand} ${product.category} Hyderabad, ${product.name} best price, ${product.brand} dealer RP Road, ${product.category} price Secunderabad, authorized ${product.brand} dealer Hyderabad`,
         openGraph: {
-            title: `${product.brand} ${product.name} — Best Price at Raj Electronics Secunderabad`,
-            description: `${product.brand} ${product.name} at ${priceText}. Authorized dealer in Secunderabad. EMI available. Call for best deal!`,
-            images: product.images[0] ? [{ url: product.images[0], alt: `${product.brand} ${product.name}` }] : [],
+            title: `${product.name} — Buy in Secunderabad | Raj Electronics`,
+            description: `Buy ${product.name} at best price from Raj Electronics, Secunderabad's authorized dealer since 1995. GST invoice. Bulk orders accepted. Call for price: +91 92907 48866.`,
+            images: product.images[0] ? [{ url: product.images[0], alt: `${product.brand} ${product.name} - Buy in Secunderabad Hyderabad | Raj Electronics` }] : [],
             locale: 'en_IN',
             type: 'website',
         },

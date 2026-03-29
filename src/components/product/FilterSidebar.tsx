@@ -50,14 +50,14 @@ export default function FilterSidebar({ brands }: FilterSidebarProps) {
         <aside className={styles.sidebar}>
             <div className={styles.section}>
                 <h3 className={styles.title}>Brands</h3>
-                <div className={styles.checkboxGroup}>
+                <div className={styles.pillGroup}>
                     {brands.map(brand => (
-                        <label key={brand} className={styles.checkboxLabel}>
+                        <label key={brand} className={`${styles.brandPill} ${selectedBrands.includes(brand) ? styles.activePill : ''}`}>
                             <input
                                 type="checkbox"
                                 checked={selectedBrands.includes(brand)}
                                 onChange={() => handleBrandChange(brand)}
-                                className={styles.checkbox}
+                                className={styles.hiddenCheckbox}
                             />
                             {brand}
                         </label>

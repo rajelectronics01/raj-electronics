@@ -99,50 +99,65 @@
 }
 
 .price {
-    font-size: 0.95rem;
-    font-weight: 600;
-    color: #448914; /* Reference green */
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #111827;
 }
 
 .originalPrice {
-    position: relative;
-    color: var(--text-light);
+    color: #6b7280;
     font-size: 0.85rem;
-    text-decoration: none; /* Remove default strikethrough */
-    display: inline-block;
+    text-decoration: line-through;
 }
 
-.originalPrice::after {
-    content: '';
-    position: absolute;
-    left: -2px;
-    right: -2px;
-    top: 50%;
-    height: 1.5px;
-    background-color: #ef4444; /* Red slash */
-    transform: rotate(-15deg);
-}
-
-.emiBadge {
+.discountPillSmall {
+    background: #dc2626;
+    color: white;
     font-size: 0.75rem;
-    color: var(--primary);
-    background-color: var(--secondary);
-    display: inline-block;
-    padding: 2px 8px;
-    border-radius: 4px;
-    border: 1px solid var(--border);
     font-weight: 700;
-    margin-bottom: 15px;
-    align-self: flex-start;
+    padding: 2px 6px;
+    border-radius: 4px;
 }
 
-.actions {
+.extraDealsBadge {
     display: flex;
-    gap: 10px;
+    align-items: center;
+    gap: 6px;
+    background: #f0fdf4;
+    color: #047857;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 6px 10px;
+    border-radius: 4px;
+    margin-bottom: 12px;
+}
+
+.dealIcon {
+    width: 16px;
+    height: 16px;
+    background: #047857;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 10px;
+}
+
+.actionRow {
+    display: flex;
+    gap: 8px;
     margin-top: auto;
 }
 
-.viewBtn,
-.enquireBtn {
-    width: 100%;
-}
+.cartBtn,
+.callBtn {
+    flex: 1;
+    font-weight: 700 !important;
+    font-size: 12px !important;
+    border-radius: 20px !important;
+    height: 36px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

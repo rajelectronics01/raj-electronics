@@ -25,6 +25,7 @@ model Product {
   description   String
   images        String[]
   features      String[]
+  seoKeywords   String?
   inStock       Boolean     @default(true)
   isFeatured    Boolean     @default(false)
   createdAt     DateTime    @default(now())

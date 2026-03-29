@@ -19,10 +19,6 @@ export default function ProductCard({ product, priority }: ProductCardProps) {
     return (
         <div className={styles.card}>
             <div className={styles.imageWrapper}>
-                {product.originalPrice && discount > 0 && (
-                    <div className={styles.badge}>{discount}% OFF</div>
-                )}
-
                 <div className={styles.imageContainer}>
                     <Link href={`/product/${product.slug}`} className={styles.link} style={{ width: '100%', height: '100%', display: 'block' }}>
                         {product.images?.[0] ? (
@@ -54,29 +50,31 @@ export default function ProductCard({ product, priority }: ProductCardProps) {
                 <div className={styles.priceContainer}>
                     <span className={styles.price}>{formatPrice(product.price)}</span>
                     {product.originalPrice && (
-                        <span className={styles.originalPrice}>{formatPrice(product.originalPrice)}</span>
+                        <>
+                            <span className={styles.originalPrice}>{formatPrice(product.originalPrice)}</span>
+                            <span className={styles.discountPillSmall}>{discount}% Off</span>
+                        </>
                     )}
                 </div>
 
-                <div className={styles.emiBadge}>EMI Available</div>
-
                 <div className={styles.actionRow}>
-                    <Button
-                        href="tel:+919290748866"
-                        variant="outline"
-                        size="sm"
-                        style={{ width: '100%' }}
-                    >
-                        <PhoneIcon width={16} height={16} style={{ marginRight: '5px' }} /> Call
-                    </Button>
                     <Button
                         href={`/product/${product.slug}`}
                         variant="primary"
                         size="sm"
-                        className={styles.enquireBtn}
-                        style={{ width: '100%' }}
+                        className={styles.cartBtn}
+                        style={{ width: '100%', background: '#fff', color: '#000', border: '1px solid #000' }}
                     >
-                        View Details
+                        Add to Cart
+                    </Button>
+                    <Button
+                        href="tel:+919290748866"
+                        variant="primary"
+                        size="sm"
+                        className={styles.callBtn}
+                        style={{ width: '100%', background: '#1e293b', border: 'none' }}
+                    >
+                         Call Us
                     </Button>
                 </div>
             </div>

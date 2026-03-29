@@ -8,6 +8,7 @@ import { UserProvider } from "@/context/UserContext";
 import { CartProvider } from "@/context/CartContext";
 import CartDrawer from "@/components/ui/CartDrawer";
 import WhatsAppButton from "@/components/ui/WhatsAppButton";
+import MobileCTA from "@/components/ui/MobileCTA";
 
 const inter = Inter({ subsets: ["latin"], display: "swap" });
 const dmSans = DM_Sans({ subsets: ["latin"], display: "swap", variable: '--font-dm' });
@@ -23,12 +24,12 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://rajelectronics.co'),
-  title: "Raj Electronics Secunderabad | Best AC, TV & Appliance Dealer | Bulk & Institutional Orders Accepted",
-  description: "Raj Electronics — Secunderabad's trusted electronics dealer since 1995. Shop ACs, Smart TVs, Refrigerators, Washing Machines & more. Bulk orders, institutional supply & corporate procurement welcome. Call +91 92907 48866.",
+  title: "Raj Electronics Secunderabad | Best AC, TV & Appliance Dealer | Bulk Orders Accepted",
+  description: "Raj Electronics — Secunderabad's trusted electronics dealer since 1995. Split AC, Smart TV, Refrigerator, Washing Machine, Air Cooler & more. Bulk & institutional orders welcome. Call +91 92907 48866.",
   keywords: "Raj Electronics Secunderabad, bulk AC purchase Hyderabad, institutional electronics supplier Secunderabad, corporate appliance procurement Telangana, wholesale electronics dealer Hyderabad, bulk TV purchase for office, school AC supplier Hyderabad, hospital appliances supplier, bulk order electronics GST billing India, electronics shop Secunderabad, electronics dealer Hyderabad, authorized AC dealer Secunderabad, best electronics store Hyderabad, buy AC Secunderabad, split AC dealer Hyderabad, inverter AC best price Secunderabad, Samsung TV dealer Hyderabad, LG refrigerator dealer Secunderabad, washing machine shop Hyderabad, air cooler bulk purchase Hyderabad, Daikin AC dealer Hyderabad, electronics shop near Secunderabad, home appliances Trimulgherry, electronics dealer Marredpally, appliances store Bowenpally, AC shop Secundarabad",
   openGraph: {
-    title: "Raj Electronics Secunderabad | Best AC, TV & Appliance Dealer | Bulk & Institutional Orders Accepted",
-    description: "Raj Electronics — Secunderabad's trusted electronics dealer since 1995. Shop ACs, Smart TVs, Refrigerators, Washing Machines & more. Bulk/Institutional supply welcome.",
+    title: "Raj Electronics Secunderabad | Best AC, TV & Appliance Dealer | Bulk Orders Accepted",
+    description: "Raj Electronics — Secunderabad's trusted electronics dealer since 1995. Split AC, Smart TV, Refrigerator, Washing Machine, Air Cooler & more. Bulk & institutional orders welcome. Call +91 92907 48866.",
     locale: "en_IN",
     type: "website",
     siteName: "Raj Electronics",
@@ -69,7 +70,7 @@ const jsonLd = [
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
     "name": "Raj Electronics",
-    "description": "Secunderabad's trusted electronics dealer since 1995. Authorized AC dealer, leading institutional electronics supplier, and wholesale provider for corporate orders.",
+    "description": "Raj Electronics is an authorized electronics dealer in Secunderabad since 1995. We accept bulk orders and institutional orders for ACs, TVs, Refrigerators, and more.",
     "image": "https://rajelectronics.co/logo.png",
     "@id": "https://rajelectronics.co",
     "url": "https://rajelectronics.co",
@@ -77,8 +78,10 @@ const jsonLd = [
     "priceRange": "₹₹",
     "address": {
       "@type": "PostalAddress",
+      "streetAddress": "7-1-949 Rashtrapati Rd",
       "addressLocality": "Secunderabad",
       "addressRegion": "Telangana",
+      "postalCode": "500003",
       "addressCountry": "India"
     },
     "openingHours": "Mo-Su 10:30-21:30"
@@ -128,6 +131,7 @@ export default function RootLayout({
             <main style={{ minHeight: 'calc(100vh - 300px)' }}>
               {children}
             </main>
+            <MobileCTA />
             <WhatsAppButton />
             <Footer />
           </CartProvider>

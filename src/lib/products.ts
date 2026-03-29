@@ -50,11 +50,16 @@ export async function getProductBySlug(slug: string): Promise<Product | undefine
 export async function getProductsByCategory(category: string): Promise<Product[]> {
     if (category === 'all') return getProducts();
 
+    const searchTerm = category.replace(/-/g, ' ');
+    const searchSlug = category.replace(/-/g, '-');
+
     const products = await prisma.product.findMany({
         where: {
             OR: [
                 { category: { equals: category, mode: 'insensitive' } },
-                { category: { contains: category.replace(/-/g, ' '), mode: 'insensitive' } }
+                { category: { contains: searchTerm, mode: 'insensitive' } },
+                { slug: { contains: searchSlug, mode: 'insensitive' } },
+                { name: { contains: searchTerm, mode: 'insensitive' } }
             ]
         },
         orderBy: { createdAt: 'desc' }

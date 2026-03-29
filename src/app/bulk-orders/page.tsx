@@ -2,9 +2,8 @@ import { Metadata } from 'next';
 import BulkOrderForm from './_components/BulkOrderForm';
 
 export const metadata: Metadata = {
-  title: "Bulk Electronics Orders in Hyderabad | Secunderabad B2B Dealer",
-  description: "Get the best wholesale quotes for bulk ACs, TVs, and appliances. Raj Electronics supplies corporate offices, schools, hospitals, and housing societies with GST billing.",
-  keywords: "bulk electronics order Hyderabad, institutional electronics supply Telangana, corporate appliance procurement, wholesale AC dealer Hyderabad, bulk TV purchase Hyderabad, electronics supplier for schools hospitals hotels, GST billing electronics Hyderabad, bulk order home appliances Secunderabad",
+  title: "Bulk Orders & Corporate Gifting - Electronics | Raj Electronics",
+  description: "Special pricing on bulk orders for ACs, TVs, and electronics. Ideal for offices, hotels, hospitals...",
 };
 
 export default function BulkOrdersPage() {

@@ -83,44 +83,45 @@ export default function ProductPageClient({ product, relatedProducts }: ProductP
               <div className={styles.stars}>
                 {[1,2,3,4,5].map(i => <StarIcon key={i} />)}
               </div>
-              <span className={styles.ratingCount}>4.8 (124 Verified Reviews)</span>
-              <span className={styles.stockBadge}>In Stock</span>
+              <span className={styles.ratingCount}>4.8 (124 Ratings & 60 Reviews)</span>
             </div>
 
             <div className={styles.priceCard}>
               <div className={styles.priceRow}>
                 <span className={styles.currentPrice}>{formatPrice(product.price)}</span>
-                {product.originalPrice && <span className={styles.mrp}>{formatPrice(product.originalPrice)}</span>}
+                {product.originalPrice && (
+                  <>
+                    <span className={styles.mrp}>MRP {formatPrice(product.originalPrice)}</span>
+                    <span className={styles.discountPillSmall}>{discount}% off</span>
+                  </>
+                )}
+                <span className={styles.taxesLabel}>(Incl. of all taxes)</span>
               </div>
-              <div className={styles.saveAmount}>
-                You Save {formatPrice(product.originalPrice ? product.originalPrice - product.price : 0)} 
-                ({discount}% OFF)
+              
+              <div className={styles.deliveryRow}>
+                <div className={styles.stockBadge}>
+                  <ShieldCheckIcon width={16} height={16} /> In stock
+                </div>
               </div>
-              <div className={styles.emiNotice}>
-                No Cost EMI from <strong>₹{Math.round(product.price / 12).toLocaleString('en-IN')}/mo</strong>. Standard EMI also available.
+
+              <div className={styles.actionRow}>
+                <div className={styles.qtySelect}>
+                  Qty <select style={{background:'transparent', border: 'none', outline: 'none', fontWeight: 600}}><option>1</option><option>2</option><option>3</option></select>
+                </div>
+                <AddToCart product={product} className={styles.addToCartBtn} />
+                <Link href={`/checkout/${product.id}`} className={styles.buyNowBtn} style={{background: '#1e293b'}}>
+                  Buy Now
+                </Link>
               </div>
             </div>
 
-            <div className={styles.actions}>
-              <Link href={`/checkout/${product.id}`} className={styles.buyBtn} style={{textAlign: 'center'}}>
-                ⚡ BUY NOW
-              </Link>
-              <AddToCart product={product} className={styles.cartBtn} />
-            </div>
-
-            <div className={styles.trustBadges}>
-              <div className={styles.trustItem}>
-                <ShieldCheckIcon className={styles.trustIcon} />
-                <div className={styles.trustLbl}>1 YEAR<br/>WARRANTY</div>
-              </div>
-              <div className={styles.trustItem}>
-                <AwardIcon className={styles.trustIcon} />
-                <div className={styles.trustLbl}>BEST<br/>PRICES</div>
-              </div>
-              <div className={styles.trustItem}>
-                <AwardIcon className={styles.trustIcon} />
-                <div className={styles.trustLbl}>GENUINE<br/>PRODUCT</div>
-              </div>
+            {/* GUARANTEES */}
+            <div className={styles.guarantees}>
+              {["Authorized Dealer", "GST Invoice", "30 Years Legacy", "Bulk Orders Accepted"].map(badge => (
+                <span key={badge} className={styles.guaranteeBadge}>
+                  ✓ {badge}
+                </span>
+              ))}
             </div>
           </div>
         </div>
@@ -136,23 +137,19 @@ export default function ProductPageClient({ product, relatedProducts }: ProductP
               className={`${styles.tab} ${activeTab === 'specs' ? styles.active : ""}`}
               onClick={() => setActiveTab('specs')}
             >Specification</div>
-            <div 
-              className={`${styles.tab} ${activeTab === 'reviews' ? styles.active : ""}`}
-              onClick={() => setActiveTab('reviews')}
-            >Reviews</div>
           </div>
 
           <div className={styles.tabContent}>
             {activeTab === 'overview' && (
               <div style={{animation: 'fadeIn 0.3s ease'}}>
-                <h3 style={{marginBottom: '15px'}}>Why choose this {product.brand} product?</h3>
-                <ul style={{lineHeight: '1.8', color: 'var(--g600)'}}>
+                <h3 style={{marginBottom: '15px', fontSize: '1.2rem', fontWeight: 700}}>Why choose this {product.brand} product?</h3>
+                <ul style={{lineHeight: '1.8', color: '#4b5563', fontSize: '0.95rem'}}>
                   {product.features.map((f: string, i: number) => (
-                    <li key={i}>✅ {f}</li>
+                    <li key={i} style={{marginBottom: '8px'}}>✅ {f}</li>
                   ))}
-                  <li>✅ Energy efficient design for lower power bills.</li>
-                  <li>✅ Best-in-class performance and long durability.</li>
-                  <li>✅ Authorized service support across Secunderabad.</li>
+                  <li style={{marginBottom: '8px'}}>✅ Energy efficient design for lower power bills.</li>
+                  <li style={{marginBottom: '8px'}}>✅ Best-in-class performance and long durability.</li>
+                  <li style={{marginBottom: '8px'}}>✅ Authorized service support across Secunderabad.</li>
                 </ul>
               </div>
             )}
@@ -165,26 +162,6 @@ export default function ProductPageClient({ product, relatedProducts }: ProductP
                 <div className={styles.specRow}><span className={styles.specLbl}>Installation</span><span className={styles.specVal}>Free In-Store</span></div>
                 <div className={styles.specRow}><span className={styles.specLbl}>Warranty</span><span className={styles.specVal}>1 Year Brand Warranty</span></div>
                 <div className={styles.specRow}><span className={styles.specLbl}>Availability</span><span className={styles.specVal}>Secunderabad Only</span></div>
-              </div>
-            )}
-
-            {activeTab === 'reviews' && (
-              <div className={styles.reviewSummary}>
-                <div className={styles.bigRating}>
-                  <div className={styles.ratingNum}>4.8</div>
-                  <div className={styles.stars}>
-                    {[1,2,3,4,5].map(i => <StarIcon key={i} width={16} height={16} />)}
-                  </div>
-                  <div style={{fontSize: '12px', color: 'var(--g400)', marginTop: '5px'}}>124 Reviews</div>
-                </div>
-                <div className={styles.ratingBars}>
-                  {[5,4,3,2,1].map(lvl => (
-                    <div key={lvl} className={styles.barRow}>
-                      <span className={styles.barLabel}>{lvl}★</span>
-                      <div className={styles.bar}><div className={styles.barFill} style={{width: lvl === 5 ? '85%' : lvl === 4 ? '12%' : '1%'}}></div></div>
-                    </div>
-                  ))}
-                </div>
               </div>
             )}
           </div>

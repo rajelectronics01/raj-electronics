@@ -23,3 +23,10 @@
     width: 32px;
     height: 32px;
 }
+
+@media (max-width: 768px) {
+    .button {
+        bottom: 85px;
+        right: 15px;
+    }
+}
