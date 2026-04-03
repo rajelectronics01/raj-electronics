@@ -5,7 +5,7 @@ import StoreGallery from "@/components/home/StoreGallery";
 import ShopByCategory from "@/components/home/ShopByCategory";
 import WhyChooseUs from "@/components/home/WhyChooseUs";
 import prisma from "@/lib/prisma";
-import { TrustBar, BulkOrdersSection, TestimonialsSection, FAQSection } from "@/components/home/HomeSEOContent";
+import { TrustBar, BulkOrdersSection, TestimonialsSection, FAQSection, ServiceAreasSection } from "@/components/home/HomeSEOContent";
 
 export const revalidate = 0; // Force immediate updates for settings
 
@@ -42,6 +42,7 @@ export default async function Home() {
       <WhyChooseUs />
       <TestimonialsSection />
       <FAQSection />
+      <ServiceAreasSection />
     </main>
   );
 }

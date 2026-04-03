@@ -2,8 +2,18 @@ import { Metadata } from 'next';
 import BulkOrderForm from './_components/BulkOrderForm';
 
 export const metadata: Metadata = {
-  title: "Bulk Orders & Corporate Gifting - Electronics | Raj Electronics",
-  description: "Special pricing on bulk orders for ACs, TVs, and electronics. Ideal for offices, hotels, hospitals...",
+  title: "Bulk & Institutional Electronics Orders Secunderabad | Wholesale AC, TV Supplier | Raj Electronics",
+  description: "Raj Electronics — Secunderabad's #1 wholesale electronics supplier. Bulk AC purchase, bulk TV supply, institutional orders for schools, hospitals, corporate offices & housing societies. GST billing. Call +91 92907 48866.",
+  keywords: "bulk AC purchase Hyderabad, institutional electronics supplier Secunderabad, corporate appliance procurement Telangana, wholesale electronics dealer Hyderabad, wholesale electronics dealer Secunderabad, bulk electronics supplier Secunderabad, school AC supplier Hyderabad, hospital appliance supplier Hyderabad, gst billing electronics store Hyderabad, bulk order electronics GST billing India, bulk TV purchase for office, office tv supplier Hyderabad, institutional appliance supplier Hyderabad",
+  alternates: { canonical: 'https://rajelectronics.co/bulk-orders' },
+  openGraph: {
+    title: "Bulk & Institutional Electronics Orders Secunderabad | Raj Electronics",
+    description: "Bulk AC, TV & appliance supplier for schools, hospitals, offices & housing societies in Hyderabad. GST billing. Call +91 92907 48866.",
+    url: 'https://rajelectronics.co/bulk-orders',
+    siteName: 'Raj Electronics',
+    type: 'website',
+    locale: 'en_IN',
+  },
 };
 
 export default function BulkOrdersPage() {

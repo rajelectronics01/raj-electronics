@@ -17,8 +17,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ].map((cat) => ({
     url: `https://rajelectronics.co/category/${cat}`,
     lastModified: new Date(),
-    changeFrequency: 'weekly',
+    changeFrequency: 'weekly' as const,
     priority: 0.9,
+  }));
+
+  const blogEntries: MetadataRoute.Sitemap = [
+    'best-ac-for-hyderabad-summer',
+    'bulk-electronics-procurement-guide-hyderabad',
+    'authorized-electronics-dealer-secunderabad',
+  ].map((slug) => ({
+    url: `https://rajelectronics.co/blog/${slug}`,
+    lastModified: new Date(),
+    changeFrequency: 'monthly' as const,
+    priority: 0.75,
   }));
 
   const staticEntries: MetadataRoute.Sitemap = [
@@ -38,27 +49,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       url: 'https://rajelectronics.co/bulk-orders',
       lastModified: new Date(),
       changeFrequency: 'weekly',
-      priority: 0.9,
+      priority: 0.95,
     },
     {
-      url: 'https://rajelectronics.co/blog/best-ac-for-hyderabad-summer',
+      url: 'https://rajelectronics.co/search',
       lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.7,
+      changeFrequency: 'weekly',
+      priority: 0.6,
     },
-    {
-      url: 'https://rajelectronics.co/blog/bulk-electronics-procurement-guide-hyderabad',
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    },
-    {
-      url: 'https://rajelectronics.co/blog/authorized-electronics-dealer-secunderabad',
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    }
   ];
 
-  return [...staticEntries, ...categoryEntries, ...productEntries];
+  return [...staticEntries, ...categoryEntries, ...blogEntries, ...productEntries];
 }

@@ -132,7 +132,7 @@ export default function BulkOrderForm() {
         type="submit" 
         disabled={status === 'loading'}
         style={{ 
-          background: '#ef4444', 
+          background: '#87becaff', 
           color: 'white', 
           padding: '12px', 
           border: 'none', 
