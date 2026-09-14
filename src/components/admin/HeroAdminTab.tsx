@@ -55,6 +55,7 @@ export default function HeroAdminTab() {
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
     const [uploadingIdx, setUploadingIdx] = useState<{ idx: number, field: string } | null>(null);
+    const [fitNote, setFitNote] = useState<string | null>(null);
 
     useEffect(() => {
         fetch('/api/admin/settings?key=hero')
@@ -93,6 +94,12 @@ export default function HeroAdminTab() {
         }
     };
 
+    /**
+     * Upload one image and let the server produce both hero sizes from it.
+     * Picking the desktop slot fills the mobile slot too, so a banner is never
+     * left without its phone version — the case that used to get the artwork
+     * cropped to ribbons at phone width.
+     */
     const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>, idx: number, field: 'image' | 'mobileImage') => {
         const file = e.target.files?.[0];
         if (!file) return;
@@ -100,17 +107,32 @@ export default function HeroAdminTab() {
         setUploadingIdx({ idx, field });
         const form = new FormData();
         form.append('files', file);
+        form.append('mode', 'hero');
 
         try {
             const res = await fetch('/api/upload', { method: 'POST', body: form });
-            if (res.ok) {
-                const data = await res.json();
-                const url = data.urls[0];
-                const newArr = slides.map((s, i) => i === idx ? { ...s, [field]: url } : s);
-                setSlides(newArr);
-            } else {
-                const errData = await res.json();
-                alert(`Upload failed: ${errData.error || 'Server error'}`);
+            const data = await res.json();
+
+            if (!res.ok) {
+                alert(`Upload failed: ${data.error || 'Server error'}`);
+                return;
+            }
+
+            const variant = data.variants?.[0];
+
+            setSlides(prev => prev.map((s, i) => {
+                if (i !== idx) return s;
+                // Uploading into the desktop slot fills both; the mobile slot
+                // stays available on its own for hand-made artwork.
+                if (field === 'image' && variant) {
+                    return { ...s, image: variant.desktop, mobileImage: variant.mobile };
+                }
+                return { ...s, [field]: variant ? variant.mobile : data.urls[0] };
+            }));
+
+            if (variant?.note) setFitNote(variant.note);
+            if (data.durable === false) {
+                setFitNote('Saved to this computer only — set up Supabase Storage so uploads survive a deploy.');
             }
         } catch (e: any) {
             alert(`Upload error: ${e.message}`);
@@ -169,6 +191,20 @@ export default function HeroAdminTab() {
                 </div>
             </div>
 
+            <p style={{ margin: '0 0 4px', fontSize: '0.86rem', color: '#64748b', lineHeight: 1.55, maxWidth: '70ch' }}>
+                Upload any image into <strong>Desktop</strong> and both sizes are made for you —
+                {' '}<strong>1920×500</strong> for computers and <strong>1125×825</strong> for phones.
+                Designing at those exact sizes gives the sharpest result.
+            </p>
+
+            {fitNote && (
+                <div style={{ padding: '11px 14px', borderRadius: '8px', background: '#eff6ff', border: '1px solid #bfdbfe', color: '#1e40af', fontSize: '0.85rem', lineHeight: 1.5, display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
+                    <span aria-hidden="true">ℹ️</span>
+                    <span>{fitNote}</span>
+                    <button onClick={() => setFitNote(null)} style={{ marginLeft: 'auto', background: 'none', border: 'none', cursor: 'pointer', color: '#1e40af', fontWeight: 700 }}>×</button>
+                </div>
+            )}
+
             <div className={styles.bannerList}>
                 {slides.map((slide, idx) => (
                     <div key={slide.id || idx} className={styles.bannerItem}>
@@ -193,7 +229,7 @@ export default function HeroAdminTab() {
 
                             {/* Image Settings */}
                            <div className={styles.imageSection}>
-                                <label className={styles.label}>Desktop Image Banner</label>
+                                <label className={styles.label}>Desktop Image Banner <span style={{ fontWeight: 400, color: '#94a3b8' }}>· 1920×500 · also fills mobile</span></label>
                                 <div className={styles.uploadRow}>
                                     <input className={styles.input} style={{ marginBottom: 0 }} value={slide.image || ''} onChange={e => updateSlide(idx, 'image', e.target.value)} placeholder="/images/..." />
                                     <label className={styles.uploadLabel}>
@@ -203,7 +239,7 @@ export default function HeroAdminTab() {
                                 </div>
                                 {slide.image && <img src={slide.image} className={styles.previewDesktop} alt="Desktop Preview" />}
 
-                                <label className={styles.label}>Mobile Image Banner (Optional)</label>
+                                <label className={styles.label}>Mobile Image Banner <span style={{ fontWeight: 400, color: '#94a3b8' }}>· 1125×825 · set automatically</span></label>
                                 <div className={styles.uploadRow}>
                                     <input className={styles.input} style={{ marginBottom: 0 }} value={slide.mobileImage || ''} onChange={e => updateSlide(idx, 'mobileImage', e.target.value)} placeholder="Will use desktop if omitted" />
                                     <label className={styles.uploadLabel}>
