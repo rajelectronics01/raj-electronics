@@ -5,7 +5,7 @@ import styles from './WhatsAppButton.module.css';
 export default function WhatsAppButton() {
     return (
         <Link
-            href="https://wa.me/919290748866"
+            href="https://wa.me/919290748866?text=Hi%20Raj%20Electronics%2C%20I%20want%20to%20enquire%20about%20a%20product"
             target="_blank"
             className={styles.button}
             aria-label="Chat on WhatsApp"

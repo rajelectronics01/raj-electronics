@@ -33,6 +33,7 @@ export async function POST(request: Request) {
                 description: body.description || "",
                 images: body.images || [],
                 features: body.features || [],
+                seoKeywords: body.seoKeywords || null,
                 inStock: body.inStock !== undefined ? body.inStock : true,
                 isFeatured: body.isFeatured !== undefined ? body.isFeatured : false,
             }

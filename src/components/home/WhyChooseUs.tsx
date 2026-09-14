@@ -1,11 +1,12 @@
 import styles from './WhyChooseUs.module.css';
+import { AwardIcon, ShieldCheckIcon, UserIcon, RefreshCcwIcon } from '@/components/icons/Icons';
 
 export default function WhyChooseUs() {
     const features = [
-        { title: 'Best Prices', desc: 'Guaranteed lowest prices in Secunderabad on all electronics.', icon: '💰' },
-        { title: 'Genuine Products', desc: '100% authentic products with manufacturer warranty.', icon: '✨' },
-        { title: 'Expert Advice', desc: 'Our team helps you choose the perfect product for your needs.', icon: '👨‍💼' },
-        { title: 'After Sales Support', desc: 'We are here to help even after your purchase is complete.', icon: '🛠️' },
+        { title: 'Best Prices', desc: 'Guaranteed lowest prices in Secunderabad on all electronics.', icon: <AwardIcon width="36" height="36" color="var(--primary)" /> },
+        { title: 'Genuine Products', desc: '100% authentic products with manufacturer warranty.', icon: <ShieldCheckIcon width="36" height="36" color="var(--primary)" /> },
+        { title: 'Expert Advice', desc: 'Our team helps you choose the perfect product for your needs.', icon: <UserIcon width="36" height="36" color="var(--primary)" /> },
+        { title: 'After Sales Support', desc: 'We are here to help even after your purchase is complete.', icon: <RefreshCcwIcon width="36" height="36" color="var(--primary)" /> },
     ];
 
     return (

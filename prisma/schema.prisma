@@ -25,6 +25,7 @@ model Product {
   description   String
   images        String[]
   features      String[]
+  seoKeywords   String?
   inStock       Boolean     @default(true)
   isFeatured    Boolean     @default(false)
   createdAt     DateTime    @default(now())
@@ -105,3 +106,15 @@ model StoreSetting {
   value     Json
   updatedAt DateTime @updatedAt
 }
+
+model BulkInquiry {
+  id               String   @id @default(cuid())
+  name             String
+  phone            String
+  organizationType String   // School, Hospital, etc
+  description      String   // Products and Quantity
+  status           String   @default("NEW") // NEW, CONTACTED, CLOSED, ARCHIVED
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+

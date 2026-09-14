@@ -1,8 +1,21 @@
 "use client";
 
 import { useState, useEffect } from 'react';
+import { 
+    ChevronLeft, 
+    ChevronRight, 
+    Trash2, 
+    Plus, 
+    Image as ImageIcon, 
+    Smartphone, 
+    ExternalLink,
+    Save, 
+    RefreshCcw,
+    LayoutDashboard
+} from 'lucide-react';
 import Button from '@/components/ui/Button';
 import styles from './HeroAdminTab.module.css';
+import ImageCropModal from './ImageCropModal';
 
 // Default initial state matching current simple Hero Banner
 const defaultSlides = [
@@ -54,8 +67,10 @@ export default function HeroAdminTab() {
     const [slides, setSlides] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
-    const [uploadingIdx, setUploadingIdx] = useState<{ idx: number, field: string } | null>(null);
-    const [fitNote, setFitNote] = useState<string | null>(null);
+    
+    // Crop Management
+    const [croppingInfo, setCroppingInfo] = useState<{ idx: number, field: 'image' | 'mobileImage', file: File } | null>(null);
+    const [uploading, setUploading] = useState(false);
 
     useEffect(() => {
         fetch('/api/admin/settings?key=hero')
@@ -94,75 +109,68 @@ export default function HeroAdminTab() {
         }
     };
 
-    /**
-     * Upload one image and let the server produce both hero sizes from it.
-     * Picking the desktop slot fills the mobile slot too, so a banner is never
-     * left without its phone version — the case that used to get the artwork
-     * cropped to ribbons at phone width.
-     */
-    const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>, idx: number, field: 'image' | 'mobileImage') => {
+    const initiateFileUpload = (e: React.ChangeEvent<HTMLInputElement>, idx: number, field: 'image' | 'mobileImage') => {
         const file = e.target.files?.[0];
         if (!file) return;
+        setCroppingInfo({ idx, field, file });
+        // Clear value so the same file selection can trigger it again if cancelled
+        e.target.value = '';
+    };
 
-        setUploadingIdx({ idx, field });
+    const handleCropComplete = async (croppedFile: File) => {
+        if (!croppingInfo) return;
+        const { idx, field } = croppingInfo;
+        
+        setUploading(true);
+        setCroppingInfo(null);
+        
         const form = new FormData();
-        form.append('files', file);
+        form.append('files', croppedFile);
         form.append('mode', 'hero');
 
         try {
             const res = await fetch('/api/upload', { method: 'POST', body: form });
-            const data = await res.json();
-
-            if (!res.ok) {
-                alert(`Upload failed: ${data.error || 'Server error'}`);
-                return;
-            }
-
-            const variant = data.variants?.[0];
-
-            setSlides(prev => prev.map((s, i) => {
-                if (i !== idx) return s;
-                // Uploading into the desktop slot fills both; the mobile slot
-                // stays available on its own for hand-made artwork.
-                if (field === 'image' && variant) {
-                    return { ...s, image: variant.desktop, mobileImage: variant.mobile };
-                }
-                return { ...s, [field]: variant ? variant.mobile : data.urls[0] };
-            }));
-
-            if (variant?.note) setFitNote(variant.note);
-            if (data.durable === false) {
-                setFitNote('Saved to this computer only — set up Supabase Storage so uploads survive a deploy.');
+            if (res.ok) {
+                const data = await res.json();
+                // mode=hero returns both sizes; take the one this slot needs.
+                const variant = data.variants?.[0];
+                const url = variant
+                    ? (field === 'image' ? variant.desktop : variant.mobile)
+                    : data.urls[0];
+                const newArr = slides.map((s, i) => i === idx ? { ...s, [field]: url } : s);
+                setSlides(newArr);
+            } else {
+                const errData = await res.json();
+                alert(`Upload failed: ${errData.error || 'Server error'}`);
             }
         } catch (e: any) {
             alert(`Upload error: ${e.message}`);
         } finally {
-            setUploadingIdx(null);
+            setUploading(false);
         }
     };
 
-    const addSlide = () => {
-        setSlides([
-            ...slides, 
-            {
-                id: `slide_${Date.now()}`,
-                image: '',
-                mobileImage: '',
-                alt: 'New Promo Banner',
-                link: '/category/all'
-            }
-        ]);
-        // Scroll to the new slide
-        setTimeout(() => {
-            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-        }, 100);
+    const addSlide = (atStart: boolean = false) => {
+        const newSlide = {
+            id: `slide_${Date.now()}`,
+            image: '',
+            mobileImage: '',
+            alt: 'New Promo Banner',
+            link: '/category/all'
+        };
+        
+        if (atStart) {
+            setSlides([newSlide, ...slides]);
+        } else {
+            setSlides([...slides, newSlide]);
+        }
     };
 
     const updateSlide = (idx: number, field: string, value: any) => {
         const newArr = [...slides];
-        newArr[idx][field] = value;
+        newArr[idx] = { ...newArr[idx], [field]: value };
         setSlides(newArr);
-    }
+    };
 
     const removeSlide = (idx: number) => {
         if (confirm('Are you sure you want to delete this banner?')) {
@@ -179,81 +187,156 @@ export default function HeroAdminTab() {
         setSlides(newArr);
     };
 
-    if (loading) return <div>Loading...</div>;
+    if (loading) return <div className={styles.loadingOverlay}>Initializing Shield...</div>;
 
     return (
         <div className={styles.container}>
             <div className={styles.header}>
-                <h2 className={styles.title}>Manage Hero Banners</h2>
+                <div>
+                    <h2 className={styles.title}>Hero Revolutions</h2>
+                    <p style={{ color: '#64748b', marginTop: '0.5rem', fontWeight: 500 }}>Manage your digital storefront banners</p>
+                </div>
                 <div className={styles.actions}>
-                    <Button onClick={addSlide} variant="outline">Add Banner</Button>
-                    <Button onClick={handleSave} disabled={saving}>{saving ? 'Saving...' : 'Save Changes'}</Button>
+                    <Button onClick={() => addSlide(true)} variant="outline">
+                        <Plus size={18} /> New First
+                    </Button>
+                    <Button onClick={() => addSlide(false)} variant="outline">
+                        <Plus size={18} /> Add Banner
+                    </Button>
+                    <Button onClick={handleSave} disabled={saving}>
+                        {saving ? <RefreshCcw className="animate-spin" size={18} /> : <Save size={18} />}
+                        {saving ? 'Saving...' : 'Save Layout'}
+                    </Button>
                 </div>
             </div>
 
-            <p style={{ margin: '0 0 4px', fontSize: '0.86rem', color: '#64748b', lineHeight: 1.55, maxWidth: '70ch' }}>
-                Upload any image into <strong>Desktop</strong> and both sizes are made for you —
-                {' '}<strong>1920×500</strong> for computers and <strong>1125×825</strong> for phones.
-                Designing at those exact sizes gives the sharpest result.
-            </p>
-
-            {fitNote && (
-                <div style={{ padding: '11px 14px', borderRadius: '8px', background: '#eff6ff', border: '1px solid #bfdbfe', color: '#1e40af', fontSize: '0.85rem', lineHeight: 1.5, display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
-                    <span aria-hidden="true">ℹ️</span>
-                    <span>{fitNote}</span>
-                    <button onClick={() => setFitNote(null)} style={{ marginLeft: 'auto', background: 'none', border: 'none', cursor: 'pointer', color: '#1e40af', fontWeight: 700 }}>×</button>
-                </div>
-            )}
-
-            <div className={styles.bannerList}>
+            <div className={styles.bannerGrid}>
                 {slides.map((slide, idx) => (
-                    <div key={slide.id || idx} className={styles.bannerItem}>
-                        <div className={styles.itemHeader}>
-                            <h4 className={styles.itemTitle}>Banner #{idx + 1}</h4>
-                            <div className={styles.itemActions}>
-                                <button onClick={() => moveSlide(idx, -1)} disabled={idx === 0} style={{ padding: '8px', cursor: 'pointer', opacity: idx === 0 ? 0.3 : 1 }}>↑</button>
-                                <button onClick={() => moveSlide(idx, 1)} disabled={idx === slides.length - 1} style={{ padding: '8px', cursor: 'pointer', opacity: idx === slides.length - 1 ? 0.3 : 1 }}>↓</button>
-                                <button onClick={() => removeSlide(idx)} style={{ padding: '8px', cursor: 'pointer', color: 'red', marginLeft: '10px' }}>❌</button>
+                    <div key={slide.id || idx} className={styles.bannerCard}>
+                        <div className={styles.cardHeader}>
+                            <span className={styles.idxBadge}>BANNER #{idx + 1}</span>
+                            <div className={styles.cardActions}>
+                                <button 
+                                    className={styles.actionBtn} 
+                                    onClick={() => moveSlide(idx, -1)} 
+                                    disabled={idx === 0}
+                                    title="Move Left"
+                                >
+                                    <ChevronLeft size={20} />
+                                </button>
+                                <button 
+                                    className={styles.actionBtn} 
+                                    onClick={() => moveSlide(idx, 1)} 
+                                    disabled={idx === slides.length - 1}
+                                    title="Move Right"
+                                >
+                                    <ChevronRight size={20} />
+                                </button>
+                                <button 
+                                    className={`${styles.actionBtn} ${styles.deleteBtn}`} 
+                                    onClick={() => removeSlide(idx)}
+                                    title="Delete"
+                                >
+                                    <Trash2 size={18} />
+                                </button>
                             </div>
                         </div>
 
-                        <div className={styles.itemGrid}>
-                            {/* Link & Alt Settings */}
-                            <div className={styles.settingsSection}>
-                                <label className={styles.label}>Click Destination Link</label>
-                                <input className={styles.input} value={slide.link} onChange={e => updateSlide(idx, 'link', e.target.value)} placeholder="/category/air-conditioners" />
-
-                                <label className={styles.label}>Description (Image Alt Text)</label>
-                                <input className={styles.input} value={slide.alt} onChange={e => updateSlide(idx, 'alt', e.target.value)} placeholder="Summer AC Offers" />
+                        <div className={styles.imageGroup}>
+                            {/* Desktop Image */}
+                            <div className={styles.inputWrapper}>
+                                <label><ImageIcon size={14} inline-block className="mr-1" /> Desktop Banner (16:9)</label>
+                                <div className={styles.previewBox}>
+                                    {slide.image ? (
+                                        <img src={slide.image} className={styles.previewImg} alt="Desktop Preview" />
+                                    ) : (
+                                        <div className={styles.emptyPreview}>No Image Uploaded</div>
+                                    )}
+                                    <label className={styles.uploadOverlay}>
+                                        <Plus size={24} />
+                                        <input 
+                                            type="file" 
+                                            accept="image/*" 
+                                            style={{ display: 'none' }} 
+                                            onChange={e => initiateFileUpload(e, idx, 'image')} 
+                                        />
+                                    </label>
+                                </div>
                             </div>
 
-                            {/* Image Settings */}
-                           <div className={styles.imageSection}>
-                                <label className={styles.label}>Desktop Image Banner <span style={{ fontWeight: 400, color: '#94a3b8' }}>· 1920×500 · also fills mobile</span></label>
-                                <div className={styles.uploadRow}>
-                                    <input className={styles.input} style={{ marginBottom: 0 }} value={slide.image || ''} onChange={e => updateSlide(idx, 'image', e.target.value)} placeholder="/images/..." />
-                                    <label className={styles.uploadLabel}>
-                                        {uploadingIdx?.idx === idx && uploadingIdx.field === 'image' ? '...' : 'Upload'}
-                                        <input type="file" accept="image/*" style={{ display: 'none' }} onChange={e => handleImageUpload(e, idx, 'image')} />
+                            {/* Mobile Image */}
+                            <div className={styles.inputWrapper}>
+                                <label><Smartphone size={14} inline-block className="mr-1" /> Mobile Banner (9:16 - Opt)</label>
+                                <div className={`${styles.previewBox} ${styles.mobilePreviewBox}`}>
+                                    {slide.mobileImage ? (
+                                        <img src={slide.mobileImage} className={styles.previewImg} alt="Mobile Preview" />
+                                    ) : (
+                                        <div className={styles.emptyPreview}>Vertical Image</div>
+                                    )}
+                                    <label className={styles.uploadOverlay}>
+                                        <Plus size={24} />
+                                        <input 
+                                            type="file" 
+                                            accept="image/*" 
+                                            style={{ display: 'none' }} 
+                                            onChange={e => initiateFileUpload(e, idx, 'mobileImage')} 
+                                        />
                                     </label>
                                 </div>
-                                {slide.image && <img src={slide.image} className={styles.previewDesktop} alt="Desktop Preview" />}
+                            </div>
+                        </div>
 
-                                <label className={styles.label}>Mobile Image Banner <span style={{ fontWeight: 400, color: '#94a3b8' }}>· 1125×825 · set automatically</span></label>
-                                <div className={styles.uploadRow}>
-                                    <input className={styles.input} style={{ marginBottom: 0 }} value={slide.mobileImage || ''} onChange={e => updateSlide(idx, 'mobileImage', e.target.value)} placeholder="Will use desktop if omitted" />
-                                    <label className={styles.uploadLabel}>
-                                        {uploadingIdx?.idx === idx && uploadingIdx.field === 'mobileImage' ? '...' : 'Upload'}
-                                        <input type="file" accept="image/*" style={{ display: 'none' }} onChange={e => handleImageUpload(e, idx, 'mobileImage')} />
-                                    </label>
-                                </div>
-                                {slide.mobileImage && <img src={slide.mobileImage} className={styles.previewMobile} alt="Mobile Preview" />}
+                        <div className={styles.formGroup}>
+                            <div className={styles.inputWrapper}>
+                                <label><ExternalLink size={14} inline-block className="mr-1" /> Destination URL</label>
+                                <input 
+                                    className={styles.input} 
+                                    value={slide.link} 
+                                    onChange={e => updateSlide(idx, 'link', e.target.value)} 
+                                    placeholder="/category/appliances" 
+                                />
+                            </div>
+                            <div className={styles.inputWrapper}>
+                                <label><LayoutDashboard size={14} inline-block className="mr-1" /> Alt Text / Label</label>
+                                <input 
+                                    className={styles.input} 
+                                    value={slide.alt} 
+                                    onChange={e => updateSlide(idx, 'alt', e.target.value)} 
+                                    placeholder="Featured Deals 2024" 
+                                />
                             </div>
                         </div>
                     </div>
                 ))}
             </div>
-            {slides.length === 0 && <p style={{ color: '#64748b' }}>No banners. Add one to get started.</p>}
+
+            {slides.length === 0 && (
+                <div style={{ textAlign: 'center', padding: '4rem', color: '#94a3b8' }}>
+                    <ImageIcon size={48} style={{ margin: '0 auto 1rem', opacity: 0.5 }} />
+                    <h3>No Hero Banners Found</h3>
+                    <p>Start your revolution by adding a new banner.</p>
+                </div>
+            )}
+
+            {/* Cropping Modal */}
+            {croppingInfo && (
+                <ImageCropModal 
+                    file={croppingInfo.file}
+                    aspectRatio={croppingInfo.field === 'image' ? 1920 / 500 : 1125 / 825}
+                    onCropComplete={handleCropComplete}
+                    onCancel={() => setCroppingInfo(null)}
+                />
+            )}
+
+            {uploading && (
+                <div className={styles.loadingOverlay}>
+                    <div style={{ textAlign: 'center' }}>
+                        <div className="animate-spin mb-2" style={{ fontSize: '2rem' }}><RefreshCcw size={40} /></div>
+                        <p>Uploading to Shield...</p>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
+

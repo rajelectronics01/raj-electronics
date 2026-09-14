@@ -9,6 +9,13 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  turbopack: {
+    // Resolved at build time, not hardcoded: an absolute path from one
+    // developer's machine breaks every other checkout and the Vercel build.
+    // This only needs setting at all because a second lockfile in the parent
+    // folder makes Next guess the workspace root wrongly.
+    root: process.cwd(),
+  },
   async headers() {
     return [
       {

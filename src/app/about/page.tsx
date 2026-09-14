@@ -4,144 +4,109 @@ import Link from 'next/link';
 import styles from './page.module.css';
 
 export const metadata: Metadata = {
-    title: 'About Raj Electronics | Best Electronics Store in Secunderabad',
-    description: 'Established in 1995, Raj Electronics is Secunderabad\'s most trusted electronics retailer on RP Road. We offer the lowest prices on premium home appliances, the largest display of ACs, and unmatched after-sales service with over 50,000 happy families served.',
-    keywords: 'Raj Electronics, electronics store Secunderabad, home appliances RP Road, buy AC Secunderabad, best electronics shop Hyderabad, washing machine dealer, refrigerators, lowest price electronics',
-    openGraph: {
-        title: 'About Raj Electronics - Secunderabad\'s Premier Appliance Store',
-        description: 'Over 28 years of trust. Discover why thousands of families on RP Road choose us for their home appliances.',
-        type: 'website',
-        locale: 'en_IN',
-    }
+    title: 'About Raj Electronics - Secunderabad\'s Trusted Electronics Dealer since 1995',
+    description: 'Learn about the legacy of Raj Electronics. Over 30 years of trust, unbeatable wholesale pricing on ACs and TVs, and dedicated post-sale support on RP Road.',
+    alternates: { canonical: 'https://rajelectronics.co/about' }
 };
 
 export default function AboutPage() {
     return (
         <div className={styles.aboutContainer}>
-            {/* Hero Section */}
             <section className={styles.heroSection}>
                 <div className={styles.heroOverlay}>
-                    <div className="container">
-                        <div className={styles.heroContent}>
-                            <span className={styles.establishedBadge}>Established 1995</span>
-                            <h1 className={styles.heroTitle}>Secunderabad's Most Trusted Electronics Destination</h1>
-                            <p className={styles.heroSubtitle}>
-                                For nearly three decades, Raj Electronics has been the heartbeat of RP Road, delivering top-tier home appliances at unbeatable prices, backed by service you can trust.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* Mission & Stats Section */}
-            <section className={styles.statsSection}>
-                <div className="container">
-                    <div className={styles.statsGrid}>
-                        <div className={styles.statCard}>
-                            <h3 className={styles.statNumber}>50k+</h3>
-                            <p className={styles.statLabel}>Happy Families Served</p>
-                        </div>
-                        <div className={styles.statCard}>
-                            <h3 className={styles.statNumber}>28+</h3>
-                            <p className={styles.statLabel}>Years of Excellence</p>
-                        </div>
-                        <div className={styles.statCard}>
-                            <h3 className={styles.statNumber}>#1</h3>
-                            <p className={styles.statLabel}>AC Display on RP Road</p>
-                        </div>
-                        <div className={styles.statCard}>
-                            <h3 className={styles.statNumber}>100%</h3>
-                            <p className={styles.statLabel}>Authorized Dealership</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* Story Section */}
-            <section className={styles.storySection}>
-                <div className="container">
-                    <div className={styles.storyGrid}>
-                        <div className={styles.storyText}>
-                            <h2 className={styles.sectionTitle}>Our Philosophy: Lowest Prices, Premium Service</h2>
-                            <p className={styles.paragraph}>
-                                Located in the bustling heart of <strong>Secunderabad on RP Road</strong>, Raj Electronics wasn't built just to sell boxes—we were built to upgrade homes. When you step into our showroom, you aren't just a customer; you are our neighbor.
-                            </p>
-                            <p className={styles.paragraph}>
-                                We understand that buying a new Air Conditioner, Washing Machine, or Refrigerator is a major family decision. That is why we proudly house the <strong>largest live display of Air Conditioners</strong> in the entire RP Road market, allowing you to experience the cooling and quality firsthand before making a choice.
-                            </p>
-                            <p className={styles.paragraph}>
-                                Our mission has remained simple since 1995: <em>Provide the local community with the absolute lowest prices on the best brands, without ever compromising on our legendary after-sales support.</em>
-                            </p>
-
-                            <div className={styles.featureList}>
-                                <div className={styles.featureItem}>
-                                    <div className={styles.featureIcon}>✓</div>
-                                    <div className={styles.featureContent}>
-                                        <h4 className={styles.featureTitle}>Unmatched Pricing</h4>
-                                        <p className={styles.featureDesc}>We beat out the big-box retailers to pass the savings onto your family.</p>
-                                    </div>
-                                </div>
-                                <div className={styles.featureItem}>
-                                    <div className={styles.featureIcon}>✓</div>
-                                    <div className={styles.featureContent}>
-                                        <h4 className={styles.featureTitle}>Expert Guidance</h4>
-                                        <p className={styles.featureDesc}>Our staff evaluates your room size and budget to recommend the perfect appliance, not just the most expensive one.</p>
-                                    </div>
-                                </div>
-                                <div className={styles.featureItem}>
-                                    <div className={styles.featureIcon}>✓</div>
-                                    <div className={styles.featureContent}>
-                                        <h4 className={styles.featureTitle}>Swift Installation & Delivery</h4>
-                                        <p className={styles.featureDesc}>Fast, professional delivery and setup so your home is running smoothly on day one.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className={styles.storyImageWrapper}>
-                            <div className={styles.imageBox}>
-                                {/* Using the real store photo instead of Unsplash stock */}
-                                <Image
-                                    src="/images/shop front.jpeg"
-                                    alt="Raj Electronics Storefront Secunderabad"
-                                    fill
-                                    className={styles.storyImage}
-                                />
-                                <div className={styles.imageAccent}></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* Founder / Team Section Placeholder (For Next Quarter) */}
-            <section className={styles.teamSection} style={{ padding: '80px 0', backgroundColor: '#f9fafb' }}>
-                <div className="container">
-                    <div style={{ textAlign: 'center', maxWidth: '800px', margin: '0 auto' }}>
-                        <h2 className={styles.sectionTitle} style={{ color: '#111827', marginBottom: '20px' }}>Meet Our Founder & Team</h2>
-                        <p style={{ color: '#4b5563', fontSize: '1.1rem', lineHeight: 1.6, marginBottom: '40px' }}>
-                            Since 1995, our family has been committed to bringing the best electronics to your home. 
-                            [ Real Founder Story and Team Photos will be embedded here in the upcoming update. ]
+                    <div className="container" style={{ textAlign: 'center', color: 'white' }}>
+                        <span className={styles.establishedBadge} style={{ display: 'inline-block', padding: '8px 16px', background: '#2563eb', borderRadius: '50px', marginBottom: '20px', fontWeight: 'bold' }}>Established 1995</span>
+                        <h1 className={styles.heroTitle} style={{ fontSize: '3rem', fontWeight: 800, marginBottom: '20px' }}>
+                            About Raj Electronics - Secunderabad's Trusted Electronics Dealer since 1995
+                        </h1>
+                        <p style={{ fontSize: '1.2rem', maxWidth: '800px', margin: '0 auto' }}>
+                            For nearly three decades, Raj Electronics has been the heartbeat of RP Road, delivering top-tier home appliances at unbeatable prices, backed by service you can trust.
                         </p>
-                        <div style={{ width: '100%', height: '300px', backgroundColor: '#e5e7eb', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                            <span style={{ color: '#9ca3af', fontWeight: 600 }}>[ Team Photo Placeholder ]</span>
+                    </div>
+                </div>
+            </section>
+
+            <section style={{ padding: '60px 0', background: '#fff' }}>
+                <div className="container">
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))', gap: '40px', alignItems: 'center' }}>
+                        <div>
+                            <h2 style={{ fontSize: '2rem', color: '#1e3a8a', marginBottom: '20px', fontWeight: 800 }}>The Founder Story</h2>
+                            <p style={{ fontSize: '1.05rem', color: '#475569', lineHeight: 1.8, marginBottom: '15px' }}>
+                                Founded in 1995, Raj Electronics began with a simple mission: to provide every family in Secunderabad and Hyderabad with high-quality electronics at prices they could afford. Over the past 30 years, we have built a legacy based entirely on trust and community relationships.
+                            </p>
+                            <p style={{ fontSize: '1.05rem', color: '#475569', lineHeight: 1.8, marginBottom: '15px' }}>
+                                Through decades of consistent service, we have cultivated deep, direct relationships with global leading brands. This allows us to leverage immense wholesale buying power, which means we can bypass middlemen and pass those substantial discounts directly to our customers.
+                            </p>
+                            <p style={{ fontSize: '1.05rem', color: '#475569', lineHeight: 1.8 }}>
+                                What started as a modest storefront on RP Road has flourished into a household name, serving over 50,000 happy families who know they can rely on Raj Electronics for transparency, authenticity, and care.
+                            </p>
+                        </div>
+                        <div style={{ position: 'relative', height: '400px', borderRadius: '16px', overflow: 'hidden', boxShadow: '0 20px 25px -5px rgba(0,0,0,0.1)' }}>
+                            <Image
+                                src="/images/shop front.jpeg"
+                                alt="Raj Electronics Store Secunderabad"
+                                fill
+                                style={{ objectFit: 'cover' }}
+                            />
                         </div>
                     </div>
                 </div>
             </section>
 
-            {/* Call to Action */}
-            <section className={styles.ctaSection}>
+            <section style={{ padding: '60px 0', background: '#f8fafc' }}>
                 <div className="container">
-                    <div className={styles.ctaCard}>
-                        <h2 className={styles.ctaTitle}>Experience the Difference Today</h2>
-                        <p className={styles.ctaText}>
-                            Visit our showroom on RP Road, Secunderabad, or browse our top brands online. Let our multi-generational expertise find the perfect appliance for your home.
-                        </p>
-                        <div className={styles.ctaButtons}>
-                            <Link href="/" className={styles.primaryButton}>Browse Products</Link>
-                            <a href="tel:+919290748866" className={styles.secondaryButton}>Call Us: +91 9290748866</a>
+                    <h2 style={{ fontSize: '2rem', color: '#0f172a', marginBottom: '40px', fontWeight: 800, textAlign: 'center' }}>Categories We Dominate</h2>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '30px' }}>
+                        <div style={{ background: '#fff', padding: '30px', borderRadius: '12px', boxShadow: '0 4px 6px rgba(0,0,0,0.05)', textAlign: 'center' }}>
+                            <div style={{ fontSize: '3rem', marginBottom: '15px' }}>❄️</div>
+                            <h3 style={{ fontSize: '1.5rem', color: '#1e293b', marginBottom: '15px', fontWeight: 700 }}>Air Conditioners</h3>
+                            <p style={{ color: '#64748b', lineHeight: 1.6 }}>We hold the largest live display of ACs on RP Road. From Split to Tower ACs, our expert staff guides you to choose the perfect cooling solution tailored for your room size.</p>
                         </div>
+                        <div style={{ background: '#fff', padding: '30px', borderRadius: '12px', boxShadow: '0 4px 6px rgba(0,0,0,0.05)', textAlign: 'center' }}>
+                            <div style={{ fontSize: '3rem', marginBottom: '15px' }}>📺</div>
+                            <h3 style={{ fontSize: '1.5rem', color: '#1e293b', marginBottom: '15px', fontWeight: 700 }}>Televisions</h3>
+                            <p style={{ color: '#64748b', lineHeight: 1.6 }}>Experience immersive entertainment with our curated range of Smart LED, OLED, and QLED TVs. We partner directly with premium brands to give you the best visual tech.</p>
+                        </div>
+                        <div style={{ background: '#fff', padding: '30px', borderRadius: '12px', boxShadow: '0 4px 6px rgba(0,0,0,0.05)', textAlign: 'center' }}>
+                            <div style={{ fontSize: '3rem', marginBottom: '15px' }}>🧺</div>
+                            <h3 style={{ fontSize: '1.5rem', color: '#1e293b', marginBottom: '15px', fontWeight: 700 }}>Home Appliances</h3>
+                            <p style={{ color: '#64748b', lineHeight: 1.6 }}>Upgrade your lifestyle with our complete range of Refrigerators, Washing Machines, and Water Dispensers, all backed by 100% genuine brand warranties.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section style={{ padding: '60px 0', background: '#fff' }}>
+                <div className="container">
+                    <h2 style={{ fontSize: '2rem', color: '#1e3a8a', marginBottom: '40px', fontWeight: 800, textAlign: 'center' }}>Why Secunderabad Chooses Us</h2>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '30px' }}>
+                        <div style={{ borderLeft: '4px solid #3b82f6', paddingLeft: '20px' }}>
+                            <h4 style={{ fontSize: '1.25rem', color: '#0f172a', marginBottom: '10px', fontWeight: 700 }}>Best Price Guarantee</h4>
+                            <p style={{ color: '#475569', lineHeight: 1.5 }}>Our wholesale volume means unmatched retail pricing. We consistently beat big-box stores.</p>
+                        </div>
+                        <div style={{ borderLeft: '4px solid #10b981', paddingLeft: '20px' }}>
+                            <h4 style={{ fontSize: '1.25rem', color: '#0f172a', marginBottom: '10px', fontWeight: 700 }}>Post-sale Support</h4>
+                            <p style={{ color: '#475569', lineHeight: 1.5 }}>Our relationship doesn't end at the bill. We ensure seamless installation and long-term service support.</p>
+                        </div>
+                        <div style={{ borderLeft: '4px solid #f59e0b', paddingLeft: '20px' }}>
+                            <h4 style={{ fontSize: '1.25rem', color: '#0f172a', marginBottom: '10px', fontWeight: 700 }}>Bulk Order Capabilities</h4>
+                            <p style={{ color: '#475569', lineHeight: 1.5 }}>Equipping a new office or hotel? We handle institutional orders with specialized B2B pricing and GST invoicing.</p>
+                        </div>
+                        <div style={{ borderLeft: '4px solid #8b5cf6', paddingLeft: '20px' }}>
+                            <h4 style={{ fontSize: '1.25rem', color: '#0f172a', marginBottom: '10px', fontWeight: 700 }}>30 Years of Trust</h4>
+                            <p style={{ color: '#475569', lineHeight: 1.5 }}>Since 1995, families across generations have trusted us for authenticity and right guidance.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section className={styles.ctaSection} style={{ padding: '60px 0', background: '#0f172a', color: 'white', textAlign: 'center' }}>
+                <div className="container">
+                    <h2 style={{ fontSize: '2.5rem', fontWeight: 800, marginBottom: '20px' }}>Ready to Upgrade Your Home?</h2>
+                    <p style={{ fontSize: '1.1rem', color: '#cbd5e1', marginBottom: '30px', maxWidth: '600px', margin: '0 auto 30px' }}>Visit our showroom on RP Road, Secunderabad or browse our collection online.</p>
+                    <div style={{ display: 'flex', gap: '15px', justifyContent: 'center' }}>
+                        <Link href="/" style={{ padding: '12px 24px', background: '#3b82f6', color: 'white', borderRadius: '8px', fontWeight: 600 }}>Browse Products</Link>
+                        <Link href="/bulk-orders" style={{ padding: '12px 24px', background: 'transparent', color: 'white', border: '2px solid #3b82f6', borderRadius: '8px', fontWeight: 600 }}>Bulk Inquiries</Link>
                     </div>
                 </div>
             </section>

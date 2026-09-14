@@ -1,20 +1,19 @@
 :root {
-  --primary: #0056b3;
-  --primary-hover: #004494;
-  --secondary: #f0f4f8;
-  /* Light background */
-  --accent: #ff9900;
-  /* CTA */
-  --text-dark: #1a1a1a;
-  --text-medium: #4a4a4a;
-  --text-light: #666666;
+  --primary: #1e3a8a; /* Professional Royal Blue */
+  --primary-hover: #1e40af;
+  --secondary: #f8fafc; /* Clean Light Gray/White */
+  --accent: #ef4444; /* Bold Red accent from logo */
+  --accent-gold: #f59e0b; /* Gold accent from logo */
+  --text-dark: #0f172a; /* Sharp Slate 900 */
+  --text-medium: #334155;
+  --text-light: #64748b;
   --white: #ffffff;
-  --border: #e0e0e0;
+  --border: #e2e8f0;
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
-  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
-  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
-  --radius: 8px;
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 15px 35px rgba(0, 0, 0, 0.12);
+  --radius: 8px; /* Standard professional corners */
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
 * {
@@ -38,16 +37,10 @@ a {
   text-decoration: none;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-weight: 700;
-  line-height: 1.2;
-  margin-bottom: 0.5em;
-  color: var(--text-dark);
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  color: #0f172a;
 }
 
 p {
@@ -145,4 +138,16 @@ img {
   .section {
     padding: 40px 0;
   }
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
 }

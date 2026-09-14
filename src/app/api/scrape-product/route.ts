@@ -68,8 +68,11 @@ export async function GET(request: Request) {
                     if (s['@type'] === 'Product' || s['@type'] === 'ItemPage') {
                         if (!productData.name && s.name) productData.name = s.name;
                         if (s.image) {
-                            let img = Array.isArray(s.image) ? s.image[0] : s.image;
-                            if (typeof img === 'string') productData.images.push(img);
+                            const imgArray = Array.isArray(s.image) ? s.image : [s.image];
+                            imgArray.forEach((img: any) => {
+                                if (typeof img === 'string') productData.images.push(img);
+                                else if (img && typeof img.url === 'string') productData.images.push(img.url);
+                            });
                         }
                         if (s.brand?.name) productData.brand = s.brand.name;
 
@@ -173,7 +176,7 @@ export async function GET(request: Request) {
                 }
             }
             // Extract multiple images for Vijay Sales
-            $('#altImages img, .thumb-img img, .vsp-slider-image, .ProductImage img, .slick-slide img').each((_, el) => {
+            $('#altImages img, .thumb-img img, .vsp-slider-image, .ProductImage img, .slick-slide img, .product-image-photo, .gallery-placeholder__image, .fotorama__img').each((_, el) => {
                 const src = $(el).attr('src') || $(el).attr('data-src');
                 if (src && !src.includes('placeholder')) {
                     // Try to get higher quality images by replacing query params if they exist (e.g., ?w=100 to ?w=800)
@@ -237,7 +240,14 @@ export async function GET(request: Request) {
         }
 
         // Cleanup
-        productData.images = [...new Set(productData.images)].filter(Boolean).slice(0, 8);
+        productData.images = [...new Set(productData.images)]
+            .filter(Boolean)
+            .filter((img: any) => typeof img === 'string')
+            .filter((img: string) => !img.includes('vs-logo'))
+            .filter((img: string) => !img.includes('placeholder'))
+            .filter((img: string) => !img.includes('apple-touch-icon'))
+            .filter((img: string) => !img.endsWith('.svg'))
+            .slice(0, 8);
         if (productData.price > 0 && productData.originalPrice === 0) {
             productData.originalPrice = Math.floor(productData.price * 1.15); // Add fake 15% discount
         }
