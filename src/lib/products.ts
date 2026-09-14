@@ -1,5 +1,6 @@
 import { Product } from '@/types';
 import prisma from '@/lib/prisma';
+import { pickBannerProducts, type BannerProduct } from '@/lib/occasions';
 
 export async function getProducts(): Promise<Product[]> {
     const products = await prisma.product.findMany({
@@ -65,4 +66,20 @@ export async function getProductsByCategory(category: string): Promise<Product[]
         originalPrice: p.originalPrice ?? undefined,
         isFeatured: (p as any).isFeatured || false
     })) as Product[];
+}
+
+/**
+ * Products to showcase inside an occasion banner.
+ * Selection itself lives in occasions.ts so the admin preview ranks identically.
+ */
+export async function getOccasionProducts(
+    category?: string,
+    limit = 3
+): Promise<BannerProduct[]> {
+    const rows = await prisma.product.findMany({
+        where: { inStock: true },
+        orderBy: { createdAt: 'desc' },
+    });
+
+    return pickBannerProducts(rows, category, limit);
 }

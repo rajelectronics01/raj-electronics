@@ -1,0 +1,656 @@
+/**
+ * RAJ ELECTRONICS: AUTO-GENERATED OCCASION BANNER
+ *
+ * Drawn entirely in CSS + inline SVG so no artwork has to be designed or
+ * uploaded. It sits in the hero slider, which is ultra-wide on desktop
+ * (1920:500) and nearly square on mobile (1125:825) — hence the layout flip at
+ * 768px rather than a second set of images.
+ *
+ * Every theme sets the same four custom properties, so nothing below needs to
+ * know which festival it is drawing.
+ */
+
+.banner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    background:
+        radial-gradient(ellipse 70% 130% at 74% 55%,
+            color-mix(in srgb, var(--occ-accent) 30%, transparent) 0%, transparent 60%),
+        radial-gradient(circle at 10% 6%,
+            color-mix(in srgb, #fff 16%, transparent) 0%, transparent 46%),
+        linear-gradient(112deg,
+            var(--occ-bg-a) 0%,
+            var(--occ-bg-mid) 48%,
+            var(--occ-bg-b) 100%);
+    color: var(--occ-ink);
+    isolation: isolate;
+}
+
+/* Vignette — stops the corners from going flat and lifts the centre. */
+.banner::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 4;
+    pointer-events: none;
+    box-shadow: inset 0 0 clamp(60px, 9vw, 150px) rgba(0, 0, 0, 0.38);
+}
+
+/* ─── Themes ─── */
+.banner[data-theme='diwali']    { --occ-bg-a: #240a4d; --occ-bg-mid: #5d1560; --occ-bg-b: #8a1d4e; --occ-accent: #ffc233; --occ-ink: #fff8e7; }
+.banner[data-theme='dussehra']  { --occ-bg-a: #0e2560; --occ-bg-mid: #6b2f45; --occ-bg-b: #c04a17; --occ-accent: #ffb020; --occ-ink: #fff6e8; }
+.banner[data-theme='ganesh']    { --occ-bg-a: #8c2708; --occ-bg-mid: #c04a09; --occ-bg-b: #e8800d; --occ-accent: #ffd75e; --occ-ink: #fff7ea; }
+.banner[data-theme='sankranti'] { --occ-bg-a: #07529b; --occ-bg-mid: #1281c2; --occ-bg-b: #23b0dd; --occ-accent: #ffd93d; --occ-ink: #f4fbff; }
+.banner[data-theme='ugadi']     { --occ-bg-a: #0f5a2c; --occ-bg-mid: #3c8722; --occ-bg-b: #6bb018; --occ-accent: #ffe047; --occ-ink: #f6fff0; }
+.banner[data-theme='holi']      { --occ-bg-a: #62167a; --occ-bg-mid: #a3178f; --occ-bg-b: #e01b62; --occ-accent: #ffe14d; --occ-ink: #fff4fb; }
+.banner[data-theme='eid']       { --occ-bg-a: #043b36; --occ-bg-mid: #0a6b52; --occ-bg-b: #0f9070; --occ-accent: #f3d98b; --occ-ink: #f2fffa; }
+.banner[data-theme='summer']    { --occ-bg-a: #053f66; --occ-bg-mid: #0a759b; --occ-bg-b: #12a8cc; --occ-accent: #b8f1ff; --occ-ink: #f2fdff; }
+.banner[data-theme='tricolour'] { --occ-bg-a: #0b2c69; --occ-bg-mid: #125a63; --occ-bg-b: #1b7a4b; --occ-accent: #ff9933; --occ-ink: #f7fbff; }
+.banner[data-theme='newyear']   { --occ-bg-a: #0d0f36; --occ-bg-mid: #241d5e; --occ-bg-b: #3f2d7d; --occ-accent: #ffd24a; --occ-ink: #f6f5ff; }
+.banner[data-theme='sale']      { --occ-bg-a: #00295c; --occ-bg-mid: #00408c; --occ-bg-b: #0056b3; --occ-accent: #ff9900; --occ-ink: #f5faff; }
+
+/* ─── Background washes ─── */
+.decor {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* Warm bloom behind the product shots. */
+.decor::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 14%;
+    width: 42vw;
+    max-width: 560px;
+    aspect-ratio: 1;
+    transform: translateY(-50%);
+    background: radial-gradient(
+        circle,
+        color-mix(in srgb, var(--occ-accent) 45%, transparent) 0%,
+        transparent 68%
+    );
+    opacity: 0.6;
+}
+
+/* Fine diagonal texture so the gradient does not read as flat. */
+.decor::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: repeating-linear-gradient(
+        58deg,
+        color-mix(in srgb, var(--occ-ink) 7%, transparent) 0px,
+        color-mix(in srgb, var(--occ-ink) 7%, transparent) 1px,
+        transparent 1px,
+        transparent 13px
+    );
+    opacity: 0.45;
+}
+
+/* ─── Festival artwork layer ─── */
+.art {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    overflow: hidden;
+    color: var(--occ-accent);
+}
+
+.sparkles {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    color: #fff;
+    opacity: 0.55;
+    filter: drop-shadow(0 0 6px var(--occ-accent));
+    transform: scale(0.55);
+    transform-origin: center;
+}
+
+/* Diyas hang across the top edge. */
+.diyaRow {
+    position: absolute;
+    inset-inline: 0;
+    top: 0;
+    display: flex;
+    justify-content: space-around;
+    padding: 0 3%;
+}
+
+.diya {
+    width: clamp(24px, 2.6vw, 42px);
+    height: auto;
+    filter: drop-shadow(0 0 14px color-mix(in srgb, var(--occ-accent) 75%, transparent));
+}
+
+/* Stagger so the row does not read as a ruler. */
+.diyaRow .diya:nth-child(even) { transform: translateY(10px); }
+.diyaRow .diya:nth-child(3n)   { transform: translateY(20px); }
+
+.burst {
+    position: absolute;
+    filter: drop-shadow(0 0 12px color-mix(in srgb, var(--occ-accent) 70%, transparent));
+}
+
+.burstA { width: clamp(70px, 9vw, 130px); top: 12%;  left: 40%;  opacity: 0.5; }
+.burstB { width: clamp(50px, 6vw, 92px);  top: 58%;  left: 30%;  opacity: 0.35; }
+.burstC { width: clamp(60px, 7vw, 108px); top: 22%;  right: 34%; opacity: 0.42; }
+
+.bow {
+    position: absolute;
+    /* Sits in the gap between copy and products: fills dead space on an
+       ultra-wide banner without crowding the store mark bottom-right. */
+    left: 45%;
+    top: 50%;
+    transform: translateY(-50%);
+    width: clamp(70px, 8.6vw, 140px);
+    opacity: 0.3;
+}
+
+.toran {
+    position: absolute;
+    inset-inline: 0;
+    top: 0;
+    width: 100%;
+    height: clamp(52px, 6.8vw, 90px);
+    filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.25));
+}
+
+.kite {
+    position: absolute;
+    filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.25));
+}
+
+.kiteA { width: clamp(38px, 4.8vw, 74px);  top: 2%;  left: 46%; transform: rotate(-18deg); }
+.kiteB { width: clamp(28px, 3.4vw, 54px);  top: 48%; left: 39%; transform: rotate(14deg); opacity: 0.9; }
+.kiteC { width: clamp(24px, 2.9vw, 46px);  top: 14%; left: 56%; transform: rotate(26deg); opacity: 0.75; }
+
+.splash {
+    position: absolute;
+    filter: drop-shadow(0 0 18px currentColor);
+}
+
+.splashA { width: clamp(80px, 10vw, 165px); top: -10%;   left: 44%; color: #ffd93d; opacity: 0.62; }
+.splashB { width: clamp(62px, 8vw, 130px);  bottom: -14%; left: 52%; color: #35d0c0; opacity: 0.55; }
+.splashC { width: clamp(54px, 7vw, 115px);  top: 16%;    left: 38%; color: #ff7ac0; opacity: 0.6; }
+
+.flake {
+    position: absolute;
+    opacity: 0.3;
+}
+
+.flakeA { width: clamp(38px, 4.8vw, 80px); top: 10%; left: 45%; opacity: 0.42; }
+.flakeB { width: clamp(28px, 3.4vw, 56px); bottom: 12%; left: 38%; opacity: 0.3; }
+.flakeC { width: clamp(32px, 4vw, 66px); top: 26%; left: 56%; opacity: 0.34; }
+
+.crescent {
+    position: absolute;
+    top: 14%;
+    right: 33%;
+    width: clamp(48px, 6vw, 100px);
+    opacity: 0.5;
+}
+
+.ribbon {
+    position: absolute;
+    inset-inline: 0;
+    top: 0;
+    width: 100%;
+    height: clamp(40px, 5vw, 70px);
+}
+
+/* ─── Content ─── */
+.inner {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 clamp(20px, 4vw, 64px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: clamp(16px, 3vw, 52px);
+}
+
+.copy {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: clamp(5px, 0.8vw, 12px);
+    min-width: 0;
+}
+
+.eyebrow {
+    display: inline-flex;
+    align-items: center;
+    margin: 0;
+    padding: 5px 14px;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--occ-ink) 14%, transparent);
+    border: 1px solid color-mix(in srgb, var(--occ-accent) 45%, transparent);
+    font-size: clamp(0.6rem, 0.8vw, 0.78rem);
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--occ-accent);
+    backdrop-filter: blur(2px);
+}
+
+.headline {
+    margin: 0;
+    /* Set explicitly: globals.css styles bare h2 dark, and a direct rule always
+       beats the colour this would otherwise inherit from .banner. */
+    color: var(--occ-ink);
+    font-family: var(--font-playfair), Georgia, serif;
+    font-size: clamp(1.5rem, 3.9vw, 3.6rem);
+    line-height: 1.04;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+    text-shadow: 0 2px 20px rgba(0, 0, 0, 0.38);
+}
+
+.subline {
+    margin: 0;
+    max-width: 42ch;
+    font-size: clamp(0.78rem, 1.15vw, 1.08rem);
+    line-height: 1.45;
+    color: color-mix(in srgb, var(--occ-ink) 88%, transparent);
+    text-wrap: pretty;
+}
+
+.ctaRow {
+    display: flex;
+    align-items: center;
+    gap: clamp(10px, 1.4vw, 20px);
+    flex-wrap: wrap;
+    margin-top: clamp(4px, 0.8vw, 12px);
+}
+
+.cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    padding: clamp(9px, 1vw, 14px) clamp(18px, 2vw, 32px);
+    border-radius: 999px;
+    background: var(--occ-accent);
+    color: #1a1200;
+    font-size: clamp(0.76rem, 1vw, 0.98rem);
+    font-weight: 700;
+    box-shadow: 0 6px 22px rgba(0, 0, 0, 0.3);
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.banner:hover .cta {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.36);
+}
+
+.arrow {
+    font-size: 1.1em;
+    line-height: 1;
+    transition: transform 0.18s ease;
+}
+
+.banner:hover .arrow { transform: translateX(3px); }
+
+.emi {
+    font-size: clamp(0.68rem, 0.88vw, 0.85rem);
+    color: color-mix(in srgb, var(--occ-ink) 78%, transparent);
+    white-space: nowrap;
+}
+
+.emi strong { color: var(--occ-ink); }
+
+/* Urgency line — a real date from the occasion, not decoration. */
+.ends {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    margin: clamp(3px, 0.6vw, 9px) 0 0;
+    font-size: clamp(0.62rem, 0.8vw, 0.8rem);
+    font-weight: 500;
+    color: color-mix(in srgb, var(--occ-ink) 74%, transparent);
+    letter-spacing: 0.01em;
+}
+
+.ends strong {
+    color: var(--occ-accent);
+    font-weight: 700;
+}
+
+.endsDot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #4ade80;
+    box-shadow: 0 0 8px #4ade80;
+    flex-shrink: 0;
+}
+
+/* ─── Product showcase ─── */
+
+/*
+ * The stage. Without it the product cards read as cut-outs floating on a
+ * gradient; the rangoli behind and the lit floor beneath give them somewhere
+ * to actually stand.
+ */
+.stage {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+/* Rangoli medallion, centred behind the cluster. */
+.rangoli {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -54%);
+    /* Contained behind the cluster: any larger and it sprawls past the banner
+       edge and competes with the products it is meant to frame. */
+    width: clamp(120px, 14vw, 240px);
+    aspect-ratio: 1;
+    color: var(--occ-accent);
+    opacity: 0.42;
+    pointer-events: none;
+}
+
+/* Lit floor: a bright ellipse the cards sit on, plus its falloff. */
+.stage::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: -3%;
+    width: 112%;
+    height: 22%;
+    transform: translateX(-50%);
+    border-radius: 50%;
+    background: radial-gradient(
+        ellipse at center,
+        rgba(0, 0, 0, 0.55) 0%,
+        rgba(0, 0, 0, 0.28) 46%,
+        transparent 74%
+    );
+    filter: blur(9px);
+    pointer-events: none;
+}
+
+/* Warm rim light just above the shadow, so the floor still feels lit. */
+.stage::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 1%;
+    width: 96%;
+    height: 12%;
+    transform: translateX(-50%);
+    border-radius: 50%;
+    background: radial-gradient(
+        ellipse at center,
+        color-mix(in srgb, var(--occ-accent) 70%, transparent) 0%,
+        transparent 70%
+    );
+    filter: blur(8px);
+    opacity: 0.75;
+    pointer-events: none;
+}
+.showcase {
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    /* Reserve the badge its own column — overlapping it onto the first product
+       card hides that card's own discount ribbon. */
+    padding-left: clamp(70px, 8vw, 122px);
+}
+
+.products {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    gap: clamp(6px, 0.8vw, 14px);
+}
+
+.product {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: clamp(70px, 8.4vw, 124px);
+    /* Flanking cards sit lower and behind, so the row reads as an arrangement
+       rather than three identical boxes. */
+    margin-bottom: clamp(6px, 1vw, 16px);
+}
+
+.productLead {
+    width: clamp(84px, 10.4vw, 154px);
+    margin-bottom: 0;
+    z-index: 2;
+}
+
+.productLead .productShot {
+    border-width: 2px;
+    box-shadow:
+        0 16px 34px rgba(0, 0, 0, 0.42),
+        0 0 0 4px color-mix(in srgb, var(--occ-accent) 24%, transparent);
+}
+
+/* White panel: catalogue shots are cut out on white, so a light tile makes
+   them read as intentional product cards rather than pasted-on images. */
+.productShot {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 12px 26px rgba(0, 0, 0, 0.34);
+    border: 1px solid color-mix(in srgb, var(--occ-accent) 40%, transparent);
+}
+
+/* Contact shadow — the detail that stops a card looking pasted on. */
+.productShot::after {
+    content: '';
+    position: absolute;
+    left: 8%;
+    right: 8%;
+    bottom: -10px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.6);
+    filter: blur(6px);
+    z-index: -1;
+}
+
+.productImg {
+    object-fit: contain;
+    padding: 8%;
+}
+
+.productOff {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    padding: 3px 8px;
+    border-top-right-radius: 8px;
+    background: #d1101a;
+    color: #fff;
+    font-size: clamp(0.53rem, 0.68vw, 0.68rem);
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    line-height: 1.3;
+}
+
+.productPrice {
+    margin: 0;
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    flex-wrap: wrap;
+    font-size: clamp(0.68rem, 0.92vw, 0.92rem);
+    font-weight: 800;
+    color: var(--occ-ink);
+    line-height: 1.2;
+}
+
+.productWas {
+    font-size: 0.82em;
+    font-weight: 500;
+    color: color-mix(in srgb, var(--occ-ink) 58%, transparent);
+}
+
+/* ─── Discount badge ─── */
+.badge {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%) rotate(-11deg);
+    z-index: 3;
+    width: clamp(58px, 7vw, 104px);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: #d1101a;
+    border: 2px dashed color-mix(in srgb, #fff 70%, transparent);
+    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.4);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    line-height: 1;
+    text-align: center;
+}
+
+.badgeUpto {
+    font-size: clamp(0.42rem, 0.58vw, 0.6rem);
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0.9;
+}
+
+.badgePct {
+    font-size: clamp(1.05rem, 1.9vw, 1.85rem);
+    font-weight: 900;
+    letter-spacing: -0.02em;
+}
+
+.badgeOff {
+    font-size: clamp(0.46rem, 0.62vw, 0.66rem);
+    font-weight: 800;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+}
+
+/* ─── Store mark ─── */
+.brand {
+    position: absolute;
+    z-index: 2;
+    right: clamp(14px, 2.5vw, 36px);
+    bottom: clamp(10px, 2vw, 24px);
+    font-size: clamp(0.55rem, 0.75vw, 0.72rem);
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: color-mix(in srgb, var(--occ-ink) 52%, transparent);
+    text-align: right;
+    line-height: 1.5;
+}
+
+.brandSub {
+    display: block;
+    letter-spacing: 0.1em;
+    font-weight: 400;
+    opacity: 0.75;
+}
+
+/* ─── Mobile: hero turns near-portrait and short (~290px), so the copy
+       centres, the subline goes, and the product row shrinks to fit ─── */
+@media (max-width: 768px) {
+    .inner {
+        flex-direction: column;
+        justify-content: center;
+        gap: 10px;
+        padding: 0 18px;
+    }
+
+    .copy {
+        align-items: center;
+        text-align: center;
+        gap: 6px;
+    }
+
+    /* No room for it beside everything else — the headline carries the message. */
+    .subline { display: none; }
+
+    .headline { font-size: clamp(1.4rem, 7.4vw, 2.3rem); }
+
+    .ctaRow {
+        flex-direction: column;
+        gap: 6px;
+        margin-top: 2px;
+    }
+
+    .cta { padding: 10px 22px; font-size: 0.85rem; }
+
+    .emi { font-size: 0.68rem; }
+
+    /* No vertical room for it beside the product row at this height. */
+    .ends { display: none; }
+
+    .products { gap: 8px; }
+
+    .product { width: clamp(52px, 17vw, 76px); }
+
+    .productShot { border-radius: 9px; }
+
+    .productPrice { font-size: 0.66rem; justify-content: center; }
+
+    /* Too cramped alongside three tiles at this width. */
+    .productWas { display: none; }
+
+    .showcase {
+        padding-left: 0;
+        padding-right: 58px;
+    }
+
+    .badge {
+        left: auto;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%) rotate(-11deg);
+        width: 50px;
+    }
+
+    .decor::before {
+        right: 50%;
+        transform: translate(50%, -50%);
+        width: 115vw;
+    }
+
+    /* The header logo sits directly above the banner here, so this is
+       redundant — and it collides with the CTA at this height. */
+    .brand { display: none; }
+
+    .diya { width: 20px; }
+    .toran { height: 34px; }
+    .bow { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .cta,
+    .arrow {
+        transition: none;
+    }
+}

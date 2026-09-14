@@ -5,6 +5,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import styles from './Hero.module.css';
 import { ChevronLeftIcon, ChevronRightIcon } from '../icons/Icons';
+import OccasionBanner from './OccasionBanner';
+import type { Occasion, BannerProduct } from '@/lib/occasions';
 
 // These represent full-width cinematic banner images like your reference.
 // Simply drop your actual banner graphics into the public/images/hero/ folder and update the paths.
@@ -53,8 +55,31 @@ const DEFAULT_SLIDES = [
     }
 ];
 
-export default function Hero({ initialSlides }: { initialSlides?: any }) {
-    const slides = Array.isArray(initialSlides) && initialSlides.length > 0 ? initialSlides : DEFAULT_SLIDES;
+export default function Hero({
+    initialSlides,
+    occasion,
+    occasionProducts = [],
+}: {
+    initialSlides?: any;
+    /** Festival banner to lead with, when one is on air. Generated, not uploaded. */
+    occasion?: Occasion | null;
+    /** Live deals shown inside that banner. */
+    occasionProducts?: BannerProduct[];
+}) {
+    const baseSlides = Array.isArray(initialSlides) && initialSlides.length > 0 ? initialSlides : DEFAULT_SLIDES;
+
+    // The occasion banner goes first — it is the reason someone is visiting today.
+    const slides = occasion
+        ? [
+              {
+                  id: `occasion-${occasion.id}`,
+                  occasion,
+                  link: occasion.href,
+                  alt: `${occasion.name} — ${occasion.headline}`,
+              },
+              ...baseSlides,
+          ]
+        : baseSlides;
 
     const [currentSlide, setCurrentSlide] = useState(0);
     const [isHovered, setIsHovered] = useState(false);
@@ -113,23 +138,30 @@ export default function Hero({ initialSlides }: { initialSlides?: any }) {
                             className={styles.slide}
                             aria-label={`Go to ${slide.alt}`}
                         >
-                            <Image
-                                src={slide.image}
-                                alt={slide.alt}
-                                fill
-                                className={`${styles.slideImage} ${slide.mobileImage ? styles.desktopImage : ''}`}
-                                priority={idx === 0}
-                                sizes="100vw"
-                            />
-                            {slide.mobileImage && (
-                                <Image
-                                    src={slide.mobileImage}
-                                    alt={slide.alt}
-                                    fill
-                                    className={`${styles.slideImage} ${styles.mobileImage}`}
-                                    priority={idx === 0} 
-                                    sizes="100vw"
-                                />
+                            {slide.occasion ? (
+                                /* Auto-generated festival banner — drawn in CSS, no image file. */
+                                <OccasionBanner occasion={slide.occasion} products={occasionProducts} />
+                            ) : (
+                                <>
+                                    <Image
+                                        src={slide.image}
+                                        alt={slide.alt}
+                                        fill
+                                        className={`${styles.slideImage} ${slide.mobileImage ? styles.desktopImage : ''}`}
+                                        priority={idx === 0}
+                                        sizes="100vw"
+                                    />
+                                    {slide.mobileImage && (
+                                        <Image
+                                            src={slide.mobileImage}
+                                            alt={slide.alt}
+                                            fill
+                                            className={`${styles.slideImage} ${styles.mobileImage}`}
+                                            priority={idx === 0}
+                                            sizes="100vw"
+                                        />
+                                    )}
+                                </>
                             )}
                         </Link>
                     ))}
