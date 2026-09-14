@@ -2,8 +2,17 @@ import { getProducts } from '@/lib/products';
 import { MetadataRoute } from 'next';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-    const products = await getProducts();
     const baseUrl = 'https://rajelectronics.co';
+
+    // A database outage must not take the whole sitemap down with it — Google
+    // treats an erroring sitemap as a crawl failure. Fall back to the static and
+    // category URLs, which are the ones that carry our local-SEO rankings.
+    let products: Awaited<ReturnType<typeof getProducts>> = [];
+    try {
+        products = await getProducts();
+    } catch (err) {
+        console.error('sitemap: could not load products from DB:', err);
+    }
 
     const productEntries: MetadataRoute.Sitemap = products.map((product) => ({
         url: `${baseUrl}/product/${product.slug}`,

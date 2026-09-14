@@ -1,0 +1,90 @@
+.wrapper {
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 16px;
+    text-align: center;
+}
+
+.card {
+    max-width: 560px;
+    width: 100%;
+}
+
+.icon {
+    font-size: 3rem;
+    line-height: 1;
+    margin-bottom: 20px;
+}
+
+.title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin: 0 0 12px;
+}
+
+.message {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--text-medium);
+    margin: 0 0 32px;
+}
+
+.actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+}
+
+.primary,
+.secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 13px 26px;
+    border-radius: var(--radius);
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: none;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.primary {
+    background-color: var(--primary);
+    color: var(--white);
+}
+
+.primary:hover {
+    background-color: var(--primary-hover);
+}
+
+.secondary {
+    border-color: var(--border);
+    background-color: var(--white);
+    color: var(--text-dark);
+}
+
+.secondary:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.store {
+    margin-top: 36px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    font-size: 0.875rem;
+    color: var(--text-light);
+    line-height: 1.7;
+}
+
+@media (max-width: 480px) {
+    .title { font-size: 1.4rem; }
+    .actions { flex-direction: column; }
+    .primary, .secondary { width: 100%; }
+}
