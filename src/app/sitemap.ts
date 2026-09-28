@@ -1,5 +1,6 @@
 import { MetadataRoute } from 'next'
 import { getProducts } from '@/lib/products';
+import { SITE_URL, CATEGORY_SLUGS } from '@/lib/seo';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // A database outage must not take the whole sitemap down with it — Google
@@ -13,17 +14,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }
   
   const productEntries: MetadataRoute.Sitemap = products.map((product) => ({
-    url: `https://rajelectronics.co/product/${product.slug}`,
-    lastModified: new Date(),
+    url: `${SITE_URL}/product/${product.slug}`,
+    // Real edit date, so Google recrawls products whose price actually changed.
+    lastModified: (product as { updatedAt?: Date }).updatedAt ?? new Date(),
     changeFrequency: 'weekly',
     priority: 0.8,
   }));
 
-  const categoryEntries: MetadataRoute.Sitemap = [
-    'air-conditioners', 'televisions', 'refrigerators', 'washing-machines', 
-    'air-coolers', 'water-dispensers', 'chest-freezers', 'home-appliances', 'all'
-  ].map((cat) => ({
-    url: `https://rajelectronics.co/category/${cat}`,
+  const categoryEntries: MetadataRoute.Sitemap = CATEGORY_SLUGS.map((cat) => ({
+    url: `${SITE_URL}/category/${cat}`,
     lastModified: new Date(),
     changeFrequency: 'weekly' as const,
     priority: 0.9,
@@ -33,6 +32,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     'best-ac-for-hyderabad-summer',
     'bulk-electronics-procurement-guide-hyderabad',
     'authorized-electronics-dealer-secunderabad',
+    'which-ton-ac-for-my-room',
+    'ac-price-list-hyderabad',
   ].map((slug) => ({
     url: `https://rajelectronics.co/blog/${slug}`,
     lastModified: new Date(),
@@ -58,12 +59,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 0.95,
-    },
-    {
-      url: 'https://rajelectronics.co/search',
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 0.6,
     },
   ];
 

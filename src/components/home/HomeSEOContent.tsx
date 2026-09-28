@@ -1,4 +1,5 @@
 import styles from './HomeSEOContent.module.css';
+import { faqJsonLd, jsonLdString } from '@/lib/seo';
 import Link from 'next/link';
 import GoogleReviewBanner from './GoogleReviewBanner';
 
@@ -124,6 +125,10 @@ export function FAQSection() {
   ];
   return (
     <section className={styles.faq}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: jsonLdString(faqJsonLd(faqs)) }}
+      />
       <div className={styles.container}>
         <h2 className={styles.sectionTitle}>Frequently Asked Questions</h2>
         <div className={styles.faqGrid}>

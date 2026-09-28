@@ -5,6 +5,8 @@ export const metadata: Metadata = {
   title: "Why You Should Always Buy from an Authorized Dealer in Secunderabad",
   description: "Find genuine electronics in Hyderabad with Raj Electronics. See why relying on an authorized LG and Samsung dealer in Secunderabad ensures you get full warranty.",
   keywords: "authorized dealer Secunderabad, genuine electronics Hyderabad, Samsung LG dealer Secunderabad",
+  alternates: { canonical: '/blog/authorized-electronics-dealer-secunderabad' },
+  openGraph: { title: "Why You Should Always Buy from an Authorized Dealer in Secunderabad", description: "Find genuine electronics in Hyderabad with Raj Electronics. See why relying on an authorized LG and Samsung dealer in Secunderabad ensures you get full warranty.", type: 'article', url: '/blog/authorized-electronics-dealer-secunderabad', siteName: 'Raj Electronics', locale: 'en_IN' },
 };
 
 export default function AuthorizedDealerGuide() {

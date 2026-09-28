@@ -5,6 +5,8 @@ export const metadata: Metadata = {
   title: "A Complete Guide to Bulk Electronics Procurement in Hyderabad | Raj Electronics",
   description: "Learn how you can benefit from wholesale rates for bulk electronics purchase in Hyderabad with institutional AC, TV, and appliance supply in Telangana.",
   keywords: "bulk electronics purchase Hyderabad, institutional AC supply Telangana, bulk orders electronics dealer, GST billing electronics",
+  alternates: { canonical: '/blog/bulk-electronics-procurement-guide-hyderabad' },
+  openGraph: { title: "A Complete Guide to Bulk Electronics Procurement in Hyderabad | Raj Electronics", description: "Learn how you can benefit from wholesale rates for bulk electronics purchase in Hyderabad with institutional AC, TV, and appliance supply in Telangana.", type: 'article', url: '/blog/bulk-electronics-procurement-guide-hyderabad', siteName: 'Raj Electronics', locale: 'en_IN' },
 };
 
 export default function BulkElectronicsGuide() {

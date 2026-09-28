@@ -189,4 +189,41 @@
     margin-bottom: 0;
     color: var(--text-medium);
     font-size: 0.95rem;
-}
+}
+.intro {
+    color: #475569;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin: -10px 0 24px;
+    max-width: 900px;
+}
+
+.faq {
+    margin-top: 48px;
+    border-top: 1px solid #f1f5f9;
+    padding-top: 24px;
+}
+
+.faqTitle {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 12px;
+}
+
+.faqItem {
+    border-bottom: 1px solid #f1f5f9;
+    padding: 12px 0;
+}
+
+.faqItem summary {
+    cursor: pointer;
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.faqItem p {
+    margin: 8px 0 0;
+    color: #475569;
+    line-height: 1.6;
+}

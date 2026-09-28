@@ -4,6 +4,7 @@ import { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'Shipping Policy | Raj Electronics',
   description: 'Shipping Policy for Raj Electronics',
+  alternates: { canonical: '/shipping-policy' },
 };
 
 export default function ShippingPolicy() {

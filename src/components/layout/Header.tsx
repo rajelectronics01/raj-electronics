@@ -139,7 +139,7 @@ export default function Header() {
                             priority
                         />
                         <div className={styles.brandTitleWrap}>
-                            <h1 className={styles.brandTitle}>Raj Electronics</h1>
+                            <div className={styles.brandTitle}>Raj Electronics</div>
                             <span className={styles.brandSubtitle}>Legacy Since 1995</span>
                         </div>
                     </Link>
@@ -223,7 +223,7 @@ export default function Header() {
                                 height={32} 
                                 className={styles.mobileLogoImage}
                             />
-                            <h1 className={styles.mobileBrandTitle}>Raj Electronics</h1>
+                            <div className={styles.mobileBrandTitle}>Raj Electronics</div>
                         </Link>
                         
                         <div className={styles.mobileRightActions}>

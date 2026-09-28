@@ -11,8 +11,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const pId = (await params).productId;
   const product = await prisma.product.findUnique({ where: { id: pId } });
   
-  if (!product) return { title: 'Not Found' };
-  return { title: `Checkout - ${product.name} | Raj Electronics` };
+  if (!product) return { title: 'Not Found', robots: { index: false } };
+  return { title: `Checkout - ${product.name} | Raj Electronics`, robots: { index: false, follow: false } };
 }
 
 import { ErrorBoundary } from '@/components/ui/ErrorBoundary';

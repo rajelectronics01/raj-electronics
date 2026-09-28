@@ -4,6 +4,7 @@ import { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'Refund and Cancellation Policy | Raj Electronics',
   description: 'Refund and Cancellation Policy for Raj Electronics purchases',
+  alternates: { canonical: '/refund-policy' },
 };
 
 export default function RefundPolicy() {

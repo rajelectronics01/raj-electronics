@@ -9,6 +9,7 @@ export interface Product {
     images: string[];
     features?: string[] | any;
     isFeatured?: boolean;
+    inStock?: boolean;
     description?: string;
 }
 

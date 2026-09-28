@@ -9,6 +9,7 @@ import { CartProvider } from "@/context/CartContext";
 import CartDrawer from "@/components/ui/CartDrawer";
 import WhatsAppButton from "@/components/ui/WhatsAppButton";
 import MobileCTA from "@/components/ui/MobileCTA";
+import { SITE_URL, STORE, STORE_ID, jsonLdString } from "@/lib/seo";
 
 const inter = Inter({ subsets: ["latin"], display: "swap" });
 const dmSans = DM_Sans({ subsets: ["latin"], display: "swap", variable: '--font-dm' });
@@ -86,6 +87,8 @@ export const metadata: Metadata = {
     "best appliance store near rp road", "authorized ac dealer secunderabad",
   ].join(", "),
   openGraph: {
+    url: SITE_URL,
+    images: [{ url: '/images/shop%20front.jpeg', alt: 'Raj Electronics showroom on RP Road, Secunderabad' }],
     title: "Raj Electronics Secunderabad | Best AC, TV & Appliance Dealer | Bulk Orders Accepted",
     description: "Raj Electronics — Secunderabad's trusted electronics dealer since 1995. Split AC, Smart TV, Refrigerator, Washing Machine, Air Cooler & more. Bulk & institutional orders welcome. Call +91 92907 48866.",
     locale: "en_IN",
@@ -95,9 +98,20 @@ export const metadata: Metadata = {
   verification: {
     google: "Yc4FSnBRedB6-fU-GPfMDOLUZrBH8b98qKp5KxAqKnI",
   },
-  alternates: {
-    canonical: 'https://rajelectronics.co',
+  // No site-wide canonical here: child pages inherit it, which told Google every
+  // page was a duplicate of the homepage. Each page sets its own canonical.
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, 'max-image-preview': 'large', 'max-snippet': -1, 'max-video-preview': -1 },
   },
+  twitter: {
+    card: 'summary_large_image',
+    title: "Raj Electronics Secunderabad | Best AC, TV & Appliance Dealer",
+    description: "Secunderabad's authorized electronics dealer since 1995. ACs, TVs, refrigerators, washing machines & more. Call +91 92907 48866.",
+    images: ['/images/shop%20front.jpeg'],
+  },
+  category: 'shopping',
   icons: {
     icon: [
       { url: '/favicon.png', type: 'image/png' },
@@ -124,7 +138,10 @@ const jsonLd = [
       "Best Electronics Store Hyderabad",
       "Authorized Electronics Dealer Secunderabad"
     ],
-    "url": "https://rajelectronics.co/",
+    "@id": `${SITE_URL}/#website`,
+    "url": `${SITE_URL}/`,
+    "publisher": { "@id": STORE_ID },
+    "inLanguage": "en-IN",
     "potentialAction": {
       "@type": "SearchAction",
       "target": "https://rajelectronics.co/search?q={search_term_string}",
@@ -137,13 +154,27 @@ const jsonLd = [
     "name": "Raj Electronics",
     "description": "Raj Electronics is Secunderabad's authorized electronics dealer since 1995. Specializing in Split AC, Smart TV, Refrigerator, Washing Machine, Air Cooler & more. Bulk and institutional orders welcome across Hyderabad, Secunderabad, Bhoiguda, Rani Gunj, Ameerpet, Koti, Kukatpally, Madhapur, Miyapur, and all of Telangana.",
     "image": "https://rajelectronics.co/logo.png",
-    "@id": "https://rajelectronics.co",
-    "url": "https://rajelectronics.co",
+    "@id": STORE_ID,
+    "url": SITE_URL,
+    "foundingDate": String(STORE.foundingYear),
+    "hasMap": `https://www.google.com/maps?q=${STORE.latitude},${STORE.longitude}`,
+    "brand": STORE.brands.map((name) => ({ "@type": "Brand", "name": name })),
+    "knowsAbout": [
+      "Air conditioners", "Inverter AC", "Split AC", "Smart TVs", "Refrigerators",
+      "Washing machines", "Air coolers", "Chest freezers", "Water dispensers",
+      "Bulk and institutional electronics procurement", "GST billing"
+    ],
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": STORE.phone,
+      "contactType": "sales",
+      "areaServed": "IN"
+    },
     "telephone": "+919290748866",
     "priceRange": "₹₹",
     "address": {
       "@type": "PostalAddress",
-      "streetAddress": "7-1-949 Rashtrapati Rd",
+      "streetAddress": STORE.streetAddress,
       "addressLocality": "Secunderabad",
       "addressRegion": "Telangana",
       "postalCode": "500003",
@@ -162,31 +193,20 @@ const jsonLd = [
         "closes": "21:30"
       }
     ],
-    "areaServed": [
-      "Secunderabad", "Hyderabad", "RP Road", "Rashtrapati Road", "Bhoiguda",
-      "Clock Tower Secunderabad", "Rani Gunj", "MG Road Secunderabad",
-      "Ameerpet", "Koti", "Kukatpally", "Madhapur",
-      "Miyapur", "Attapur", "Kothapet", "Himayat Nagar",
-      "RTC X Roads", "Alwal", "Toli Chowki"
-    ],
+    "areaServed": STORE.areasServed.map((name) => ({ "@type": "Place", "name": name })),
     "hasOfferCatalog": {
       "@type": "OfferCatalog",
       "name": "Electronics & Home Appliances",
       "itemListElement": [
-        { "@type": "Offer", "itemOffered": { "@type": "Product", "name": "Split Air Conditioner" } },
-        { "@type": "Offer", "itemOffered": { "@type": "Product", "name": "Smart Television" } },
-        { "@type": "Offer", "itemOffered": { "@type": "Product", "name": "Refrigerator" } },
-        { "@type": "Offer", "itemOffered": { "@type": "Product", "name": "Washing Machine" } },
-        { "@type": "Offer", "itemOffered": { "@type": "Product", "name": "Air Cooler" } },
-        { "@type": "Offer", "itemOffered": { "@type": "Product", "name": "Water Dispenser" } },
-        { "@type": "Offer", "itemOffered": { "@type": "Product", "name": "Chest Freezer" } },
-        { "@type": "Offer", "itemOffered": { "@type": "Product", "name": "Voltage Stabilizer" } }
+        { "@type": "OfferCatalog", "name": "Split Air Conditioners" },
+        { "@type": "OfferCatalog", "name": "Smart Televisions" },
+        { "@type": "OfferCatalog", "name": "Refrigerators" },
+        { "@type": "OfferCatalog", "name": "Washing Machines" },
+        { "@type": "OfferCatalog", "name": "Air Coolers" },
+        { "@type": "OfferCatalog", "name": "Water Dispensers" },
+        { "@type": "OfferCatalog", "name": "Chest Freezers" },
+        { "@type": "OfferCatalog", "name": "Voltage Stabilizers" }
       ]
-    },
-    "aggregateRating": {
-      "@type": "AggregateRating",
-      "ratingValue": "4.7",
-      "reviewCount": "312"
     },
     "sameAs": [
       "https://g.co/kgs/rajelectronicssecunderabad"
@@ -230,7 +250,7 @@ export default function RootLayout({
           <CartProvider>
             <script
               type="application/ld+json"
-              dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+              dangerouslySetInnerHTML={{ __html: jsonLdString(jsonLd) }}
             />
             <Header />
             <CartDrawer />

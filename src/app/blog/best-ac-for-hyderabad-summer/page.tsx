@@ -5,6 +5,8 @@ export const metadata: Metadata = {
   title: "Best AC for Hyderabad Summer | Raj Electronics Secunderabad",
   description: "Find the best AC for Hyderabad's scorching summer. Compare 1.5 ton inverter ACs from Daikin, Voltas, LG, and more at Raj Electronics Secunderabad.",
   keywords: "best AC for Hyderabad, 1.5 ton inverter AC Secunderabad, energy efficient AC Hyderabad, split AC dealer Hyderabad",
+  alternates: { canonical: '/blog/best-ac-for-hyderabad-summer' },
+  openGraph: { title: "Best AC for Hyderabad Summer | Raj Electronics Secunderabad", description: "Find the best AC for Hyderabad's scorching summer. Compare 1.5 ton inverter ACs from Daikin, Voltas, LG, and more at Raj Electronics Secunderabad.", type: 'article', url: '/blog/best-ac-for-hyderabad-summer', siteName: 'Raj Electronics', locale: 'en_IN' },
 };
 
 export default function BestACHyderabad() {

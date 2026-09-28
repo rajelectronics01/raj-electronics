@@ -4,6 +4,7 @@ import { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'Terms & Conditions | Raj Electronics',
   description: 'Terms and Conditions for Raj Electronics',
+  alternates: { canonical: '/terms-and-conditions' },
 };
 
 export default function TermsAndConditions() {

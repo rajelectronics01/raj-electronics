@@ -9,12 +9,13 @@ import GalleryAdminTab from '@/components/admin/GalleryAdminTab';
 import OccasionsAdminTab from '@/components/admin/OccasionsAdminTab';
 import DashboardOverview from '@/components/admin/DashboardOverview';
 import BulkInquiriesTab from '@/components/admin/BulkInquiriesTab';
+import QuickEditTab from '@/components/admin/QuickEditTab';
 import styles from './page.module.css';
 
 export default function AdminPage() {
     const [refreshTrigger, setRefreshTrigger] = useState(0);
     const [selectedProduct, setSelectedProduct] = useState<any>(null);
-    const [activeTab, setActiveTab] = useState<'overview' | 'products' | 'orders' | 'hero' | 'occasions' | 'gallery' | 'bulk'>('overview');
+    const [activeTab, setActiveTab] = useState<'overview' | 'products' | 'quickedit' | 'orders' | 'hero' | 'occasions' | 'gallery' | 'bulk'>('overview');
 
     const handleSuccess = () => {
         setRefreshTrigger(prev => prev + 1);
@@ -83,6 +84,12 @@ export default function AdminPage() {
                             🛒 Products
                         </button>
                         <button
+                            onClick={() => setActiveTab('quickedit')}
+                            style={{ padding: '10px 18px', borderRadius: '8px', fontSize: '0.9rem', border: '1px solid ' + (activeTab === 'quickedit' ? '#002366' : '#e2e8f0'), fontWeight: 600, cursor: 'pointer', backgroundColor: activeTab === 'quickedit' ? '#002366' : '#fff', color: activeTab === 'quickedit' ? '#fff' : '#475569', whiteSpace: 'nowrap' }}
+                        >
+                            ⚡ Quick Edit Prices
+                        </button>
+                        <button
                             onClick={() => setActiveTab('hero')}
                             style={{ padding: '10px 18px', borderRadius: '8px', fontSize: '0.9rem', border: '1px solid ' + (activeTab === 'hero' ? '#002366' : '#e2e8f0'), fontWeight: 600, cursor: 'pointer', backgroundColor: activeTab === 'hero' ? '#002366' : '#fff', color: activeTab === 'hero' ? '#fff' : '#475569', whiteSpace: 'nowrap' }}
                         >
@@ -123,6 +130,11 @@ export default function AdminPage() {
                         <div className={styles.listSection}>
                             <ProductList refreshTrigger={refreshTrigger} onEdit={handleEdit} onDeleteSuccess={handleSuccess} />
                         </div>
+                    </div>
+                )}
+                {activeTab === 'quickedit' && (
+                    <div style={{ background: '#fff', borderRadius: '12px', padding: '20px', boxShadow: '0 4px 12px rgba(0,0,0,0.05)' }}>
+                        <QuickEditTab />
                     </div>
                 )}
                 {activeTab === 'orders' && (

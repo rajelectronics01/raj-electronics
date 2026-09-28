@@ -45,6 +45,10 @@ export default function Footer() {
                             <li><Link href="/category/all">All Electronics</Link></li>
                             <li><Link href="/category/air-conditioners">Best Air Conditioners</Link></li>
                             <li><Link href="/category/televisions">Smart TVs</Link></li>
+                            <li><Link href="/blog/ac-price-list-hyderabad">AC Price List Hyderabad</Link></li>
+                            <li><Link href="/blog/which-ton-ac-for-my-room">AC Size Guide</Link></li>
+                            <li><Link href="/blog/best-ac-for-hyderabad-summer">Best AC for Hyderabad</Link></li>
+                            <li><Link href="/bulk-orders">Bulk Orders</Link></li>
                         </ul>
                     </div>
 

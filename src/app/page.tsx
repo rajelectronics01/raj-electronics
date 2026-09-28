@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Hero from "@/components/home/Hero";
 import FeaturedBrands from "@/components/home/FeaturedBrands";
 import DealsCarousel from "@/components/home/DealsCarousel";
@@ -11,6 +12,10 @@ import type { BannerProduct } from "@/lib/occasions";
 import { TrustBar, BulkOrdersSection, TestimonialsSection, FAQSection, ServiceAreasSection } from "@/components/home/HomeSEOContent";
 
 export const revalidate = 0; // Force immediate updates for settings
+
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
 
 export default async function Home() {
   // Fetch site settings concurrently for Hero and Gallery with safety fallback

@@ -14,6 +14,8 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
     const query = typeof params.q === 'string' ? params.q : '';
     return {
         title: `Search Results for "${query}" - Raj Electronics`,
+        // Search result pages are thin/duplicate content; keep them out of the index but let links be followed.
+        robots: { index: false, follow: true },
     };
 }
 
