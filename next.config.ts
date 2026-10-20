@@ -47,6 +47,23 @@ const nextConfig: NextConfig = {
           },
         ],
       },
+      {
+        // The Banner Studio previews a banner by framing this page at real
+        // device widths, which the site-wide DENY above forbids. Narrowed to
+        // SAMEORIGIN for this one admin-only path — it stays unframeable by
+        // anybody else, and every other page keeps DENY.
+        source: '/admin/banner-frame',
+        headers: [
+          {
+            key: 'X-Frame-Options',
+            value: 'SAMEORIGIN',
+          },
+          {
+            key: 'Content-Security-Policy',
+            value: "frame-ancestors 'self'",
+          },
+        ],
+      },
     ];
   },
   async redirects() {

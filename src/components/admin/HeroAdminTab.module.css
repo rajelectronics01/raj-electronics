@@ -235,3 +235,21 @@
     line-height: 1.5;
     color: #64748b;
 }
+
+/* Marks a slide that the Banner Studio drew rather than someone uploaded. */
+.studioNote {
+    margin: 0 0 12px;
+    padding: 10px 13px;
+    border-radius: 9px;
+    background: #f1f5ff;
+    border: 1px solid #c7d2fe;
+    color: #3730a3;
+    font-size: 0.8rem;
+    line-height: 1.55;
+}
+
+/* `hidden` alone loses to the flex display above, and a Studio slide has no
+   image to upload — so the upload pair must actually disappear for it. */
+.imageGroup[hidden] {
+    display: none;
+}

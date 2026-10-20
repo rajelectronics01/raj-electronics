@@ -242,7 +242,18 @@ export default function HeroAdminTab() {
                             </div>
                         </div>
 
-                        <div className={styles.imageGroup}>
+                        {/* A slide made in Banner Studio has no picture to show or
+                            crop — it is drawn on the page from its design. Order
+                            and delete it here; edit the wording in the Studio. */}
+                        {slide.design && (
+                            <p className={styles.studioNote}>
+                                ✨ <strong>Made in Banner Studio.</strong> This one is drawn on the
+                                page rather than uploaded, so it has no image to replace and its
+                                prices update themselves. You can move or delete it here.
+                            </p>
+                        )}
+
+                        <div className={styles.imageGroup} hidden={Boolean(slide.design)}>
                             {/* Desktop Image */}
                             <div className={styles.inputWrapper}>
                                 <label><ImageIcon size={14} inline-block className="mr-1" /> Desktop Banner (16:9)</label>

@@ -64,8 +64,16 @@ export default function OccasionBanner({
     const cheapest = products.length ? Math.min(...products.map((p) => p.price)) : 0;
 
     return (
-        <div className={styles.banner} data-theme={occasion.theme}>
+        <div
+            className={styles.banner}
+            data-theme={occasion.theme}
+            /* Layout and pattern are the two dials the Banner Studio turns;
+               everything below is written once and arranged by CSS. */
+            data-layout={occasion.layout ?? 'spotlight'}
+            data-pattern={occasion.pattern ?? 'none'}
+        >
             <div className={styles.decor} aria-hidden="true" />
+            <div className={styles.pattern} aria-hidden="true" />
             <OccasionDecor theme={occasion.theme} />
 
             <div className={styles.inner}>

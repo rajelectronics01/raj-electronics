@@ -68,6 +68,15 @@ export interface Occasion {
     /** Brand mark shown above the headline, e.g. '/brands/crompton.png'. */
     logo?: string;
     /**
+     * Which arrangement the banner is drawn in. Omitted means 'spotlight', the
+     * layout every festival banner used before the studio existed.
+     * Typed loosely to keep this module free of a dependency on
+     * banner-templates, which imports from here.
+     */
+    layout?: 'spotlight' | 'poster' | 'coupon' | 'split' | 'price';
+    /** Background pattern washed behind the artwork. Omitted means none. */
+    pattern?: 'none' | 'rays' | 'dots' | 'arcs' | 'grid';
+    /**
      * What the banner says to a screen reader, and the accessible name of the
      * slide link wrapping it. The artwork is CSS, not an image, so there is no
      * <img alt> to carry this — see bannerAlt() for the fallback.

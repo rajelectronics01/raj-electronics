@@ -1,13 +1,23 @@
 /**
- * RAJ ELECTRONICS: AUTO-GENERATED OCCASION BANNER
+ * RAJ ELECTRONICS: BANNER
  *
- * Drawn entirely in CSS + inline SVG so no artwork has to be designed or
- * uploaded. It sits in the hero slider, which is ultra-wide on desktop
- * (1920:500) and nearly square on mobile (1125:825) — hence the layout flip at
- * 768px rather than a second set of images.
+ * Drawn entirely in CSS and inline SVG — no artwork is designed or uploaded.
+ * It runs in the hero slider, ultra-wide on desktop (1920:500) and nearly
+ * square on phones (1125:825), so the layout is rebuilt at 768px rather than
+ * squeezed.
  *
- * Every theme sets the same four custom properties, so nothing below needs to
- * know which festival it is drawing.
+ * ── On the look ──
+ * An earlier version of this file washed every banner in a three-stop diagonal
+ * gradient with a radial glow on top. That is the house style of software that
+ * generates pictures, and it made every banner look like every other one. This
+ * version is built the way a printed retail poster is built: a flat, deep
+ * colour field, one hard-edged colour block for structure, one accent colour
+ * used in only three places, type that carries the message on its own, and a
+ * fine grain over the lot so the flat areas read as paper rather than as an
+ * empty div. No glow, no soft bloom, no sparkle wash.
+ *
+ * Every theme sets the same five custom properties, so nothing below needs to
+ * know which festival, category or brand it is drawing.
  */
 
 .banner {
@@ -17,53 +27,83 @@
     overflow: hidden;
     display: flex;
     align-items: center;
+    /* Flat field. The only gradient is a 6% vertical settling of the colour,
+       which stops a large area reading as a solid swatch without announcing
+       itself as a gradient. */
     background:
-        radial-gradient(ellipse 70% 130% at 74% 55%,
-            color-mix(in srgb, var(--occ-accent) 30%, transparent) 0%, transparent 60%),
-        radial-gradient(circle at 10% 6%,
-            color-mix(in srgb, #fff 16%, transparent) 0%, transparent 46%),
-        linear-gradient(112deg,
-            var(--occ-bg-a) 0%,
-            var(--occ-bg-mid) 48%,
-            var(--occ-bg-b) 100%);
+        linear-gradient(177deg,
+            color-mix(in srgb, var(--occ-base) 92%, #fff) 0%,
+            var(--occ-base) 46%,
+            color-mix(in srgb, var(--occ-base) 88%, #000) 100%);
     color: var(--occ-ink);
     isolation: isolate;
+    --occ-display: var(--font-dm), 'DM Sans', system-ui, sans-serif;
 }
 
-/* Vignette — stops the corners from going flat and lifts the centre. */
+/* Grain. Two offset dot grids at very low alpha: enough tooth to kill the
+   flatness, far too fine to read as a pattern. */
+.banner::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background-image:
+        radial-gradient(circle, rgba(255, 255, 255, 0.055) 0.5px, transparent 0.6px),
+        radial-gradient(circle, rgba(0, 0, 0, 0.055) 0.5px, transparent 0.6px);
+    background-size: 3px 3px, 4px 4px;
+    background-position: 0 0, 1px 2px;
+}
+
+/* A restrained edge shade — the corners of a wide strip go dead without it. */
 .banner::after {
     content: '';
     position: absolute;
     inset: 0;
-    z-index: 4;
+    z-index: 6;
     pointer-events: none;
-    box-shadow: inset 0 0 clamp(60px, 9vw, 150px) rgba(0, 0, 0, 0.38);
+    box-shadow: inset 0 0 clamp(50px, 7vw, 120px) rgba(0, 0, 0, 0.22);
 }
 
-/* ─── Themes ─── */
-.banner[data-theme='diwali']    { --occ-bg-a: #240a4d; --occ-bg-mid: #5d1560; --occ-bg-b: #8a1d4e; --occ-accent: #ffc233; --occ-ink: #fff8e7; }
-.banner[data-theme='dussehra']  { --occ-bg-a: #0e2560; --occ-bg-mid: #6b2f45; --occ-bg-b: #c04a17; --occ-accent: #ffb020; --occ-ink: #fff6e8; }
-.banner[data-theme='ganesh']    { --occ-bg-a: #8c2708; --occ-bg-mid: #c04a09; --occ-bg-b: #e8800d; --occ-accent: #ffd75e; --occ-ink: #fff7ea; }
-.banner[data-theme='sankranti'] { --occ-bg-a: #07529b; --occ-bg-mid: #1281c2; --occ-bg-b: #23b0dd; --occ-accent: #ffd93d; --occ-ink: #f4fbff; }
-.banner[data-theme='ugadi']     { --occ-bg-a: #0f5a2c; --occ-bg-mid: #3c8722; --occ-bg-b: #6bb018; --occ-accent: #ffe047; --occ-ink: #f6fff0; }
-.banner[data-theme='holi']      { --occ-bg-a: #62167a; --occ-bg-mid: #a3178f; --occ-bg-b: #e01b62; --occ-accent: #ffe14d; --occ-ink: #fff4fb; }
-.banner[data-theme='eid']       { --occ-bg-a: #043b36; --occ-bg-mid: #0a6b52; --occ-bg-b: #0f9070; --occ-accent: #f3d98b; --occ-ink: #f2fffa; }
-.banner[data-theme='summer']    { --occ-bg-a: #053f66; --occ-bg-mid: #0a759b; --occ-bg-b: #12a8cc; --occ-accent: #b8f1ff; --occ-ink: #f2fdff; }
-.banner[data-theme='tricolour'] { --occ-bg-a: #0b2c69; --occ-bg-mid: #125a63; --occ-bg-b: #1b7a4b; --occ-accent: #ff9933; --occ-ink: #f7fbff; }
-.banner[data-theme='newyear']   { --occ-bg-a: #0d0f36; --occ-bg-mid: #241d5e; --occ-bg-b: #3f2d7d; --occ-accent: #ffd24a; --occ-ink: #f6f5ff; }
-.banner[data-theme='sale']      { --occ-bg-a: #00295c; --occ-bg-mid: #00408c; --occ-bg-b: #0056b3; --occ-accent: #ff9900; --occ-ink: #f5faff; }
+/* ─── Themes ───
+   Deep, slightly desaturated fields with one vivid accent each. Festivals take
+   the serif display face; categories and brands take the tight sans. */
+.banner[data-theme='diwali']    { --occ-base: #170a29; --occ-block: #3a1663; --occ-accent: #f5b331; --occ-ink: #fff6e8; }
+.banner[data-theme='dussehra']  { --occ-base: #0d1d41; --occ-block: #1b3c78; --occ-accent: #ff7a2f; --occ-ink: #fff3e6; }
+.banner[data-theme='ganesh']    { --occ-base: #4e1604; --occ-block: #8f3409; --occ-accent: #ffc24d; --occ-ink: #fff4e6; }
+.banner[data-theme='sankranti'] { --occ-base: #053461; --occ-block: #0c5a9e; --occ-accent: #ffd23f; --occ-ink: #f2f9ff; }
+.banner[data-theme='ugadi']     { --occ-base: #093520; --occ-block: #146339; --occ-accent: #f2e34c; --occ-ink: #f3fff2; }
+.banner[data-theme='holi']      { --occ-base: #340849; --occ-block: #6a1183; --occ-accent: #ff4d8d; --occ-ink: #fff0f7; }
+.banner[data-theme='eid']       { --occ-base: #032c28; --occ-block: #07594c; --occ-accent: #e8ce8e; --occ-ink: #f0fffa; }
+.banner[data-theme='newyear']   { --occ-base: #08081b; --occ-block: #1b1b48; --occ-accent: #e8c55e; --occ-ink: #f5f4ff; }
+.banner[data-theme='tricolour'] { --occ-base: #0a1e39; --occ-block: #163b68; --occ-accent: #ff9933; --occ-ink: #f7faff; }
 
-/* Category and brand weeks. Each one has to be recognisable at a glance from
-   the far side of the shop, so no two share a hue family. */
-.banner[data-theme='washer']    { --occ-bg-a: #0d2b57; --occ-bg-mid: #1c58a8; --occ-bg-b: #2f93d8; --occ-accent: #cfe9ff; --occ-ink: #f4fbff; }
-.banner[data-theme='cooler']    { --occ-bg-a: #04403c; --occ-bg-mid: #0a7f74; --occ-bg-b: #22b89a; --occ-accent: #ffe36e; --occ-ink: #f1fffb; }
-.banner[data-theme='fridge']    { --occ-bg-a: #0a1a2b; --occ-bg-mid: #1e4057; --occ-bg-b: #3d7793; --occ-accent: #a8e1ff; --occ-ink: #f6fcff; }
-.banner[data-theme='tv']        { --occ-bg-a: #12021f; --occ-bg-mid: #2d0f54; --occ-bg-b: #58207e; --occ-accent: #ffd166; --occ-ink: #fbf5ff; }
-.banner[data-theme='kitchen']   { --occ-bg-a: #3d1206; --occ-bg-mid: #8c3410; --occ-bg-b: #c9631a; --occ-accent: #ffcf7a; --occ-ink: #fff6ec; }
-.banner[data-theme='tgsmart']   { --occ-bg-a: #06121c; --occ-bg-mid: #0d3b46; --occ-bg-b: #15727a; --occ-accent: #5ef2c4; --occ-ink: #f0fffb; }
-.banner[data-theme='crompton']  { --occ-bg-a: #2b070e; --occ-bg-mid: #7d1220; --occ-bg-b: #c41f2e; --occ-accent: #ffc247; --occ-ink: #fff4f2; }
+.banner[data-theme='summer']    { --occ-base: #042740; --occ-block: #084a76; --occ-accent: #5ad1ff; --occ-ink: #f0fbff; }
+.banner[data-theme='washer']    { --occ-base: #091a36; --occ-block: #123462; --occ-accent: #7fd4ff; --occ-ink: #f2f9ff; }
+.banner[data-theme='cooler']    { --occ-base: #032b28; --occ-block: #075650; --occ-accent: #ffe14d; --occ-ink: #effffb; }
+.banner[data-theme='fridge']    { --occ-base: #0b1721; --occ-block: #1a3141; --occ-accent: #8fd8ff; --occ-ink: #f4fbff; }
+.banner[data-theme='tv']        { --occ-base: #11021f; --occ-block: #2b0d49; --occ-accent: #ffc73d; --occ-ink: #faf5ff; }
+.banner[data-theme='kitchen']   { --occ-base: #330f05; --occ-block: #5c1f09; --occ-accent: #ffb454; --occ-ink: #fff3e8; }
+.banner[data-theme='sale']      { --occ-base: #05172f; --occ-block: #0c3263; --occ-accent: #ff8a2b; --occ-ink: #f3f8ff; }
+.banner[data-theme='tgsmart']   { --occ-base: #031015; --occ-block: #082a34; --occ-accent: #35e6c0; --occ-ink: #eefffa; }
+.banner[data-theme='crompton']  { --occ-base: #24040a; --occ-block: #8e1120; --occ-accent: #ffc24d; --occ-ink: #fff2f2; }
 
-/* ─── Background washes ─── */
+/* A festival is announced, not merchandised — it gets the serif. */
+.banner[data-theme='diwali'],
+.banner[data-theme='dussehra'],
+.banner[data-theme='ganesh'],
+.banner[data-theme='sankranti'],
+.banner[data-theme='ugadi'],
+.banner[data-theme='holi'],
+.banner[data-theme='eid'],
+.banner[data-theme='newyear'],
+.banner[data-theme='tricolour'] {
+    --occ-display: var(--font-playfair), Georgia, serif;
+}
+
+/* ─── Structure ───
+   One hard-edged block, very slightly off-vertical, sitting under the products.
+   This is what gives the banner a composition; everything else sits on it. */
 .decor {
     position: absolute;
     inset: 0;
@@ -71,47 +111,40 @@
     pointer-events: none;
 }
 
-/* Warm bloom behind the product shots. */
 .decor::before {
     content: '';
     position: absolute;
-    top: 50%;
-    right: 14%;
-    width: 42vw;
-    max-width: 560px;
-    aspect-ratio: 1;
-    transform: translateY(-50%);
-    background: radial-gradient(
-        circle,
-        color-mix(in srgb, var(--occ-accent) 45%, transparent) 0%,
-        transparent 68%
-    );
-    opacity: 0.6;
+    inset: 0 0 0 46%;
+    background: var(--occ-block);
+    /* 2.5° off plumb: enough to feel deliberate, not enough to look like a
+       sticker slapped on the page. */
+    clip-path: polygon(4% 0, 100% 0, 100% 100%, 0 100%);
 }
 
-/* Fine diagonal texture so the gradient does not read as flat. */
+/* A single accent hairline down the block's leading edge. */
 .decor::after {
     content: '';
     position: absolute;
-    inset: 0;
-    background-image: repeating-linear-gradient(
-        58deg,
-        color-mix(in srgb, var(--occ-ink) 7%, transparent) 0px,
-        color-mix(in srgb, var(--occ-ink) 7%, transparent) 1px,
-        transparent 1px,
-        transparent 13px
-    );
-    opacity: 0.45;
+    top: 0;
+    bottom: 0;
+    left: 46%;
+    width: 2px;
+    background: var(--occ-accent);
+    opacity: 0.5;
+    transform: skewX(-2.3deg);
+    transform-origin: top;
 }
 
-/* ─── Festival artwork layer ─── */
+/* ─── Artwork layer ─── */
 .art {
     position: absolute;
     inset: 0;
-    z-index: 1;
+    z-index: 2;
     pointer-events: none;
     overflow: hidden;
     color: var(--occ-accent);
+    /* The motifs are texture, not subject. */
+    opacity: 0.55;
 }
 
 .sparkles {
@@ -120,194 +153,137 @@
     width: 100%;
     height: 100%;
     color: #fff;
-    opacity: 0.55;
-    filter: drop-shadow(0 0 6px var(--occ-accent));
-    transform: scale(0.55);
+    opacity: 0.3;
+    transform: scale(0.5);
     transform-origin: center;
 }
 
-/* Diyas hang across the top edge. */
-.diyaRow {
-    position: absolute;
-    inset-inline: 0;
-    top: 0;
-    display: flex;
-    justify-content: space-around;
-    padding: 0 3%;
-}
-
-.diya {
-    width: clamp(24px, 2.6vw, 42px);
-    height: auto;
-    filter: drop-shadow(0 0 14px color-mix(in srgb, var(--occ-accent) 75%, transparent));
-}
-
-/* Stagger so the row does not read as a ruler. */
-.diyaRow .diya:nth-child(even) { transform: translateY(10px); }
-.diyaRow .diya:nth-child(3n)   { transform: translateY(20px); }
-
-.burst {
-    position: absolute;
-    filter: drop-shadow(0 0 12px color-mix(in srgb, var(--occ-accent) 70%, transparent));
-}
-
-.burstA { width: clamp(70px, 9vw, 130px); top: 12%;  left: 40%;  opacity: 0.5; }
-.burstB { width: clamp(50px, 6vw, 92px);  top: 58%;  left: 30%;  opacity: 0.35; }
-.burstC { width: clamp(60px, 7vw, 108px); top: 22%;  right: 34%; opacity: 0.42; }
-
-.bow {
-    position: absolute;
-    /* Sits in the gap between copy and products: fills dead space on an
-       ultra-wide banner without crowding the store mark bottom-right. */
-    left: 45%;
-    top: 50%;
-    transform: translateY(-50%);
-    width: clamp(70px, 8.6vw, 140px);
-    opacity: 0.3;
-}
-
-.toran {
-    position: absolute;
-    inset-inline: 0;
-    top: 0;
-    width: 100%;
-    height: clamp(52px, 6.8vw, 90px);
-    filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.25));
-}
-
-.kite {
-    position: absolute;
-    filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.25));
-}
-
-.kiteA { width: clamp(38px, 4.8vw, 74px);  top: 2%;  left: 46%; transform: rotate(-18deg); }
-.kiteB { width: clamp(28px, 3.4vw, 54px);  top: 48%; left: 39%; transform: rotate(14deg); opacity: 0.9; }
-.kiteC { width: clamp(24px, 2.9vw, 46px);  top: 14%; left: 56%; transform: rotate(26deg); opacity: 0.75; }
-
-.splash {
-    position: absolute;
-    filter: drop-shadow(0 0 18px currentColor);
-}
-
-.splashA { width: clamp(80px, 10vw, 165px); top: -10%;   left: 44%; color: #ffd93d; opacity: 0.62; }
-.splashB { width: clamp(62px, 8vw, 130px);  bottom: -14%; left: 52%; color: #35d0c0; opacity: 0.55; }
-.splashC { width: clamp(54px, 7vw, 115px);  top: 16%;    left: 38%; color: #ff7ac0; opacity: 0.6; }
-
-.flake {
-    position: absolute;
-    opacity: 0.3;
-}
-
-.flakeA { width: clamp(38px, 4.8vw, 80px); top: 10%; left: 45%; opacity: 0.42; }
-.flakeB { width: clamp(28px, 3.4vw, 56px); bottom: 12%; left: 38%; opacity: 0.3; }
-.flakeC { width: clamp(32px, 4vw, 66px); top: 26%; left: 56%; opacity: 0.34; }
-
-.crescent {
-    position: absolute;
-    top: 14%;
-    right: 33%;
-    width: clamp(48px, 6vw, 100px);
-    opacity: 0.5;
-}
-
-.ribbon {
-    position: absolute;
-    inset-inline: 0;
-    top: 0;
-    width: 100%;
-    height: clamp(40px, 5vw, 70px);
+/* Glitter belongs to a festival and nowhere else. */
+.banner[data-theme='summer'] .sparkles,
+.banner[data-theme='washer'] .sparkles,
+.banner[data-theme='cooler'] .sparkles,
+.banner[data-theme='fridge'] .sparkles,
+.banner[data-theme='tv'] .sparkles,
+.banner[data-theme='kitchen'] .sparkles,
+.banner[data-theme='sale'] .sparkles,
+.banner[data-theme='tgsmart'] .sparkles,
+.banner[data-theme='crompton'] .sparkles {
+    display: none;
 }
 
 /* ─── Content ─── */
 .inner {
     position: relative;
-    z-index: 2;
+    z-index: 3;
     width: 100%;
     max-width: 1440px;
     margin: 0 auto;
-    padding: 0 clamp(20px, 4vw, 64px);
+    padding: 0 clamp(22px, 4.5vw, 72px);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: clamp(16px, 3vw, 52px);
+    gap: clamp(16px, 3vw, 56px);
 }
 
 .copy {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: clamp(5px, 0.8vw, 12px);
+    gap: clamp(6px, 0.9vw, 14px);
     min-width: 0;
 }
 
+.eyebrowRow {
+    display: flex;
+    align-items: center;
+    gap: clamp(9px, 1.1vw, 15px);
+    flex-wrap: wrap;
+}
+
+/* A rule and a word, rather than a pill. Pills are the default; this isn't. */
 .eyebrow {
     display: inline-flex;
     align-items: center;
+    gap: 11px;
     margin: 0;
-    padding: 5px 14px;
-    border-radius: 999px;
-    background: color-mix(in srgb, var(--occ-ink) 14%, transparent);
-    border: 1px solid color-mix(in srgb, var(--occ-accent) 45%, transparent);
-    font-size: clamp(0.6rem, 0.8vw, 0.78rem);
+    font-family: var(--occ-display);
+    font-size: clamp(0.62rem, 0.78vw, 0.78rem);
     font-weight: 700;
-    letter-spacing: 0.14em;
+    letter-spacing: 0.22em;
     text-transform: uppercase;
     color: var(--occ-accent);
-    backdrop-filter: blur(2px);
+}
+
+.eyebrow::before {
+    content: '';
+    width: clamp(18px, 2.4vw, 34px);
+    height: 2px;
+    background: var(--occ-accent);
+    flex-shrink: 0;
 }
 
 .headline {
     margin: 0;
-    /* Set explicitly: globals.css styles bare h2 dark, and a direct rule always
-       beats the colour this would otherwise inherit from .banner. */
+    /* Set explicitly: globals.css styles a bare h2 dark, and a direct rule
+       always beats an inherited colour. */
     color: var(--occ-ink);
-    font-family: var(--font-playfair), Georgia, serif;
-    font-size: clamp(1.5rem, 3.9vw, 3.6rem);
-    line-height: 1.04;
-    font-weight: 700;
-    letter-spacing: -0.015em;
+    font-family: var(--occ-display);
+    font-size: clamp(1.6rem, 3.5vw, 3.5rem);
+    line-height: 0.98;
+    font-weight: 800;
+    letter-spacing: -0.028em;
     text-wrap: balance;
-    text-shadow: 0 2px 20px rgba(0, 0, 0, 0.38);
+}
+
+/* The serif is only drawn at 700, and it wants a little more air. */
+.banner:is([data-theme='diwali'], [data-theme='dussehra'], [data-theme='ganesh'],
+    [data-theme='sankranti'], [data-theme='ugadi'], [data-theme='holi'],
+    [data-theme='eid'], [data-theme='newyear'], [data-theme='tricolour']) .headline {
+    font-weight: 700;
+    letter-spacing: -0.012em;
+    line-height: 1.02;
 }
 
 .subline {
     margin: 0;
-    max-width: 42ch;
-    font-size: clamp(0.78rem, 1.15vw, 1.08rem);
-    line-height: 1.45;
-    color: color-mix(in srgb, var(--occ-ink) 88%, transparent);
+    max-width: 40ch;
+    font-size: clamp(0.78rem, 1.08vw, 1.02rem);
+    line-height: 1.5;
+    color: color-mix(in srgb, var(--occ-ink) 74%, transparent);
     text-wrap: pretty;
 }
 
 .ctaRow {
     display: flex;
     align-items: center;
-    gap: clamp(10px, 1.4vw, 20px);
+    gap: clamp(12px, 1.6vw, 22px);
     flex-wrap: wrap;
-    margin-top: clamp(4px, 0.8vw, 12px);
+    margin-top: clamp(4px, 0.7vw, 10px);
 }
 
+/* Square-shouldered, not a bubble: it reads as a button on a poster. */
 .cta {
     display: inline-flex;
     align-items: center;
-    gap: 9px;
-    padding: clamp(9px, 1vw, 14px) clamp(18px, 2vw, 32px);
-    border-radius: 999px;
+    gap: 10px;
+    padding: clamp(10px, 1.05vw, 15px) clamp(18px, 2.1vw, 32px);
+    border-radius: 7px;
     background: var(--occ-accent);
-    color: #1a1200;
-    font-size: clamp(0.76rem, 1vw, 0.98rem);
+    color: #16110a;
+    font-size: clamp(0.76rem, 0.98vw, 0.97rem);
     font-weight: 700;
-    box-shadow: 0 6px 22px rgba(0, 0, 0, 0.3);
+    letter-spacing: 0.005em;
+    box-shadow: 0 10px 24px -10px rgba(0, 0, 0, 0.9);
     transition: transform 0.18s ease, box-shadow 0.18s ease;
 }
 
 .banner:hover .cta {
     transform: translateY(-2px);
-    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.36);
+    box-shadow: 0 16px 30px -12px rgba(0, 0, 0, 0.95);
 }
 
 .arrow {
-    font-size: 1.1em;
+    font-size: 1.05em;
     line-height: 1;
     transition: transform 0.18s ease;
 }
@@ -315,46 +291,51 @@
 .banner:hover .arrow { transform: translateX(3px); }
 
 .emi {
-    font-size: clamp(0.68rem, 0.88vw, 0.85rem);
-    color: color-mix(in srgb, var(--occ-ink) 78%, transparent);
+    font-size: clamp(0.68rem, 0.86vw, 0.84rem);
+    color: color-mix(in srgb, var(--occ-ink) 66%, transparent);
     white-space: nowrap;
 }
 
-.emi strong { color: var(--occ-ink); }
+/* Figures in the mono face and tabular — prices should line up and read as
+   data, which is also what stops them looking like decoration. */
+.emi strong {
+    color: var(--occ-ink);
+    font-family: var(--font-mono), ui-monospace, monospace;
+    font-weight: 400;
+    font-variant-numeric: tabular-nums;
+}
 
-/* Urgency line — a real date from the occasion, not decoration. */
 .ends {
     display: inline-flex;
     align-items: center;
-    gap: 7px;
-    margin: clamp(3px, 0.6vw, 9px) 0 0;
-    font-size: clamp(0.62rem, 0.8vw, 0.8rem);
+    gap: 8px;
+    margin: clamp(2px, 0.5vw, 8px) 0 0;
+    font-size: clamp(0.62rem, 0.78vw, 0.78rem);
     font-weight: 500;
-    color: color-mix(in srgb, var(--occ-ink) 74%, transparent);
-    letter-spacing: 0.01em;
+    color: color-mix(in srgb, var(--occ-ink) 58%, transparent);
 }
 
 .ends strong {
-    color: var(--occ-accent);
+    color: color-mix(in srgb, var(--occ-ink) 88%, transparent);
     font-weight: 700;
 }
 
 .endsDot {
-    width: 7px;
-    height: 7px;
+    width: 6px;
+    height: 6px;
     border-radius: 50%;
-    background: #4ade80;
-    box-shadow: 0 0 8px #4ade80;
+    background: #46d07f;
     flex-shrink: 0;
 }
 
-/* ─── Product showcase ─── */
+/* ─── Product shelf ─── */
+.showcase {
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
 
-/*
- * The stage. Without it the product cards read as cut-outs floating on a
- * gradient; the rangoli behind and the lit floor beneath give them somewhere
- * to actually stand.
- */
 .stage {
     position: relative;
     display: flex;
@@ -362,410 +343,196 @@
     justify-content: center;
 }
 
-/* Rangoli medallion, centred behind the cluster. */
+/* The medallion or halo behind the cluster, held well back. */
 .rangoli {
     position: absolute;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -54%);
-    /* Contained behind the cluster: any larger and it sprawls past the banner
-       edge and competes with the products it is meant to frame. */
-    width: clamp(120px, 14vw, 240px);
+    width: clamp(130px, 15vw, 250px);
     aspect-ratio: 1;
     color: var(--occ-accent);
-    opacity: 0.42;
+    opacity: 0.22;
     pointer-events: none;
 }
 
-/* Lit floor: a bright ellipse the cards sit on, plus its falloff. */
+/* A shadow the cards stand in, rather than a spotlight shone on them. */
 .stage::before {
     content: '';
     position: absolute;
     left: 50%;
-    bottom: -3%;
-    width: 112%;
-    height: 22%;
+    bottom: -2%;
+    width: 104%;
+    height: 16%;
     transform: translateX(-50%);
     border-radius: 50%;
-    background: radial-gradient(
-        ellipse at center,
-        rgba(0, 0, 0, 0.55) 0%,
-        rgba(0, 0, 0, 0.28) 46%,
-        transparent 74%
-    );
-    filter: blur(9px);
+    background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.5) 0%, transparent 72%);
+    filter: blur(10px);
     pointer-events: none;
-}
-
-/* Warm rim light just above the shadow, so the floor still feels lit. */
-.stage::after {
-    content: '';
-    position: absolute;
-    left: 50%;
-    bottom: 1%;
-    width: 96%;
-    height: 12%;
-    transform: translateX(-50%);
-    border-radius: 50%;
-    background: radial-gradient(
-        ellipse at center,
-        color-mix(in srgb, var(--occ-accent) 70%, transparent) 0%,
-        transparent 70%
-    );
-    filter: blur(8px);
-    opacity: 0.75;
-    pointer-events: none;
-}
-.showcase {
-    position: relative;
-    display: flex;
-    align-items: center;
-    flex-shrink: 0;
-    /* Reserve the badge its own column — overlapping it onto the first product
-       card hides that card's own discount ribbon. */
-    padding-left: clamp(70px, 8vw, 122px);
 }
 
 .products {
     position: relative;
     display: flex;
     align-items: flex-end;
-    gap: clamp(6px, 0.8vw, 14px);
+    gap: clamp(8px, 1vw, 16px);
 }
 
 .product {
     display: flex;
     flex-direction: column;
-    gap: 6px;
-    width: clamp(70px, 8.4vw, 124px);
-    /* Flanking cards sit lower and behind, so the row reads as an arrangement
-       rather than three identical boxes. */
-    margin-bottom: clamp(6px, 1vw, 16px);
+    gap: 7px;
+    width: clamp(72px, 8.2vw, 122px);
+    margin-bottom: clamp(8px, 1.1vw, 18px);
 }
 
 .productLead {
-    width: clamp(84px, 10.4vw, 154px);
+    width: clamp(88px, 10.2vw, 152px);
     margin-bottom: 0;
     z-index: 2;
 }
 
-.productLead .productShot {
-    border-width: 2px;
-    box-shadow:
-        0 16px 34px rgba(0, 0, 0, 0.42),
-        0 0 0 4px color-mix(in srgb, var(--occ-accent) 24%, transparent);
-}
-
-/* White panel: catalogue shots are cut out on white, so a light tile makes
-   them read as intentional product cards rather than pasted-on images. */
+/* Catalogue shots are cut out on white, so a white tile is the honest frame
+   for them. Squared off and unbordered, it reads as a card, not a sticker. */
 .productShot {
     position: relative;
     width: 100%;
     aspect-ratio: 1;
-    border-radius: 12px;
+    border-radius: 10px;
     overflow: hidden;
     background: #fff;
-    box-shadow: 0 12px 26px rgba(0, 0, 0, 0.34);
-    border: 1px solid color-mix(in srgb, var(--occ-accent) 40%, transparent);
+    box-shadow: 0 18px 34px -16px rgba(0, 0, 0, 0.85);
 }
 
-/* Contact shadow — the detail that stops a card looking pasted on. */
-.productShot::after {
+/* The lead card is marked by a bar of accent, not by a glowing ring. */
+.productLead .productShot::before {
     content: '';
     position: absolute;
-    left: 8%;
-    right: 8%;
-    bottom: -10px;
-    height: 12px;
-    border-radius: 50%;
-    background: rgba(0, 0, 0, 0.6);
-    filter: blur(6px);
-    z-index: -1;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 4px;
+    background: var(--occ-accent);
+    z-index: 2;
 }
 
 .productImg {
     object-fit: contain;
-    padding: 8%;
+    padding: 9%;
 }
 
 .productOff {
     position: absolute;
     left: 0;
-    bottom: 0;
-    padding: 3px 8px;
-    border-top-right-radius: 8px;
-    background: #d1101a;
+    top: 0;
+    padding: 3px 7px;
+    border-bottom-right-radius: 7px;
+    background: #c81e2b;
     color: #fff;
-    font-size: clamp(0.53rem, 0.68vw, 0.68rem);
+    font-size: clamp(0.52rem, 0.66vw, 0.66rem);
     font-weight: 800;
-    letter-spacing: 0.02em;
-    line-height: 1.3;
+    letter-spacing: 0.01em;
+    line-height: 1.35;
 }
 
 .productPrice {
     margin: 0;
     display: flex;
     align-items: baseline;
-    gap: 6px;
+    gap: 7px;
     flex-wrap: wrap;
-    font-size: clamp(0.68rem, 0.92vw, 0.92rem);
-    font-weight: 800;
+    font-family: var(--font-mono), ui-monospace, monospace;
+    font-size: clamp(0.66rem, 0.88vw, 0.9rem);
+    font-weight: 400;
+    font-variant-numeric: tabular-nums;
     color: var(--occ-ink);
     line-height: 1.2;
 }
 
 .productWas {
     font-size: 0.82em;
-    font-weight: 500;
-    color: color-mix(in srgb, var(--occ-ink) 58%, transparent);
+    color: color-mix(in srgb, var(--occ-ink) 48%, transparent);
 }
 
-/* ─── Discount badge ─── */
+/* ─── The saving ───
+   A printed figure, set in the accent, not a rubber stamp. */
 .badge {
     position: absolute;
-    left: 0;
+    left: clamp(-10px, -0.8vw, 0px);
     top: 50%;
-    transform: translateY(-50%) rotate(-11deg);
-    z-index: 3;
-    width: clamp(58px, 7vw, 104px);
-    aspect-ratio: 1;
-    border-radius: 50%;
-    background: #d1101a;
-    border: 2px dashed color-mix(in srgb, #fff 70%, transparent);
-    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.4);
+    transform: translateY(-50%);
+    z-index: 4;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    color: #fff;
+    align-items: flex-start;
+    gap: 1px;
+    padding: clamp(8px, 1vw, 14px) clamp(10px, 1.2vw, 17px);
+    border-radius: 9px;
+    background: var(--occ-accent);
+    color: #16110a;
     line-height: 1;
-    text-align: center;
+    box-shadow: 0 16px 30px -14px rgba(0, 0, 0, 0.9);
 }
 
 .badgeUpto {
-    font-size: clamp(0.42rem, 0.58vw, 0.6rem);
-    font-weight: 700;
-    letter-spacing: 0.12em;
+    font-size: clamp(0.42rem, 0.56vw, 0.58rem);
+    font-weight: 800;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
-    opacity: 0.9;
+    opacity: 0.72;
 }
 
 .badgePct {
-    font-size: clamp(1.05rem, 1.9vw, 1.85rem);
-    font-weight: 900;
-    letter-spacing: -0.02em;
+    font-family: var(--occ-display);
+    font-size: clamp(1.25rem, 2.1vw, 2.15rem);
+    font-weight: 800;
+    letter-spacing: -0.035em;
 }
 
 .badgeOff {
-    font-size: clamp(0.46rem, 0.62vw, 0.66rem);
+    font-size: clamp(0.46rem, 0.6vw, 0.62rem);
     font-weight: 800;
-    letter-spacing: 0.18em;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
+    opacity: 0.8;
 }
+
+/* The badge needs its own column, or it covers the first card's discount. */
+.showcase { padding-left: clamp(54px, 6.4vw, 96px); }
 
 /* ─── Store mark ─── */
 .brand {
     position: absolute;
-    z-index: 2;
-    right: clamp(14px, 2.5vw, 36px);
-    bottom: clamp(10px, 2vw, 24px);
-    font-size: clamp(0.55rem, 0.75vw, 0.72rem);
-    font-weight: 600;
-    letter-spacing: 0.2em;
+    z-index: 3;
+    right: clamp(16px, 2.6vw, 38px);
+    bottom: clamp(11px, 2vw, 24px);
+    font-size: clamp(0.52rem, 0.7vw, 0.68rem);
+    font-weight: 700;
+    letter-spacing: 0.22em;
     text-transform: uppercase;
-    color: color-mix(in srgb, var(--occ-ink) 52%, transparent);
+    color: color-mix(in srgb, var(--occ-ink) 40%, transparent);
     text-align: right;
-    line-height: 1.5;
+    line-height: 1.6;
 }
 
 .brandSub {
     display: block;
     letter-spacing: 0.1em;
     font-weight: 400;
-    opacity: 0.75;
+    opacity: 0.8;
 }
-
-/* ─── Mobile: hero turns near-portrait and short (~290px), so the copy
-       centres, the subline goes, and the product row shrinks to fit ─── */
-@media (max-width: 768px) {
-    .inner {
-        flex-direction: column;
-        justify-content: center;
-        gap: 10px;
-        padding: 0 18px;
-    }
-
-    .copy {
-        align-items: center;
-        text-align: center;
-        gap: 6px;
-    }
-
-    /* No room for it beside everything else — the headline carries the message. */
-    .subline { display: none; }
-
-    .headline { font-size: clamp(1.4rem, 7.4vw, 2.3rem); }
-
-    .ctaRow {
-        flex-direction: column;
-        gap: 6px;
-        margin-top: 2px;
-    }
-
-    .cta { padding: 10px 22px; font-size: 0.85rem; }
-
-    .emi { font-size: 0.68rem; }
-
-    /* No vertical room for it beside the product row at this height. */
-    .ends { display: none; }
-
-    .products { gap: 8px; }
-
-    .product { width: clamp(52px, 17vw, 76px); }
-
-    .productShot { border-radius: 9px; }
-
-    .productPrice { font-size: 0.66rem; justify-content: center; }
-
-    /* Too cramped alongside three tiles at this width. */
-    .productWas { display: none; }
-
-    .showcase {
-        padding-left: 0;
-        padding-right: 58px;
-    }
-
-    .badge {
-        left: auto;
-        right: 0;
-        top: 50%;
-        transform: translateY(-50%) rotate(-11deg);
-        width: 50px;
-    }
-
-    .decor::before {
-        right: 50%;
-        transform: translate(50%, -50%);
-        width: 115vw;
-    }
-
-    /* The header logo sits directly above the banner here, so this is
-       redundant — and it collides with the CTA at this height. */
-    .brand { display: none; }
-
-    .diya { width: 20px; }
-    .toran { height: 34px; }
-    .bow { display: none; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .cta,
-    .arrow {
-        transition: none;
-    }
-}
-
-/* ─── Category & brand artwork ───
-   All of these sit in the gap between the copy and the product cluster — the
-   dead centre of an ultra-wide strip — so they fill it without crowding
-   either side. Kept faint: they are a backdrop, not the subject. */
-
-.drum {
-    position: absolute;
-    left: 42%;
-    top: 50%;
-    transform: translateY(-50%);
-    width: clamp(90px, 12vw, 190px);
-    opacity: 0.26;
-}
-
-/* Full-bleed wash of bubbles behind everything else. */
-.bubbles {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0.4;
-}
-
-.breeze {
-    position: absolute;
-    left: 37%;
-    top: 50%;
-    transform: translateY(-50%);
-    width: clamp(120px, 17vw, 280px);
-    opacity: 0.3;
-}
-
-.drop {
-    position: absolute;
-    filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.25));
-}
-
-.dropA { width: clamp(20px, 2.4vw, 40px); top: 16%; left: 47%; opacity: 0.55; }
-.dropB { width: clamp(14px, 1.7vw, 28px); bottom: 18%; left: 41%; opacity: 0.4; }
-
-.fan {
-    position: absolute;
-    filter: drop-shadow(0 6px 16px rgba(0, 0, 0, 0.3));
-}
-
-.fanA { width: clamp(84px, 11vw, 180px); top: 50%; left: 41%; transform: translateY(-50%); opacity: 0.26; }
-.fanB { width: clamp(40px, 5vw, 80px);  top: 12%; left: 55%; opacity: 0.4; }
-
-.smartWave {
-    position: absolute;
-    top: 14%;
-    left: 44%;
-    width: clamp(66px, 9vw, 150px);
-    opacity: 0.45;
-}
-
-.screen {
-    position: absolute;
-    left: 42%;
-    top: 50%;
-    transform: translateY(-50%);
-    width: clamp(90px, 12vw, 190px);
-    opacity: 0.32;
-}
-
-/* On a brand week the screen plays second fiddle to the connectivity arcs. */
-.screenSm {
-    top: auto;
-    bottom: 10%;
-    left: 53%;
-    transform: none;
-    width: clamp(52px, 6.5vw, 108px);
-    opacity: 0.26;
-}
-
-.steam {
-    position: absolute;
-    filter: drop-shadow(0 0 10px color-mix(in srgb, var(--occ-accent) 60%, transparent));
-}
-
-.steamA { width: clamp(40px, 5vw, 86px); bottom: 0; left: 42%; opacity: 0.4; }
-.steamB { width: clamp(28px, 3.4vw, 58px); bottom: 0; left: 55%; opacity: 0.28; }
 
 /* ─── Brand mark ───
-   On a brand week the logo is the first thing recognised, so it gets a real
-   white tile: these logos are supplied on white and go muddy on a gradient. */
-.eyebrowRow {
-    display: flex;
-    align-items: center;
-    gap: clamp(8px, 1vw, 14px);
-    flex-wrap: wrap;
-}
-
+   Brand logos are supplied on white and go muddy on a colour, so they keep a
+   white tile — squared off to match the product cards. */
 .logo {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     padding: clamp(5px, 0.6vw, 9px) clamp(9px, 1.1vw, 16px);
-    border-radius: 10px;
+    border-radius: 8px;
     background: #fff;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 10px 22px -12px rgba(0, 0, 0, 0.9);
 }
 
 .logoImg {
@@ -774,22 +541,541 @@
     object-fit: contain;
 }
 
+/* ═══════════════════════ Motif placement ═══════════════════════
+   The SVGs come from OccasionDecor. All of them sit in the gap between the
+   copy and the products — the dead centre of a wide strip — and all of them
+   are held at low contrast: they are the texture of the banner, never its
+   subject. */
+
+/* Diyas hang off the top edge. */
+.diyaRow {
+    position: absolute;
+    inset-inline: 0;
+    top: 0;
+    display: flex;
+    justify-content: space-around;
+    padding: 0 4%;
+}
+
+.diya {
+    width: clamp(22px, 2.3vw, 38px);
+    height: auto;
+    filter: drop-shadow(0 0 12px color-mix(in srgb, var(--occ-accent) 55%, transparent));
+}
+
+/* Stagger, so the row does not read as a ruler. */
+.diyaRow .diya:nth-child(even) { transform: translateY(9px); }
+.diyaRow .diya:nth-child(3n)   { transform: translateY(18px); }
+
+.burst { position: absolute; }
+.burstA { width: clamp(64px, 8vw, 118px); top: 14%; left: 39%; opacity: 0.4; }
+.burstB { width: clamp(46px, 5.4vw, 84px); top: 60%; left: 29%; opacity: 0.26; }
+.burstC { width: clamp(54px, 6.4vw, 98px); top: 24%; right: 33%; opacity: 0.32; }
+
+.bow {
+    position: absolute;
+    left: 44%;
+    top: 50%;
+    transform: translateY(-50%);
+    width: clamp(64px, 7.8vw, 128px);
+    opacity: 0.22;
+}
+
+.toran {
+    position: absolute;
+    inset-inline: 0;
+    top: 0;
+    width: 100%;
+    height: clamp(46px, 6vw, 82px);
+}
+
+.kite { position: absolute; }
+.kiteA { width: clamp(34px, 4.4vw, 68px); top: 4%; left: 45%; transform: rotate(-18deg); opacity: 0.85; }
+.kiteB { width: clamp(26px, 3.1vw, 50px); top: 50%; left: 38%; transform: rotate(14deg); opacity: 0.7; }
+.kiteC { width: clamp(22px, 2.7vw, 42px); top: 16%; left: 55%; transform: rotate(26deg); opacity: 0.6; }
+
+.splash { position: absolute; }
+.splashA { width: clamp(74px, 9vw, 150px); top: -8%; left: 43%; color: #ffd93d; opacity: 0.4; }
+.splashB { width: clamp(58px, 7.2vw, 118px); bottom: -12%; left: 51%; color: #35d0c0; opacity: 0.34; }
+.splashC { width: clamp(50px, 6.4vw, 104px); top: 18%; left: 37%; color: #ff7ac0; opacity: 0.38; }
+
+.flake { position: absolute; }
+.flakeA { width: clamp(36px, 4.4vw, 74px); top: 12%; left: 44%; opacity: 0.3; }
+.flakeB { width: clamp(26px, 3.2vw, 52px); bottom: 14%; left: 37%; opacity: 0.22; }
+.flakeC { width: clamp(30px, 3.7vw, 60px); top: 28%; left: 55%; opacity: 0.25; }
+
+.crescent {
+    position: absolute;
+    top: 16%;
+    right: 32%;
+    width: clamp(44px, 5.4vw, 92px);
+    opacity: 0.38;
+}
+
+.ribbon {
+    position: absolute;
+    inset-inline: 0;
+    top: 0;
+    width: 100%;
+    height: clamp(34px, 4.4vw, 62px);
+}
+
+.drum {
+    position: absolute;
+    left: 41%;
+    top: 50%;
+    transform: translateY(-50%);
+    width: clamp(84px, 11vw, 176px);
+    opacity: 0.2;
+}
+
+.bubbles {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    /* Stretched across a wide strip these read as blobs rather than bubbles,
+       so they are held right back to being texture. */
+    opacity: 0.18;
+}
+
+.breeze {
+    position: absolute;
+    left: 36%;
+    top: 50%;
+    transform: translateY(-50%);
+    width: clamp(112px, 16vw, 260px);
+    opacity: 0.24;
+}
+
+.drop { position: absolute; }
+.dropA { width: clamp(18px, 2.2vw, 36px); top: 18%; left: 46%; opacity: 0.42; }
+.dropB { width: clamp(13px, 1.6vw, 26px); bottom: 20%; left: 40%; opacity: 0.3; }
+
+.fan { position: absolute; }
+.fanA { width: clamp(78px, 10.2vw, 168px); top: 50%; left: 40%; transform: translateY(-50%); opacity: 0.2; }
+.fanB { width: clamp(36px, 4.6vw, 74px); top: 14%; left: 54%; opacity: 0.3; }
+
+.smartWave {
+    position: absolute;
+    top: 16%;
+    left: 43%;
+    width: clamp(62px, 8.4vw, 140px);
+    opacity: 0.34;
+}
+
+.screen {
+    position: absolute;
+    left: 41%;
+    top: 50%;
+    transform: translateY(-50%);
+    width: clamp(84px, 11vw, 176px);
+    opacity: 0.24;
+}
+
+.screenSm {
+    top: auto;
+    bottom: 12%;
+    left: 52%;
+    transform: none;
+    width: clamp(48px, 6vw, 100px);
+    opacity: 0.2;
+}
+
+.steam { position: absolute; }
+.steamA { width: clamp(38px, 4.7vw, 80px); bottom: 0; left: 41%; opacity: 0.3; }
+.steamB { width: clamp(26px, 3.2vw, 54px); bottom: 0; left: 54%; opacity: 0.2; }
+
+/* ═══════════════════════ Background patterns ═══════════════════════
+   Chosen in the Banner Studio. Each one is held low enough to be felt rather
+   than seen, and masked off the left so it never sits under the copy. */
+.pattern {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    -webkit-mask-image: linear-gradient(100deg, transparent 0%, #000 46%, #000 100%);
+    mask-image: linear-gradient(100deg, transparent 0%, #000 46%, #000 100%);
+}
+
+.banner[data-pattern='none'] .pattern { display: none; }
+
+.banner[data-pattern='rays'] .pattern {
+    background: repeating-conic-gradient(
+        from 0deg at 72% 118%,
+        color-mix(in srgb, var(--occ-ink) 8%, transparent) 0deg 4deg,
+        transparent 4deg 10deg
+    );
+    opacity: 0.5;
+}
+
+.banner[data-pattern='dots'] .pattern {
+    background-image: radial-gradient(
+        circle,
+        color-mix(in srgb, var(--occ-ink) 20%, transparent) 1.4px,
+        transparent 1.5px
+    );
+    background-size: 17px 17px;
+    opacity: 0.45;
+}
+
+.banner[data-pattern='arcs'] .pattern {
+    background-image: repeating-radial-gradient(
+        circle at 76% 50%,
+        transparent 0 38px,
+        color-mix(in srgb, var(--occ-ink) 11%, transparent) 38px 39.5px
+    );
+    opacity: 0.55;
+}
+
+.banner[data-pattern='grid'] .pattern {
+    background-image:
+        linear-gradient(color-mix(in srgb, var(--occ-ink) 8%, transparent) 1px, transparent 1px),
+        linear-gradient(90deg, color-mix(in srgb, var(--occ-ink) 8%, transparent) 1px, transparent 1px);
+    background-size: 46px 46px;
+    opacity: 0.5;
+}
+
+/* ═══════════════════════ Layouts ═══════════════════════
+   Same markup, different composition. Spotlight is the default above. */
+
+/* ─── Poster ───
+   Centred and symmetrical, with the colour block laid as a band behind the
+   whole lower half. For a festival, where the occasion is the message. */
+.banner[data-layout='poster'] .inner {
+    flex-direction: column;
+    justify-content: center;
+    gap: clamp(7px, 1.2vw, 18px);
+}
+
+.banner[data-layout='poster'] .copy {
+    align-items: center;
+    text-align: center;
+}
+
+.banner[data-layout='poster'] .subline { max-width: 62ch; }
+
+.banner[data-layout='poster'] .headline {
+    font-size: clamp(1.8rem, 4.3vw, 4rem);
+}
+
+.banner[data-layout='poster'] .decor::before {
+    inset: 54% 0 0 0;
+    clip-path: polygon(0 8%, 100% 0, 100% 100%, 0 100%);
+}
+
+.banner[data-layout='poster'] .decor::after {
+    inset: auto 0 auto 0;
+    top: 54%;
+    width: auto;
+    height: 2px;
+    transform: skewY(-1.1deg);
+}
+
+.banner[data-layout='poster'] .showcase {
+    position: static;
+    padding-left: 0;
+}
+
+.banner[data-layout='poster'] .product { width: clamp(56px, 6.4vw, 96px); }
+.banner[data-layout='poster'] .productLead { width: clamp(66px, 7.8vw, 116px); }
+.banner[data-layout='poster'] .rangoli { display: none; }
+
+.banner[data-layout='poster'] .badge {
+    left: auto;
+    right: clamp(18px, 3vw, 56px);
+    top: clamp(16px, 3vw, 48px);
+    transform: none;
+}
+
+/* ─── Coupon ───
+   A tear-off voucher: a rule inset from the edge, a punched notch on each long
+   side, and a perforation the products sit behind. For exchange and sale weeks. */
+.banner[data-layout='coupon'] .decor::before,
+.banner[data-layout='coupon'] .decor::after { display: none; }
+
+.banner[data-layout='coupon'] .inner {
+    margin: clamp(11px, 1.7vw, 24px) auto;
+    border: 2px dashed color-mix(in srgb, var(--occ-ink) 34%, transparent);
+    border-radius: 12px;
+    width: auto;
+    align-self: stretch;
+    flex: 1;
+}
+
+.banner[data-layout='coupon'] .inner::before,
+.banner[data-layout='coupon'] .inner::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: clamp(18px, 2.3vw, 32px);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: var(--occ-base);
+    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.5);
+    transform: translateY(-50%);
+}
+
+.banner[data-layout='coupon'] .inner::before { left: calc(clamp(18px, 2.3vw, 32px) / -2); }
+.banner[data-layout='coupon'] .inner::after { right: calc(clamp(18px, 2.3vw, 32px) / -2); }
+
+.banner[data-layout='coupon'] .showcase::before {
+    content: '';
+    position: absolute;
+    left: clamp(24px, 2.8vw, 42px);
+    top: 10%;
+    bottom: 10%;
+    border-left: 2px dashed color-mix(in srgb, var(--occ-ink) 26%, transparent);
+}
+
+/* ─── Split ───
+   A hard diagonal field with the brand mark large on it. For brand weeks,
+   where the logo has to carry the banner. */
+.banner[data-layout='split'] .decor::before {
+    inset: 0;
+    background: color-mix(in srgb, var(--occ-block) 70%, #000);
+    clip-path: polygon(0 0, 52% 0, 39% 100%, 0 100%);
+}
+
+.banner[data-layout='split'] .decor::after {
+    left: 52%;
+    transform: skewX(-7.2deg);
+    opacity: 0.75;
+}
+
+.banner[data-layout='split'] .copy { padding-right: clamp(10px, 2vw, 40px); }
+
+.banner[data-layout='split'] .logo {
+    padding: clamp(7px, 0.9vw, 13px) clamp(12px, 1.5vw, 22px);
+}
+
+.banner[data-layout='split'] .logoImg { height: clamp(22px, 2.7vw, 42px); }
+.banner[data-layout='split'] .headline { font-size: clamp(1.5rem, 3.2vw, 3rem); }
+
+/* ─── Price lead ───
+   One product, one large price. When the deal is the story, three cards
+   dilute it, so the flanking two go and the winner gets the room. */
+.banner[data-layout='price'] .product:not(.productLead) { display: none; }
+
+.banner[data-layout='price'] .productLead { width: clamp(118px, 15vw, 236px); }
+
+.banner[data-layout='price'] .productPrice {
+    justify-content: center;
+    font-size: clamp(1.05rem, 2vw, 2rem);
+}
+
+.banner[data-layout='price'] .productWas { font-size: 0.58em; }
+.banner[data-layout='price'] .headline { font-size: clamp(1.4rem, 3vw, 2.6rem); }
+
+.banner[data-layout='price'] .rangoli {
+    width: clamp(160px, 20vw, 310px);
+    opacity: 0.16;
+}
+
+/* ═══════════════════════ Phone ═══════════════════════
+   The hero turns near-square and short (1125:825), so this is a different
+   composition rather than the desktop one squeezed: copy ranged left against a
+   generous gutter, the colour block laid across the bottom, and the products
+   as a shelf beneath the call to action. */
 @media (max-width: 768px) {
-    /* The layout stacks here, so the centre of the banner is where the copy
-       lives — these would sit straight under the headline. */
-    .drum,
-    .breeze,
-    .screen,
-    .fan,
-    .smartWave,
-    .steam,
-    .drop {
+    /* Every measurement here is set against the 1125:825 frame, which is only
+       about 286px tall on a common phone. The whole banner has to fit inside
+       that without scrolling, so the gaps are counted rather than guessed. */
+    .inner {
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+        gap: 7px;
+        padding: 0 clamp(16px, 4.8vw, 24px);
+    }
+
+    .copy {
+        align-items: flex-start;
+        text-align: left;
+        gap: 4px;
+        width: 100%;
+    }
+
+    .eyebrow {
+        font-size: 0.58rem;
+        letter-spacing: 0.2em;
+        gap: 8px;
+    }
+
+    .eyebrow::before { width: 14px; }
+
+    .headline {
+        font-size: clamp(1.32rem, 7vw, 1.95rem);
+        line-height: 1.0;
+    }
+
+    /* Two lines of it fit here and say something the headline cannot. */
+    .subline {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        font-size: 0.7rem;
+        line-height: 1.34;
+        max-width: 100%;
+    }
+
+    .ctaRow {
+        gap: 10px;
+        margin-top: 0;
+    }
+
+    .cta {
+        padding: 8px 15px;
+        font-size: 0.76rem;
+        border-radius: 6px;
+    }
+
+    .emi { font-size: 0.63rem; }
+
+    .ends {
+        margin-top: 0;
+        font-size: 0.57rem;
+        gap: 6px;
+    }
+
+    /* The block becomes a band under the product shelf. */
+    .decor::before {
+        inset: 62% 0 0 0;
+        clip-path: polygon(0 10%, 100% 0, 100% 100%, 0 100%);
+    }
+
+    .decor::after {
+        inset: auto 0 auto 0;
+        top: 62%;
+        width: auto;
+        height: 2px;
+        transform: skewY(-1.4deg);
+    }
+
+    .showcase {
+        position: static;
+        padding-left: 0;
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    .stage { justify-content: flex-start; }
+
+    .products { gap: 8px; }
+
+    .product {
+        width: clamp(46px, 13.5vw, 66px);
+        margin-bottom: 0;
+        gap: 4px;
+    }
+
+    .productLead { width: clamp(54px, 16vw, 78px); }
+
+    .productShot { border-radius: 8px; }
+
+    .productPrice { font-size: 0.6rem; gap: 4px; }
+
+    /* Two figures per card is one too many at this size. */
+    .productWas { display: none; }
+
+    /* A brand week leads with the mark, so "Brand Week · Crompton" set under a
+       Crompton logo is a line the phone cannot spare — and with the logo there
+       the offer line can give up its second line too. Together that is the
+       ~35px that kept the brand layout from fitting the frame. */
+    .banner:has(.logo) .eyebrow { display: none; }
+    .banner:has(.logo) .subline { -webkit-line-clamp: 1; }
+
+    /* The badge is ranged right at the top, where the eyebrow and headline
+       also live — so the copy keeps a column clear for it. Only when there is
+       a badge: a banner with no saving to show should use the full width. */
+    .banner:has(.badge) .eyebrowRow,
+    .banner:has(.badge) .headline,
+    .banner:has(.badge) .subline {
+        padding-right: 76px;
+    }
+
+    /* Ranged right so it balances the left-ranged copy. */
+    .badge {
+        left: auto;
+        right: clamp(14px, 4vw, 20px);
+        top: clamp(12px, 4vw, 18px);
+        transform: none;
+        padding: 7px 10px;
+        border-radius: 7px;
+    }
+
+    .badgePct { font-size: 1.15rem; }
+    .badgeUpto, .badgeOff { font-size: 0.42rem; }
+
+    .rangoli { display: none; }
+
+    /* The header logo sits directly above the banner on a phone. */
+    .brand { display: none; }
+
+    /* The centre-gap motifs have no gap to sit in once the layout stacks. */
+    .drum, .breeze, .screen, .fan, .smartWave, .steam, .drop, .bow,
+    .burstB, .burstC, .kiteB, .kiteC, .flakeB, .flakeC, .crescent {
         display: none;
     }
 
-    .bubbles { opacity: 0.3; }
+    .diya { width: 19px; }
+    .toran { height: 32px; }
+    .ribbon { height: 26px; }
+    .bubbles { opacity: 0.22; }
+    .burstA { width: 58px; top: 8%; left: auto; right: 6%; opacity: 0.3; }
+    .kiteA { width: 34px; top: 6%; left: auto; right: 8%; }
+    .splashA { width: 86px; top: -14%; right: -6%; left: auto; }
+    .splashB { width: 66px; bottom: -16%; left: 58%; }
+    .splashC { display: none; }
+    .flakeA { width: 44px; top: 9%; left: auto; right: 7%; }
 
-    .eyebrowRow { justify-content: center; }
+    .logoImg { height: 17px; }
 
-    .logoImg { height: 18px; }
+    /* Layout flourishes that only make sense on a wide strip. */
+    .banner[data-layout='poster'] .copy { align-items: flex-start; text-align: left; }
+    .banner[data-layout='poster'] .headline { font-size: clamp(1.45rem, 7.6vw, 2.15rem); }
+    .banner[data-layout='poster'] .showcase { justify-content: flex-start; }
+    .banner[data-layout='poster'] .badge { right: clamp(14px, 4vw, 20px); top: clamp(12px, 4vw, 18px); }
+
+    .banner[data-layout='coupon'] .inner {
+        margin: 9px;
+        border-radius: 10px;
+        padding: 0 16px;
+    }
+
+    .banner[data-layout='coupon'] .inner::before,
+    .banner[data-layout='coupon'] .inner::after { width: 15px; }
+
+    /* No room for a perforation beside the shelf at this width. */
+    .banner[data-layout='coupon'] .showcase::before { display: none; }
+
+    /* A diagonal across a near-square frame cuts the copy in half. */
+    .banner[data-layout='split'] .decor::before {
+        inset: 58% 0 0 0;
+        clip-path: polygon(0 12%, 100% 0, 100% 100%, 0 100%);
+    }
+
+    .banner[data-layout='split'] .decor::after {
+        left: 0;
+        right: 0;
+        top: 58%;
+        width: auto;
+        height: 2px;
+        transform: skewY(-1.6deg);
+    }
+
+    .banner[data-layout='split'] .headline { font-size: clamp(1.45rem, 7.6vw, 2.15rem); }
+    .banner[data-layout='split'] .logoImg { height: 20px; }
+
+    .banner[data-layout='price'] .productLead { width: clamp(78px, 24vw, 116px); }
+    .banner[data-layout='price'] .productPrice { font-size: 0.92rem; }
+    .banner[data-layout='price'] .headline { font-size: clamp(1.4rem, 7.2vw, 2rem); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .cta,
+    .arrow {
+        transition: none;
+    }
 }

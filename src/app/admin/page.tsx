@@ -7,6 +7,7 @@ import OrdersTab from '@/components/admin/OrdersTab';
 import HeroAdminTab from '@/components/admin/HeroAdminTab';
 import GalleryAdminTab from '@/components/admin/GalleryAdminTab';
 import OccasionsAdminTab from '@/components/admin/OccasionsAdminTab';
+import BannerStudioTab from '@/components/admin/BannerStudioTab';
 import DashboardOverview from '@/components/admin/DashboardOverview';
 import BulkInquiriesTab from '@/components/admin/BulkInquiriesTab';
 import QuickEditTab from '@/components/admin/QuickEditTab';
@@ -15,7 +16,7 @@ import styles from './page.module.css';
 export default function AdminPage() {
     const [refreshTrigger, setRefreshTrigger] = useState(0);
     const [selectedProduct, setSelectedProduct] = useState<any>(null);
-    const [activeTab, setActiveTab] = useState<'overview' | 'products' | 'quickedit' | 'orders' | 'hero' | 'occasions' | 'gallery' | 'bulk'>('overview');
+    const [activeTab, setActiveTab] = useState<'overview' | 'products' | 'quickedit' | 'orders' | 'studio' | 'hero' | 'occasions' | 'gallery' | 'bulk'>('overview');
 
     const handleSuccess = () => {
         setRefreshTrigger(prev => prev + 1);
@@ -90,6 +91,12 @@ export default function AdminPage() {
                             ⚡ Quick Edit Prices
                         </button>
                         <button
+                            onClick={() => setActiveTab('studio')}
+                            style={{ padding: '10px 18px', borderRadius: '8px', fontSize: '0.9rem', border: '1px solid ' + (activeTab === 'studio' ? '#002366' : '#e2e8f0'), fontWeight: 600, cursor: 'pointer', backgroundColor: activeTab === 'studio' ? '#002366' : '#fff', color: activeTab === 'studio' ? '#fff' : '#475569', whiteSpace: 'nowrap' }}
+                        >
+                            ✨ Banner Studio
+                        </button>
+                        <button
                             onClick={() => setActiveTab('hero')}
                             style={{ padding: '10px 18px', borderRadius: '8px', fontSize: '0.9rem', border: '1px solid ' + (activeTab === 'hero' ? '#002366' : '#e2e8f0'), fontWeight: 600, cursor: 'pointer', backgroundColor: activeTab === 'hero' ? '#002366' : '#fff', color: activeTab === 'hero' ? '#fff' : '#475569', whiteSpace: 'nowrap' }}
                         >
@@ -140,6 +147,11 @@ export default function AdminPage() {
                 {activeTab === 'orders' && (
                     <div style={{ background: '#fff', borderRadius: '12px', padding: '20px', boxShadow: '0 4px 12px rgba(0,0,0,0.05)' }}>
                         <OrdersTab />
+                    </div>
+                )}
+                {activeTab === 'studio' && (
+                    <div style={{ background: '#fff', borderRadius: '12px', padding: '20px', boxShadow: '0 4px 12px rgba(0,0,0,0.05)' }}>
+                        <BannerStudioTab />
                     </div>
                 )}
                 {activeTab === 'hero' && (

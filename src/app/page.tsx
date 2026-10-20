@@ -9,6 +9,7 @@ import prisma from "@/lib/prisma";
 import { getActiveOccasion, pickBannerProducts, type Occasion } from "@/lib/occasions";
 import { getWeeklyCampaign } from "@/lib/weekly-campaigns";
 import { getBannerCatalogue } from "@/lib/products";
+import { designToOccasion } from "@/lib/banner-templates";
 import { TrustBar, BulkOrdersSection, TestimonialsSection, FAQSection, ServiceAreasSection } from "@/components/home/HomeSEOContent";
 
 export const revalidate = 0; // Force immediate updates for settings
@@ -54,21 +55,54 @@ export default async function Home() {
     getWeeklyCampaign(occasionOverrides),
   ].filter((o): o is Occasion => Boolean(o));
 
-  // Real deals for the banners to show. Both filter the same single query.
-  // Failing to load them only costs the product strip — each banner still
-  // renders from its own copy.
+  // Slides made in Admin → Banner Studio are stored in the hero row with a
+  // `design` instead of an image, and are drawn by the same component as the
+  // generated banners rather than loaded as a picture.
+  const studioSlides = Array.isArray(initialHeroSlides)
+    ? initialHeroSlides.filter((slide: any) => slide?.design)
+    : [];
+
+  // Real deals for every banner to show — the generated ones and any studio
+  // slides — all filtered out of a single query. Failing to load them only
+  // costs the product strip; each banner still renders from its own copy.
   let banners: HeroBanner[] = generatedBanners.map((occasion) => ({ occasion, products: [] }));
-  if (generatedBanners.length > 0) {
+
+  // Turning a design into a banner needs no database, so it happens before the
+  // catalogue is fetched: if that query fails, a studio slide still renders
+  // without its product strip rather than falling through to the image branch
+  // of the slider, which would leave an empty frame.
+  let heroSlides =
+    studioSlides.length > 0
+      ? initialHeroSlides.map((slide: any) =>
+          slide?.design
+            ? { ...slide, occasion: designToOccasion(slide.design), products: [] }
+            : slide
+        )
+      : initialHeroSlides;
+
+  if (generatedBanners.length > 0 || studioSlides.length > 0) {
     try {
       const catalogue = await getBannerCatalogue();
-      banners = generatedBanners.map((occasion) => ({
-        occasion,
-        products: pickBannerProducts(
+
+      const productsFor = (occasion: Occasion) =>
+        pickBannerProducts(
           catalogue,
           { category: occasion.productCategory, brand: occasion.brand },
           3
-        ),
+        );
+
+      banners = generatedBanners.map((occasion) => ({
+        occasion,
+        products: productsFor(occasion),
       }));
+
+      // A studio slide keeps its place in the slider — the shop ordered it
+      // there — so it is filled in rather than hoisted to the front.
+      if (studioSlides.length > 0) {
+        heroSlides = heroSlides.map((slide: any) =>
+          slide?.occasion ? { ...slide, products: productsFor(slide.occasion) } : slide
+        );
+      }
     } catch (err) {
       console.error("Failed to load banner products:", err);
     }
@@ -78,7 +112,7 @@ export default async function Home() {
     <main>
       <h1 className="sr-only">Raj Electronics — Secunderabad's #1 Electronics Dealer Since 1995</h1>
       <TrustBar />
-      <Hero initialSlides={initialHeroSlides} banners={banners} />
+      <Hero initialSlides={heroSlides} banners={banners} />
       <ShopByCategory />
       <DealsCarousel />
       <BulkOrdersSection />
