@@ -6,7 +6,7 @@ import Link from 'next/link';
 import styles from './Hero.module.css';
 import { ChevronLeftIcon, ChevronRightIcon } from '../icons/Icons';
 import OccasionBanner from './OccasionBanner';
-import type { Occasion, BannerProduct } from '@/lib/occasions';
+import { bannerAlt, type Occasion, type BannerProduct } from '@/lib/occasions';
 
 // These represent full-width cinematic banner images like your reference.
 // Simply drop your actual banner graphics into the public/images/hero/ folder and update the paths.
@@ -55,31 +55,49 @@ const DEFAULT_SLIDES = [
     }
 ];
 
+/** One generated banner and the live deals it shows. */
+export interface HeroBanner {
+    occasion: Occasion;
+    products: BannerProduct[];
+}
+
+/** Either a generated banner or an uploaded image — the slider takes both. */
+interface Slide {
+    id?: string | number;
+    link: string;
+    alt: string;
+    occasion?: Occasion;
+    products?: BannerProduct[];
+    image?: string;
+    mobileImage?: string;
+}
+
 export default function Hero({
     initialSlides,
-    occasion,
-    occasionProducts = [],
+    banners = [],
 }: {
     initialSlides?: any;
-    /** Festival banner to lead with, when one is on air. Generated, not uploaded. */
-    occasion?: Occasion | null;
-    /** Live deals shown inside that banner. */
-    occasionProducts?: BannerProduct[];
+    /**
+     * Generated banners to lead with — the festival on air, then the week's
+     * campaign. Drawn in CSS, so nothing has to be uploaded for one to appear.
+     */
+    banners?: HeroBanner[];
 }) {
     const baseSlides = Array.isArray(initialSlides) && initialSlides.length > 0 ? initialSlides : DEFAULT_SLIDES;
 
-    // The occasion banner goes first — it is the reason someone is visiting today.
-    const slides = occasion
-        ? [
-              {
-                  id: `occasion-${occasion.id}`,
-                  occasion,
-                  link: occasion.href,
-                  alt: `${occasion.name} — ${occasion.headline}`,
-              },
-              ...baseSlides,
-          ]
-        : baseSlides;
+    // Generated banners go first — they are the reason someone is visiting today.
+    const slides: Slide[] = [
+        ...banners.map((banner) => ({
+            id: `banner-${banner.occasion.id}`,
+            occasion: banner.occasion,
+            products: banner.products,
+            link: banner.occasion.href,
+            // The artwork is CSS, so this text is the only description a screen
+            // reader or a crawler ever gets for the slide.
+            alt: bannerAlt(banner.occasion, banner.products),
+        })),
+        ...baseSlides,
+    ];
 
     const [currentSlide, setCurrentSlide] = useState(0);
     const [isHovered, setIsHovered] = useState(false);
@@ -136,15 +154,17 @@ export default function Hero({
                             href={slide.link}
                             key={slide.id || idx}
                             className={styles.slide}
-                            aria-label={`Go to ${slide.alt}`}
+                            /* A generated banner's alt text is already a full
+                               sentence; an uploaded slide's is just a name. */
+                            aria-label={slide.occasion ? slide.alt : `Go to ${slide.alt}`}
                         >
                             {slide.occasion ? (
-                                /* Auto-generated festival banner — drawn in CSS, no image file. */
-                                <OccasionBanner occasion={slide.occasion} products={occasionProducts} />
+                                /* Auto-generated banner — drawn in CSS, no image file. */
+                                <OccasionBanner occasion={slide.occasion} products={slide.products} />
                             ) : (
                                 <>
                                     <Image
-                                        src={slide.image}
+                                        src={slide.image!}
                                         alt={slide.alt}
                                         fill
                                         className={`${styles.slideImage} ${slide.mobileImage ? styles.desktopImage : ''}`}
@@ -153,7 +173,7 @@ export default function Hero({
                                     />
                                     {slide.mobileImage && (
                                         <Image
-                                            src={slide.mobileImage}
+                                            src={slide.mobileImage!}
                                             alt={slide.alt}
                                             fill
                                             className={`${styles.slideImage} ${styles.mobileImage}`}

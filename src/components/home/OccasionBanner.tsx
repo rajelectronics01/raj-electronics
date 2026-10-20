@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import type { Occasion, BannerProduct } from '@/lib/occasions';
-import OccasionDecor, { Rangoli } from './OccasionDecor';
+import OccasionDecor, { StageBackdrop } from './OccasionDecor';
 import styles from './OccasionBanner.module.css';
 
 /**
@@ -71,7 +71,22 @@ export default function OccasionBanner({
             <div className={styles.inner}>
                 {/* ── Copy ── */}
                 <div className={styles.copy}>
-                    <p className={styles.eyebrow}>{occasion.name}</p>
+                    <div className={styles.eyebrowRow}>
+                        {/* A brand week leads with the brand's own mark — it is
+                            the one thing a shopper recognises before reading. */}
+                        {occasion.logo && (
+                            <span className={styles.logo}>
+                                <Image
+                                    src={occasion.logo}
+                                    alt={`${occasion.brand ?? occasion.name} logo`}
+                                    width={140}
+                                    height={48}
+                                    className={styles.logoImg}
+                                />
+                            </span>
+                        )}
+                        <p className={styles.eyebrow}>{occasion.name}</p>
+                    </div>
                     <h2 className={styles.headline}>{occasion.headline}</h2>
                     {occasion.subline && <p className={styles.subline}>{occasion.subline}</p>}
 
@@ -105,7 +120,7 @@ export default function OccasionBanner({
                         )}
 
                         <div className={styles.stage}>
-                            <Rangoli className={styles.rangoli} />
+                            <StageBackdrop theme={occasion.theme} className={styles.rangoli} />
 
                             <div className={styles.products}>
                                 {centreBest(products).map((product, i) => (

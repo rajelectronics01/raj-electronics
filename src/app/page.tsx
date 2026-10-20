@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
-import Hero from "@/components/home/Hero";
+import Hero, { type HeroBanner } from "@/components/home/Hero";
 import FeaturedBrands from "@/components/home/FeaturedBrands";
 import DealsCarousel from "@/components/home/DealsCarousel";
 import StoreGallery from "@/components/home/StoreGallery";
 import ShopByCategory from "@/components/home/ShopByCategory";
 import WhyChooseUs from "@/components/home/WhyChooseUs";
 import prisma from "@/lib/prisma";
-import { getActiveOccasion } from "@/lib/occasions";
-import { getOccasionProducts } from "@/lib/products";
-import type { BannerProduct } from "@/lib/occasions";
+import { getActiveOccasion, pickBannerProducts, type Occasion } from "@/lib/occasions";
+import { getWeeklyCampaign } from "@/lib/weekly-campaigns";
+import { getBannerCatalogue } from "@/lib/products";
 import { TrustBar, BulkOrdersSection, TestimonialsSection, FAQSection, ServiceAreasSection } from "@/components/home/HomeSEOContent";
 
 export const revalidate = 0; // Force immediate updates for settings
@@ -40,22 +40,37 @@ export default async function Home() {
   const initialHeroSlides = heroSetting ? (heroSetting as any).value : null;
   const initialGalleryImages = gallerySetting ? (gallerySetting as any).value : null;
 
-  // Festival banners are generated from the calendar in src/lib/occasions.ts —
-  // nothing has to be uploaded for one to go live on the day. The DB row only
-  // holds admin overrides (custom wording, moved dates, or switched off), so
-  // this still works when the row is missing or the DB is unreachable.
-  const activeOccasion = getActiveOccasion(
-    Array.isArray(occasionSetting?.value) ? occasionSetting.value : []
-  );
+  // Banners are generated from code — nothing has to be uploaded for one to go
+  // live. The festival calendar lives in src/lib/occasions.ts and the weekly
+  // rotation in src/lib/weekly-campaigns.ts; the DB row only holds admin
+  // overrides (custom wording, moved dates, or switched off), so this still
+  // works when the row is missing or the DB is unreachable.
+  const occasionOverrides = Array.isArray(occasionSetting?.value) ? occasionSetting.value : [];
 
-  // Real deals for the banner to show. Failing to load them only costs the
-  // product strip — the banner still renders from the occasion alone.
-  let occasionProducts: BannerProduct[] = [];
-  if (activeOccasion) {
+  // The festival leads when one is on; the week's campaign always follows, so
+  // the top of the homepage is never more than seven days old.
+  const generatedBanners = [
+    getActiveOccasion(occasionOverrides),
+    getWeeklyCampaign(occasionOverrides),
+  ].filter((o): o is Occasion => Boolean(o));
+
+  // Real deals for the banners to show. Both filter the same single query.
+  // Failing to load them only costs the product strip — each banner still
+  // renders from its own copy.
+  let banners: HeroBanner[] = generatedBanners.map((occasion) => ({ occasion, products: [] }));
+  if (generatedBanners.length > 0) {
     try {
-      occasionProducts = await getOccasionProducts(activeOccasion.productCategory, 3);
+      const catalogue = await getBannerCatalogue();
+      banners = generatedBanners.map((occasion) => ({
+        occasion,
+        products: pickBannerProducts(
+          catalogue,
+          { category: occasion.productCategory, brand: occasion.brand },
+          3
+        ),
+      }));
     } catch (err) {
-      console.error("Failed to load occasion banner products:", err);
+      console.error("Failed to load banner products:", err);
     }
   }
 
@@ -63,11 +78,7 @@ export default async function Home() {
     <main>
       <h1 className="sr-only">Raj Electronics — Secunderabad's #1 Electronics Dealer Since 1995</h1>
       <TrustBar />
-      <Hero
-        initialSlides={initialHeroSlides}
-        occasion={activeOccasion}
-        occasionProducts={occasionProducts}
-      />
+      <Hero initialSlides={initialHeroSlides} banners={banners} />
       <ShopByCategory />
       <DealsCarousel />
       <BulkOrdersSection />

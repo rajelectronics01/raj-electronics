@@ -53,6 +53,16 @@
 .banner[data-theme='newyear']   { --occ-bg-a: #0d0f36; --occ-bg-mid: #241d5e; --occ-bg-b: #3f2d7d; --occ-accent: #ffd24a; --occ-ink: #f6f5ff; }
 .banner[data-theme='sale']      { --occ-bg-a: #00295c; --occ-bg-mid: #00408c; --occ-bg-b: #0056b3; --occ-accent: #ff9900; --occ-ink: #f5faff; }
 
+/* Category and brand weeks. Each one has to be recognisable at a glance from
+   the far side of the shop, so no two share a hue family. */
+.banner[data-theme='washer']    { --occ-bg-a: #0d2b57; --occ-bg-mid: #1c58a8; --occ-bg-b: #2f93d8; --occ-accent: #cfe9ff; --occ-ink: #f4fbff; }
+.banner[data-theme='cooler']    { --occ-bg-a: #04403c; --occ-bg-mid: #0a7f74; --occ-bg-b: #22b89a; --occ-accent: #ffe36e; --occ-ink: #f1fffb; }
+.banner[data-theme='fridge']    { --occ-bg-a: #0a1a2b; --occ-bg-mid: #1e4057; --occ-bg-b: #3d7793; --occ-accent: #a8e1ff; --occ-ink: #f6fcff; }
+.banner[data-theme='tv']        { --occ-bg-a: #12021f; --occ-bg-mid: #2d0f54; --occ-bg-b: #58207e; --occ-accent: #ffd166; --occ-ink: #fbf5ff; }
+.banner[data-theme='kitchen']   { --occ-bg-a: #3d1206; --occ-bg-mid: #8c3410; --occ-bg-b: #c9631a; --occ-accent: #ffcf7a; --occ-ink: #fff6ec; }
+.banner[data-theme='tgsmart']   { --occ-bg-a: #06121c; --occ-bg-mid: #0d3b46; --occ-bg-b: #15727a; --occ-accent: #5ef2c4; --occ-ink: #f0fffb; }
+.banner[data-theme='crompton']  { --occ-bg-a: #2b070e; --occ-bg-mid: #7d1220; --occ-bg-b: #c41f2e; --occ-accent: #ffc247; --occ-ink: #fff4f2; }
+
 /* ─── Background washes ─── */
 .decor {
     position: absolute;
@@ -653,4 +663,133 @@
     .arrow {
         transition: none;
     }
+}
+
+/* ─── Category & brand artwork ───
+   All of these sit in the gap between the copy and the product cluster — the
+   dead centre of an ultra-wide strip — so they fill it without crowding
+   either side. Kept faint: they are a backdrop, not the subject. */
+
+.drum {
+    position: absolute;
+    left: 42%;
+    top: 50%;
+    transform: translateY(-50%);
+    width: clamp(90px, 12vw, 190px);
+    opacity: 0.26;
+}
+
+/* Full-bleed wash of bubbles behind everything else. */
+.bubbles {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.4;
+}
+
+.breeze {
+    position: absolute;
+    left: 37%;
+    top: 50%;
+    transform: translateY(-50%);
+    width: clamp(120px, 17vw, 280px);
+    opacity: 0.3;
+}
+
+.drop {
+    position: absolute;
+    filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.25));
+}
+
+.dropA { width: clamp(20px, 2.4vw, 40px); top: 16%; left: 47%; opacity: 0.55; }
+.dropB { width: clamp(14px, 1.7vw, 28px); bottom: 18%; left: 41%; opacity: 0.4; }
+
+.fan {
+    position: absolute;
+    filter: drop-shadow(0 6px 16px rgba(0, 0, 0, 0.3));
+}
+
+.fanA { width: clamp(84px, 11vw, 180px); top: 50%; left: 41%; transform: translateY(-50%); opacity: 0.26; }
+.fanB { width: clamp(40px, 5vw, 80px);  top: 12%; left: 55%; opacity: 0.4; }
+
+.smartWave {
+    position: absolute;
+    top: 14%;
+    left: 44%;
+    width: clamp(66px, 9vw, 150px);
+    opacity: 0.45;
+}
+
+.screen {
+    position: absolute;
+    left: 42%;
+    top: 50%;
+    transform: translateY(-50%);
+    width: clamp(90px, 12vw, 190px);
+    opacity: 0.32;
+}
+
+/* On a brand week the screen plays second fiddle to the connectivity arcs. */
+.screenSm {
+    top: auto;
+    bottom: 10%;
+    left: 53%;
+    transform: none;
+    width: clamp(52px, 6.5vw, 108px);
+    opacity: 0.26;
+}
+
+.steam {
+    position: absolute;
+    filter: drop-shadow(0 0 10px color-mix(in srgb, var(--occ-accent) 60%, transparent));
+}
+
+.steamA { width: clamp(40px, 5vw, 86px); bottom: 0; left: 42%; opacity: 0.4; }
+.steamB { width: clamp(28px, 3.4vw, 58px); bottom: 0; left: 55%; opacity: 0.28; }
+
+/* ─── Brand mark ───
+   On a brand week the logo is the first thing recognised, so it gets a real
+   white tile: these logos are supplied on white and go muddy on a gradient. */
+.eyebrowRow {
+    display: flex;
+    align-items: center;
+    gap: clamp(8px, 1vw, 14px);
+    flex-wrap: wrap;
+}
+
+.logo {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(5px, 0.6vw, 9px) clamp(9px, 1.1vw, 16px);
+    border-radius: 10px;
+    background: #fff;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+}
+
+.logoImg {
+    width: auto;
+    height: clamp(16px, 2vw, 30px);
+    object-fit: contain;
+}
+
+@media (max-width: 768px) {
+    /* The layout stacks here, so the centre of the banner is where the copy
+       lives — these would sit straight under the headline. */
+    .drum,
+    .breeze,
+    .screen,
+    .fan,
+    .smartWave,
+    .steam,
+    .drop {
+        display: none;
+    }
+
+    .bubbles { opacity: 0.3; }
+
+    .eyebrowRow { justify-content: center; }
+
+    .logoImg { height: 18px; }
 }

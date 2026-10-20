@@ -302,8 +302,15 @@ export default function HeroAdminTab() {
                                     className={styles.input} 
                                     value={slide.alt} 
                                     onChange={e => updateSlide(idx, 'alt', e.target.value)} 
-                                    placeholder="Featured Deals 2024" 
+                                    placeholder="Diwali offer on split ACs — up to 40% off, free installation" 
                                 />
+                                {/* An uploaded banner is a picture: this line is all a blind
+                                    customer, and Google, ever get from it. */}
+                                <p className={styles.hint}>
+                                    {!slide.alt.trim() || slide.alt === 'New Promo Banner'
+                                        ? '⚠️ Describe what is on this banner — the offer, the product and the brand. It is what screen readers read out and what Google indexes.'
+                                        : 'Describe the offer, the product and the brand.'}
+                                </p>
                             </div>
                         </div>
                     </div>

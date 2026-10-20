@@ -1,6 +1,6 @@
 import { Product } from '@/types';
 import prisma from '@/lib/prisma';
-import { pickBannerProducts, type BannerProduct } from '@/lib/occasions';
+import { pickBannerProducts, type BannerFilter, type BannerProduct } from '@/lib/occasions';
 
 export async function getProducts(): Promise<Product[]> {
     const products = await prisma.product.findMany({
@@ -74,17 +74,25 @@ export async function getProductsByCategory(category: string): Promise<Product[]
 }
 
 /**
- * Products to showcase inside an occasion banner.
- * Selection itself lives in occasions.ts so the admin preview ranks identically.
+ * Everything a banner could show. Fetched once per page and filtered in memory
+ * by each banner, because the homepage now runs two at a time (the festival and
+ * the week's campaign) and the discount they rank on is derived from two
+ * columns rather than stored.
  */
-export async function getOccasionProducts(
-    category?: string,
-    limit = 3
-): Promise<BannerProduct[]> {
-    const rows = await prisma.product.findMany({
+export async function getBannerCatalogue() {
+    return prisma.product.findMany({
         where: { inStock: true },
         orderBy: { createdAt: 'desc' },
     });
+}
 
-    return pickBannerProducts(rows, category, limit);
+/**
+ * Products to showcase inside one banner.
+ * Selection itself lives in occasions.ts so the admin preview ranks identically.
+ */
+export async function getOccasionProducts(
+    filter: BannerFilter = {},
+    limit = 3
+): Promise<BannerProduct[]> {
+    return pickBannerProducts(await getBannerCatalogue(), filter, limit);
 }

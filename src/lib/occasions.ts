@@ -20,6 +20,7 @@
  */
 
 export type OccasionTheme =
+    // Festivals and seasons — driven by the calendar below.
     | 'diwali'
     | 'dussehra'
     | 'ganesh'
@@ -30,7 +31,17 @@ export type OccasionTheme =
     | 'summer'
     | 'tricolour'
     | 'newyear'
-    | 'sale';
+    | 'sale'
+    // Category and brand looks — these drive the weekly rotation in
+    // src/lib/weekly-campaigns.ts, which runs a different banner every week
+    // regardless of whether a festival is on.
+    | 'washer'
+    | 'cooler'
+    | 'fridge'
+    | 'tv'
+    | 'kitchen'
+    | 'tgsmart'
+    | 'crompton';
 
 export interface Occasion {
     /** Stable key — also the key used for admin overrides. */
@@ -49,6 +60,19 @@ export interface Occasion {
      * Product.category. Omit (or 'all') to draw the best discounts store-wide.
      */
     productCategory?: string;
+    /**
+     * Brand to narrow the showcase to, matched against Product.brand. Set on a
+     * brand week ("TG Smart Week"); omit on a category or festival banner.
+     */
+    brand?: string;
+    /** Brand mark shown above the headline, e.g. '/brands/crompton.png'. */
+    logo?: string;
+    /**
+     * What the banner says to a screen reader, and the accessible name of the
+     * slide link wrapping it. The artwork is CSS, not an image, so there is no
+     * <img alt> to carry this — see bannerAlt() for the fallback.
+     */
+    alt?: string;
     /** Inclusive ISO dates (Asia/Kolkata). Banner is live from start to end. */
     start: string;
     end: string;
@@ -310,24 +334,39 @@ interface ProductLike {
     inStock?: boolean;
 }
 
+/** How a banner narrows the catalogue down to the products it shows. */
+export interface BannerFilter {
+    /** Product.category to match, e.g. 'Washing Machines'. 'all' means store-wide. */
+    category?: string;
+    /** Product.brand to match, e.g. 'Crompton'. */
+    brand?: string;
+}
+
 /**
  * Choose which products a banner shows, ranked by how big the saving is —
- * a festival banner earns its place by showing a real deal, not a random item.
+ * a banner earns its place by showing a real deal, not a random item.
  *
  * Shared so the homepage and the admin preview pick identically; the discount
  * is derived from two columns, so it has to be ranked here rather than in SQL.
+ *
+ * A filter that matches nothing deliberately returns nothing rather than
+ * falling back to the whole catalogue: a Crompton banner showing Samsung
+ * stock would be worse than one showing no products at all.
  */
 export function pickBannerProducts(
     rows: ProductLike[],
-    category?: string,
+    filter: BannerFilter = {},
     limit = 3
 ): BannerProduct[] {
+    const { category, brand } = filter;
     const scoped = category && category.toLowerCase() !== 'all';
     const wanted = category?.toLowerCase();
+    const wantedBrand = brand?.toLowerCase();
 
     return rows
         .filter((p) => p.inStock !== false)
         .filter((p) => !scoped || p.category?.toLowerCase() === wanted)
+        .filter((p) => !wantedBrand || p.brand?.toLowerCase() === wantedBrand)
         .filter((p) => (p.images?.length ?? 0) > 0)
         .map((p) => ({
             id: p.id,
@@ -344,4 +383,22 @@ export function pickBannerProducts(
         }))
         .sort((a, b) => b.discount - a.discount || b.price - a.price)
         .slice(0, limit);
+}
+
+/**
+ * What the banner says to a screen reader, and to a crawler reading the link.
+ *
+ * Needed because the artwork is drawn in CSS rather than uploaded as a JPEG:
+ * there is no <img alt> to carry it. An occasion can spell it out in `alt`;
+ * otherwise this assembles one from the copy and the live discount, so a
+ * banner can never go out with a missing or stale description.
+ */
+export function bannerAlt(occasion: Occasion, products: BannerProduct[] = []): string {
+    if (occasion.alt) return occasion.alt;
+
+    const topDiscount = products.reduce((max, p) => Math.max(max, p.discount), 0);
+    const saving = topDiscount > 0 ? ` Up to ${topDiscount}% off.` : '';
+    const offer = occasion.subline ? ` ${occasion.subline}` : '';
+
+    return `${occasion.name}: ${occasion.headline}.${offer}${saving} Raj Electronics, RP Road, Secunderabad.`;
 }

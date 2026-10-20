@@ -197,3 +197,93 @@
         aspect-ratio: 16 / 9;
     }
 }
+
+/* ─── Section heads ─── */
+.blockHead {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding-top: 8px;
+    border-top: 1px solid #e2e8f0;
+}
+
+.blockTitle {
+    margin: 0;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.blockLede {
+    margin: 0;
+    max-width: 78ch;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: #64748b;
+}
+
+/* ─── Rotation schedule ───
+   What is coming, weeks before it goes live — the thing a printed banner
+   calendar on the office wall used to be for. */
+.schedule {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+    gap: 8px;
+}
+
+.scheduleItem {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    padding: 9px 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    background: #f8fafc;
+}
+
+.scheduleItem[data-now='true'] {
+    border-color: #15803d;
+    background: #f0fdf4;
+}
+
+.scheduleWeek {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #64748b;
+}
+
+.scheduleItem[data-now='true'] .scheduleWeek { color: #15803d; }
+
+.scheduleName {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #0f172a;
+    line-height: 1.35;
+}
+
+/* ─── Alt text ───
+   Read-only: it is written alongside the banner in code, and shown here so it
+   is visible to whoever is checking the week's banner rather than invisible. */
+.alt {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin: 0;
+    padding: 10px 12px;
+    border-radius: 8px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    font-size: 0.78rem;
+    line-height: 1.55;
+    color: #475569;
+}
+
+.alt strong {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #0f172a;
+}
