@@ -1,50 +1,40 @@
-/* 
-  RAJ ELECTRONICS: SUPABASE RLS POLICIES
-  Run this SQL in your Supabase SQL Editor (Dashboard -> SQL Editor)
-  to harden your database for real orders.
+/*
+  RAJ ELECTRONICS: SUPABASE RLS LOCKDOWN
+  Run in Supabase Dashboard -> SQL Editor. Safe to re-run.
+
+  The app never reads tables through the Supabase REST API (anon/publishable
+  key). All DB access goes through Prisma using the `postgres` role (DATABASE_URL),
+  which owns the tables and therefore bypasses RLS. So we enable RLS with NO
+  policies (= deny everything for anon/authenticated) and revoke their grants.
+  Fixes Supabase advisors: rls_disabled_in_public, sensitive_columns_exposed.
 */
 
--- 1. Enable RLS on all tables
-ALTER TABLE "User" ENABLE ROW LEVEL SECURITY;
-ALTER TABLE "Order" ENABLE ROW LEVEL SECURITY;
-ALTER TABLE "Address" ENABLE ROW LEVEL SECURITY;
-ALTER TABLE "OrderItem" ENABLE ROW LEVEL SECURITY;
+-- 1. Enable RLS on every table in the public schema (incl. _prisma_migrations)
+DO $$
+DECLARE t record;
+BEGIN
+  FOR t IN SELECT tablename FROM pg_tables WHERE schemaname = 'public' LOOP
+    EXECUTE format('ALTER TABLE public.%I ENABLE ROW LEVEL SECURITY', t.tablename);
+  END LOOP;
+END $$;
 
--- 2. USER PROFILE POLICY
--- Users can only read/update their own profile
-CREATE POLICY "Users can only see their own profile" 
-ON "User" 
-FOR SELECT 
-USING (id = (SELECT "id" FROM "User" WHERE phone = auth.jwt()->>'phone_number' LIMIT 1));
+-- 2. Drop old policies from the previous version of this script (they relied on
+--    Supabase Auth phone JWTs, which this app doesn't use, and the "User" policy
+--    was self-referential).
+DROP POLICY IF EXISTS "Users can only see their own profile"     ON "User";
+DROP POLICY IF EXISTS "Users can update their own profile"       ON "User";
+DROP POLICY IF EXISTS "Users can only see their own orders"      ON "Order";
+DROP POLICY IF EXISTS "Users can manage their own addresses"     ON "Address";
+DROP POLICY IF EXISTS "Users can see items of their own orders"  ON "OrderItem";
 
-CREATE POLICY "Users can update their own profile" 
-ON "User" 
-FOR UPDATE 
-USING (id = (SELECT "id" FROM "User" WHERE phone = auth.jwt()->>'phone_number' LIMIT 1));
+-- 3. Belt and braces: remove API roles' privileges on existing and future objects
+REVOKE ALL ON ALL TABLES    IN SCHEMA public FROM anon, authenticated;
+REVOKE ALL ON ALL SEQUENCES IN SCHEMA public FROM anon, authenticated;
+REVOKE ALL ON ALL FUNCTIONS IN SCHEMA public FROM anon, authenticated;
+ALTER DEFAULT PRIVILEGES FOR ROLE postgres IN SCHEMA public REVOKE ALL ON TABLES    FROM anon, authenticated;
+ALTER DEFAULT PRIVILEGES FOR ROLE postgres IN SCHEMA public REVOKE ALL ON SEQUENCES FROM anon, authenticated;
+ALTER DEFAULT PRIVILEGES FOR ROLE postgres IN SCHEMA public REVOKE ALL ON FUNCTIONS FROM anon, authenticated;
 
--- 3. ORDERS POLICY
--- Users can only see their own orders
-CREATE POLICY "Users can only see their own orders" 
-ON "Order" 
-FOR SELECT 
-USING ("userId" = (SELECT "id" FROM "User" WHERE phone = auth.jwt()->>'phone_number' LIMIT 1));
-
--- 4. ADDRESS POLICY
--- Users can manage their own delivery addresses
-CREATE POLICY "Users can manage their own addresses" 
-ON "Address" 
-ALL 
-USING ("userId" = (SELECT "id" FROM "User" WHERE phone = auth.jwt()->>'phone_number' LIMIT 1));
-
--- 5. ORDER ITEMS POLICY
--- Indirect access through orders
-CREATE POLICY "Users can see items of their own orders" 
-ON "OrderItem" 
-FOR SELECT 
-USING ("orderId" IN (
-    SELECT id FROM "Order" 
-    WHERE "userId" = (SELECT "id" FROM "User" WHERE phone = auth.jwt()->>'phone_number' LIMIT 1)
-));
-
--- 6. ADMIN BYPASS (Optional)
--- If you use a specific ID or role for admin, add it here.
+-- 4. Verify: every row should show rls_enabled = true
+SELECT tablename, rowsecurity AS rls_enabled
+FROM pg_tables WHERE schemaname = 'public' ORDER BY tablename;
