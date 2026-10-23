@@ -442,6 +442,291 @@
     background: #fff;
 }
 
+/* ─── Status pills ─── */
+.statusRow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.statusLive,
+.statusExpired,
+.statusSaved,
+.cardTag {
+    padding: 3px 9px;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+}
+
+.statusLive {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.statusExpired {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.statusSaved {
+    background: #e2e8f0;
+    color: #334155;
+}
+
+.cardTag {
+    background: #f1f5f9;
+    color: #475569;
+    font-weight: 600;
+}
+
+/* ─── A number field that prints its own unit ─── */
+.inputWithSuffix {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.inputWithSuffix .input { padding-right: 32px; }
+
+.suffix {
+    position: absolute;
+    right: 11px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #94a3b8;
+    pointer-events: none;
+}
+
+.hint {
+    margin: 0;
+    font-size: 0.74rem;
+    line-height: 1.5;
+    color: #64748b;
+}
+
+/* ─── Hand-picking the products ─── */
+.picker {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 11px;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    background: #f8fafc;
+}
+
+.picked {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.pickedChip {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    max-width: 100%;
+    padding: 5px 10px;
+    border: 1px solid #002366;
+    border-radius: 999px;
+    background: #fff;
+    font-size: 0.76rem;
+    font-weight: 600;
+    color: #002366;
+    cursor: pointer;
+    text-align: left;
+}
+
+.pickedChip:hover { background: #f1f5ff; }
+
+/* Scrolls rather than grows: the catalogue runs to hundreds of rows, and a
+   list that pushes the Save button off the screen is worse than a short one. */
+.pickList {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    max-height: 196px;
+    overflow-y: auto;
+    padding: 3px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    background: #fff;
+}
+
+.pickRow {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 7px 9px;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    background: none;
+    cursor: pointer;
+    text-align: left;
+}
+
+.pickRow:hover { background: #f1f5f9; }
+
+.pickRow[data-active='true'] {
+    border-color: #002366;
+    background: #f1f5ff;
+}
+
+.pickName {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #0f172a;
+    line-height: 1.35;
+}
+
+.pickMeta {
+    font-size: 0.72rem;
+    color: #64748b;
+}
+
+/* ─── The shelf of saved banners ─── */
+.shelf {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 16px;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    background: #fff;
+}
+
+.shelfHead {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.shelfNote {
+    margin: 0;
+    max-width: 80ch;
+    font-size: 0.8rem;
+    line-height: 1.6;
+    color: #64748b;
+}
+
+.shelfEmpty {
+    margin: 0;
+    padding: 18px;
+    border: 1px dashed #cbd5e1;
+    border-radius: 10px;
+    background: #f8fafc;
+    font-size: 0.84rem;
+    color: #64748b;
+    text-align: center;
+}
+
+.shelfGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(258px, 1fr));
+    gap: 12px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #e2e8f0;
+    border-radius: 11px;
+    overflow: hidden;
+    background: #fff;
+}
+
+/* A window onto this banner's real gradient and background pattern — the same
+   trick as the palette swatches, so a card cannot drift from the banner it
+   stands for. Rendering a dozen live banners here would cost far more. */
+.cardArt {
+    position: relative;
+    height: 62px;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.cardArtText {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    padding: 0 13px;
+    font-size: 0.88rem;
+    font-weight: 700;
+    line-height: 1.25;
+    color: #fff;
+    text-shadow: 0 1px 10px rgba(0, 0, 0, 0.5);
+    pointer-events: none;
+}
+
+.cardBody {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    padding: 12px 13px 13px;
+}
+
+.cardEyebrow {
+    margin: 0;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #94a3b8;
+}
+
+.cardSub {
+    margin: 0;
+    font-size: 0.78rem;
+    line-height: 1.5;
+    color: #475569;
+}
+
+.cardTags {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+}
+
+.cardDates {
+    margin: 0;
+    font-size: 0.74rem;
+    font-weight: 600;
+    color: #64748b;
+}
+
+.cardActions {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 2px;
+}
+
+.cardBtn,
+.cardDanger {
+    padding: 6px 11px;
+    border: 1px solid #cbd5e1;
+    border-radius: 7px;
+    background: #fff;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #334155;
+    cursor: pointer;
+}
+
+.cardBtn:hover { border-color: #002366; color: #002366; }
+
+.cardDanger { color: #b91c1c; border-color: #fecaca; }
+.cardDanger:hover { background: #fef2f2; border-color: #b91c1c; }
+
 @media (max-width: 900px) {
     .studio { grid-template-columns: 1fr; }
 
@@ -453,4 +738,6 @@
     .previewPhone { flex: 1; width: 100%; max-width: 320px; }
 
     .fields { grid-template-columns: 1fr; }
+
+    .shelfGrid { grid-template-columns: 1fr; }
 }

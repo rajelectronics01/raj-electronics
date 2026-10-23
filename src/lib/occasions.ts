@@ -68,6 +68,25 @@ export interface Occasion {
     /** Brand mark shown above the headline, e.g. '/brands/crompton.png'. */
     logo?: string;
     /**
+     * The saving printed on the badge, e.g. 40 for "Up to 40% off".
+     *
+     * Omitted, the badge reports the deepest discount actually in the product
+     * strip, which is the safe default. Set from Admin -> Banner Studio when the
+     * shop is running an offer the catalogue prices do not show on their own —
+     * an exchange bonus, or a counter discount. It changes the number on the
+     * badge and in the alt text; it never changes a product's own price tag.
+     */
+    discountPercent?: number;
+    /**
+     * Exact products to show, by Product.id, in this order.
+     *
+     * Omitted, the strip is filled with the best-discounted stock matching
+     * `productCategory` and `brand`, which keeps a banner current on its own.
+     * Set it to hand-pick the three items instead — for the week the shop wants
+     * a particular fridge in the window regardless of what is discounted.
+     */
+    productIds?: string[];
+    /**
      * Which arrangement the banner is drawn in. Omitted means 'spotlight', the
      * layout every festival banner used before the studio existed.
      * Typed loosely to keep this module free of a dependency on
@@ -349,6 +368,11 @@ export interface BannerFilter {
     category?: string;
     /** Product.brand to match, e.g. 'Crompton'. */
     brand?: string;
+    /**
+     * Hand-picked Product.ids. When any of these are in stock with a picture,
+     * they are the strip, in this order, and category/brand are not consulted.
+     */
+    productIds?: string[];
 }
 
 /**
@@ -367,31 +391,56 @@ export function pickBannerProducts(
     filter: BannerFilter = {},
     limit = 3
 ): BannerProduct[] {
-    const { category, brand } = filter;
+    const { category, brand, productIds } = filter;
     const scoped = category && category.toLowerCase() !== 'all';
     const wanted = category?.toLowerCase();
     const wantedBrand = brand?.toLowerCase();
 
-    return rows
+    const showable = rows
         .filter((p) => p.inStock !== false)
+        .filter((p) => (p.images?.length ?? 0) > 0);
+
+    // Hand-picked products win outright, in the order they were picked: the
+    // shop chose these three, so ranking them by discount would quietly
+    // rearrange the window display. Anything picked that has since sold out or
+    // lost its photo simply drops out.
+    if (productIds?.length) {
+        const byId = new Map(showable.map((p) => [p.id, p]));
+        const picked = productIds
+            .map((id) => byId.get(id))
+            .filter((p): p is ProductLike => Boolean(p))
+            .slice(0, limit)
+            .map(toBannerProduct);
+
+        // Only fall back to the automatic strip if every pick has gone: a
+        // banner that was set up by hand should not silently refill itself
+        // with different stock while one of the chosen items is still there.
+        if (picked.length > 0) return picked;
+    }
+
+    return showable
         .filter((p) => !scoped || p.category?.toLowerCase() === wanted)
         .filter((p) => !wantedBrand || p.brand?.toLowerCase() === wantedBrand)
-        .filter((p) => (p.images?.length ?? 0) > 0)
-        .map((p) => ({
-            id: p.id,
-            name: p.name,
-            slug: p.slug,
-            brand: p.brand,
-            price: p.price,
-            originalPrice: p.originalPrice,
-            image: p.images![0],
-            discount:
-                p.originalPrice && p.originalPrice > p.price
-                    ? Math.round(((p.originalPrice - p.price) / p.originalPrice) * 100)
-                    : 0,
-        }))
+        .map(toBannerProduct)
         .sort((a, b) => b.discount - a.discount || b.price - a.price)
         .slice(0, limit);
+}
+
+/** Flatten a catalogue row into the shape the banner renders. */
+function toBannerProduct(p: ProductLike): BannerProduct {
+    return {
+        id: p.id,
+        name: p.name,
+        slug: p.slug,
+        brand: p.brand,
+        price: p.price,
+        originalPrice: p.originalPrice,
+        image: p.images![0],
+        discount:
+            p.originalPrice && p.originalPrice > p.price
+                ? Math.round(((p.originalPrice - p.price) / p.originalPrice) * 100)
+                : 0,
+    };
 }
 
 /**
@@ -406,7 +455,8 @@ export function bannerAlt(occasion: Occasion, products: BannerProduct[] = []): s
     if (occasion.alt) return occasion.alt;
 
     const topDiscount = products.reduce((max, p) => Math.max(max, p.discount), 0);
-    const saving = topDiscount > 0 ? ` Up to ${topDiscount}% off.` : '';
+    const shown = occasion.discountPercent ?? topDiscount;
+    const saving = shown > 0 ? ` Up to ${shown}% off.` : '';
     const offer = occasion.subline ? ` ${occasion.subline}` : '';
 
     return `${occasion.name}: ${occasion.headline}.${offer}${saving} Raj Electronics, RP Road, Secunderabad.`;

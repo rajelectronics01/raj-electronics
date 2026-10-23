@@ -6,7 +6,7 @@ import StoreGallery from "@/components/home/StoreGallery";
 import ShopByCategory from "@/components/home/ShopByCategory";
 import WhyChooseUs from "@/components/home/WhyChooseUs";
 import prisma from "@/lib/prisma";
-import { getActiveOccasion, pickBannerProducts, type Occasion } from "@/lib/occasions";
+import { getActiveOccasion, pickBannerProducts, todayInIST, type Occasion } from "@/lib/occasions";
 import { getWeeklyCampaign } from "@/lib/weekly-campaigns";
 import { getBannerCatalogue } from "@/lib/products";
 import { designToOccasion } from "@/lib/banner-templates";
@@ -58,8 +58,22 @@ export default async function Home() {
   // Slides made in Admin → Banner Studio are stored in the hero row with a
   // `design` instead of an image, and are drawn by the same component as the
   // generated banners rather than loaded as a picture.
-  const studioSlides = Array.isArray(initialHeroSlides)
-    ? initialHeroSlides.filter((slide: any) => slide?.design)
+  //
+  // A studio slide carries the last day of its offer, and comes off the
+  // homepage on its own once that day has passed: a banner still promising
+  // "Offer ends 20 Oct" in November does the shop more harm than an empty slot
+  // would. Nothing is lost by it — the design stays in the banner library, so
+  // Admin → Banner Studio can give it new dates and put it straight back up.
+  // Uploaded image slides have no end date and are never hidden.
+  const today = todayInIST();
+  const liveHeroSlides = Array.isArray(initialHeroSlides)
+    ? initialHeroSlides.filter(
+        (slide: any) => !slide?.design?.endsOn || slide.design.endsOn >= today
+      )
+    : initialHeroSlides;
+
+  const studioSlides = Array.isArray(liveHeroSlides)
+    ? liveHeroSlides.filter((slide: any) => slide?.design)
     : [];
 
   // Real deals for every banner to show — the generated ones and any studio
@@ -73,12 +87,12 @@ export default async function Home() {
   // of the slider, which would leave an empty frame.
   let heroSlides =
     studioSlides.length > 0
-      ? initialHeroSlides.map((slide: any) =>
+      ? liveHeroSlides.map((slide: any) =>
           slide?.design
             ? { ...slide, occasion: designToOccasion(slide.design), products: [] }
             : slide
         )
-      : initialHeroSlides;
+      : liveHeroSlides;
 
   if (generatedBanners.length > 0 || studioSlides.length > 0) {
     try {

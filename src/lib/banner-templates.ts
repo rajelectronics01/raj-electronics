@@ -114,10 +114,21 @@ export interface BannerDesign {
     brand?: string;
     /** Brand mark shown above the headline. */
     logo?: string;
+    /**
+     * The figure on the badge, e.g. 40 for "Up to 40% off". Left unset, the
+     * badge shows the deepest discount in the product strip instead.
+     */
+    discountPercent?: number;
+    /** Hand-picked Product.ids for the strip, in order. Empty means automatic. */
+    productIds?: string[];
     /** What a screen reader and Google get. Written for every banner. */
     alt: string;
     /** Last day of the offer, `YYYY-MM-DD`. */
     endsOn: string;
+    /** When this design was first saved to the library, ISO. */
+    createdAt?: string;
+    /** When it was last edited, ISO. */
+    updatedAt?: string;
 }
 
 /** Render a design through the same component the festival banners use. */
@@ -135,6 +146,8 @@ export function designToOccasion(design: BannerDesign): Occasion {
         productCategory: design.productCategory,
         brand: design.brand,
         logo: design.logo,
+        discountPercent: design.discountPercent,
+        productIds: design.productIds,
         alt: design.alt,
         // The studio banner runs until its end date; the start is irrelevant
         // because it is placed in the slider by hand rather than by calendar.
@@ -370,6 +383,10 @@ export function draftFromPrompt(prompt: string, today: string): BannerDesign {
         productCategory: category?.category ?? 'all',
         brand: brand?.brand,
         logo: brand?.logo,
+        // A brief that says "40% off" means the badge should say 40%, even if
+        // the catalogue's own best price cut is smaller today. Unstated, the
+        // badge keeps reporting the real deepest discount on the strip.
+        discountPercent: discount,
         alt: buildAlt({ eyebrow, headline, subject, discount, brand: brand?.brand }),
         endsOn,
     };

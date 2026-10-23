@@ -60,7 +60,11 @@ export default function OccasionBanner({
     occasion: Occasion;
     products?: BannerProduct[];
 }) {
+    // The badge reports the deepest saving actually on the strip, unless the
+    // shop has set a figure of its own in the Banner Studio — an exchange bonus
+    // or a counter discount does not appear in any product's price.
     const topDiscount = products.reduce((max, p) => Math.max(max, p.discount), 0);
+    const badgeDiscount = occasion.discountPercent ?? topDiscount;
     const cheapest = products.length ? Math.min(...products.map((p) => p.price)) : 0;
 
     return (
@@ -119,10 +123,10 @@ export default function OccasionBanner({
                 {/* ── Live product showcase ── */}
                 {products.length > 0 && (
                     <div className={styles.showcase}>
-                        {topDiscount > 0 && (
+                        {badgeDiscount > 0 && (
                             <div className={styles.badge}>
                                 <span className={styles.badgeUpto}>Up to</span>
-                                <span className={styles.badgePct}>{topDiscount}%</span>
+                                <span className={styles.badgePct}>{badgeDiscount}%</span>
                                 <span className={styles.badgeOff}>off</span>
                             </div>
                         )}

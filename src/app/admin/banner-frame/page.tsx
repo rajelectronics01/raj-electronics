@@ -38,6 +38,10 @@ function Frame() {
 
     const category = design?.productCategory;
     const brand = design?.brand;
+    // The design is re-parsed out of the URL on every render, so its picks are
+    // a fresh array each time. Depending on the joined ids instead of the array
+    // keeps this effect from refetching the catalogue on every keystroke.
+    const picks = design?.productIds?.join(',') ?? '';
 
     useEffect(() => {
         let cancelled = false;
@@ -47,14 +51,20 @@ function Frame() {
             .then((rows: unknown) => {
                 if (cancelled) return;
                 const catalogue = Array.isArray(rows) ? (rows as Product[]) : [];
-                setProducts(pickBannerProducts(catalogue, { category, brand }, 3));
+                setProducts(
+                    pickBannerProducts(
+                        catalogue,
+                        { category, brand, productIds: picks ? picks.split(',') : undefined },
+                        3
+                    )
+                );
             })
             .catch(() => undefined);
 
         return () => {
             cancelled = true;
         };
-    }, [category, brand]);
+    }, [category, brand, picks]);
 
     if (!design) return null;
 
